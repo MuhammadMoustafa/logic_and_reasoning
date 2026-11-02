@@ -10,8 +10,11 @@ test('local links exist; quiz IDs and answer options are consistent',()=>{
     const html=fs.readFileSync(path.join(root,filename),'utf8');
     assert.match(html, /lang="ar" dir="rtl"/);
     for(const match of html.matchAll(/(?:href|src)="([^"]+)"/g)) {
-      if (/^(https?:|#)/.test(match[1])) continue;
-      assert.ok(fs.existsSync(path.resolve(root,path.dirname(filename),match[1])),`${filename}: ${match[1]}`);
+      if (/^https?:/.test(match[1])) continue;
+      const [relative,fragment]=match[1].split('#');
+      const target=relative?path.resolve(root,path.dirname(filename),relative):path.join(root,filename);
+      assert.ok(fs.existsSync(target),`${filename}: ${match[1]}`);
+      if(fragment) assert.ok(fs.readFileSync(target,'utf8').includes(`id="${fragment}"`),`${filename}: missing anchor ${match[1]}`);
     }
     for(const match of html.matchAll(/<section class="quiz" data-quiz="([^"]+)" data-correct="([^"]+)" data-explanation="([^"]+)">([\s\S]*?)<\/section>/g)){
       assert.ok(!ids.has(match[1])); ids.add(match[1]);
@@ -21,4 +24,14 @@ test('local links exist; quiz IDs and answer options are consistent',()=>{
     }
   }
   assert.equal(ids.size,16);
+});
+
+test('every glossary definition has a real lesson destination',()=>{
+  const terms=require('../assets/terms.js');
+  for(const [id,term] of Object.entries(terms)){
+    const [file,anchor]=term.lesson.split('#');
+    assert.ok(fs.readFileSync(path.join(root,file),'utf8').includes(`id="${anchor}"`),id);
+    assert.ok(fs.readFileSync(path.join(root,'glossary.html'),'utf8').includes(`id="term-${id}"`),id);
+  }
+
 });

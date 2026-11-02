@@ -1,58 +1,53 @@
 <!doctype html>
-<html lang="ar" dir="rtl">
-<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>الشروط الضرورية والكافية وتطبيق HCN</title><link rel="stylesheet" href="../assets/style.css">
-</head>
-<body><a class="skip-link" href="#main">تخطَّ إلى المحتوى</a>
-<header>
-<button class="toolbar" onclick="toggleTheme()">فاتح / داكن</button>
-<p class="brand">المنطق والاستدلال العلمي</p>
-<nav><a href="../index.html">الفهرس</a> <a href="01-arguments.html">الدرس 1</a> <a href="02-conditional-reasoning.html">الدرس 2</a> <a href="03-necessary-sufficient.html">الدرس 3</a> <a href="04-types-of-inference.html">الدرس 4</a>
-</nav>
-</header>
-<main id="main">
-<article>
-<small>الدرس 3</small>
-<h1>الشروط الضرورية والكافية وتطبيق HCN</h1>
-<section class="lab">
-<h2>هدف الدرس</h2>
-<p>ترجم «ضروري» و«كافٍ» إلى اتجاه الشرط الصحيح، وافصل النقض المنطقي عن قوة الدليل التجريبي.</p>
+<html lang="ar" dir="rtl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>الشروط الضرورية والكافية</title><link rel="stylesheet" href="../assets/style.css"></head>
+<body><a class="skip-link" href="#main">انتقل إلى المحتوى</a><header><button class="toolbar" type="button" onclick="toggleTheme()">فاتح / داكن</button><p class="brand">المنطق والاستدلال العلمي</p><nav aria-label="التنقل الرئيسي"><a href="../index.html">الفهرس</a> <a href="01-arguments.html">الدرس 1</a> <a href="02-conditional-reasoning.html">الدرس 2</a> <a href="03-necessary-sufficient.html">الدرس 3</a> <a href="04-types-of-inference.html">الدرس 4</a> <a href="../glossary.html">قاموس المصطلحات</a></nav></header>
+<main id="main"><article data-lesson="3"><small>الدرس 3</small><h1>الشروط الضرورية والكافية</h1>
+<p class="interaction-warning" role="status">لم تعمل التفاعلات في هذه المعاينة. افتح صفحة الدرس في المتصفح، مع بقاء مجلد assets في مكانه. ويمكنك استخدام «عرض الحل للمراجعة» أسفل كل تمرين.</p>
+<p class="reading-help">اضغط على المصطلح المسطّر لقراءة تعريفه. وللعودة إلى أي قسم، استخدم رابط # بجوار عنوانه.</p>
+<div class="callout"><strong>بعد هذا الدرس، تستطيع أن:</strong><ul><li>تفرّق بين ما لا تحدث الظاهرة من دونه، وما يكفي لحدوثها.</li><li>تكتب <a class="term-link" data-term="hypothesis" href="../glossary.html#term-hypothesis">فرضية</a> ضرورة أو كفاية وتحدد الحالة التي تنقضها.</li></ul></div>
+<nav class="lesson-toc" aria-label="أقسام الدرس"><strong>في هذا الدرس</strong><ol><li><a href="#l3-necessary">الشرط الضروري: لا يحدث الأمر من دونه</a></li><li><a href="#l3-sufficient">الشرط الكافي: تحققه يكفي</a></li><li><a href="#l3-both">شرط ضروري وكافٍ معًا</a></li><li><a href="#l3-hcn">تطبيق علمي: قنوات HCN والرنين</a></li><li><a href="#l3-cases">جرّب الحالات الأربع</a></li><li><a href="#l3-experiment">ماذا نستنتج من تعطيل القنوات؟</a></li><li><a href="#l3-exercises">اختبر فهمك</a></li><li><a href="#l3-reflection">فكّر في تفسير بديل</a></li><li><a href="#l3-sources">المصدر العلمي</a></li></ol></nav><section class="lesson-section" aria-labelledby="l3-necessary"><h2 id="l3-necessary">الشرط الضروري: لا يحدث الأمر من دونه <a class="permalink" href="#l3-necessary" aria-label="رابط مباشر إلى: الشرط الضروري: لا يحدث الأمر من دونه">#</a></h2><p class="concept-links"><a class="term-link" data-term="necessary" href="../glossary.html#term-necessary">الشرط الضروري <bdi dir="ltr">Necessary condition</bdi></a></p>
+<p>تخيّل عددًا صحيحًا يقبل القسمة على 6. لا بد أن يكون زوجيًا. إذن الزوجية شرط ضروري للقسمة على 6. لكن الزوجية وحدها لا تكفي: فالعدد 4 زوجي، ولا يقبل القسمة على 6.</p>
+<p>إذا قلنا إن P شرط ضروري لحدوث Q، فنحن نقول إن Q لا تتحقق من دون P. اتجاه الشرط إذن:</p>
+<div class="callout"><bdi dir="ltr">Q → P</bdi></div>
+
 </section>
-<h2>التعريف</h2>
-<p><strong>Necessary (ضروري)</strong>: لا تتحقق الظاهرة من دونه. <strong>Sufficient (كافٍ)</strong>: تحققه يضمن الظاهرة.</p>
-<p>إذا كانت <bdi dir="ltr">P → Q</bdi> فإن P كافٍ لـ Q، وQ ضروري لـ P.</p>
-<p>إذا كانت <bdi dir="ltr">P ↔ Q</bdi> فإن كلًا منهما ضروري وكافٍ للآخر.</p>
-<h2>مثال رياضي</h2>
-<p>قبول العدد الصحيح القسمة على 6 كافٍ لكونه زوجيًا، لكنه ليس ضروريًا؛ فالعدد 4 زوجي ولا يقبل القسمة على 6.</p>
-<h2>الاتجاه والسياق</h2>
-<p>قولنا «P فقط إذا Q» يعني <bdi dir="ltr">P → Q</bdi>؛ Q ضروري لـ P. وقولنا «P إذا Q» يعني <bdi dir="ltr">Q → P</bdi>؛ Q كافٍ لـ P. الشرط اللازم والكافي يجمع الاتجاهين. نحدد دائمًا المجال والظروف التي ينطبق فيها الادعاء.</p>
+<section class="lesson-section" aria-labelledby="l3-sufficient"><h2 id="l3-sufficient">الشرط الكافي: تحققه يكفي <a class="permalink" href="#l3-sufficient" aria-label="رابط مباشر إلى: الشرط الكافي: تحققه يكفي">#</a></h2><p class="concept-links"><a class="term-link" data-term="sufficient" href="../glossary.html#term-sufficient">الشرط الكافي <bdi dir="ltr">Sufficient condition</bdi></a></p>
+<p>قبول العدد القسمة على 6 يكفي لضمان أنه زوجي. لذلك نقول إن القسمة على 6 شرط كافٍ للزوجية، لكنها ليست شرطًا ضروريًا لها.</p>
+<p>إذا كانت P شرطًا كافيًا لحدوث Q، فكلما تحققت P تحققت Q:</p>
+<div class="callout"><bdi dir="ltr">P → Q</bdi></div>
+<p>في الشرط نفسه، تكون P كافية لـ Q، وتكون Q ضرورية لـ P. لا يتعارض الوصفان؛ كل منهما ينظر إلى العلاقة من جهة مختلفة.</p>
+
+</section>
+<section class="lesson-section" aria-labelledby="l3-both"><h2 id="l3-both">شرط ضروري وكافٍ معًا <a class="permalink" href="#l3-both" aria-label="رابط مباشر إلى: شرط ضروري وكافٍ معًا">#</a></h2>
+<p>عندما تكون كل من P وQ شرطًا ضروريًا وكافيًا للأخرى، نقول «P إذا وفقط إذا Q»، ونكتب:</p>
+<div class="callout"><bdi dir="ltr">P ↔ Q</bdi></div>
+<p>وانتبه إلى ترتيب الكلام: «P فقط إذا Q» تجعل Q ضرورية لـ P. أما «P إذا Q» فتجعل Q كافية لـ P. اكتب الشرط كاملًا قبل اختيار اتجاه السهم.</p>
+
+</section>
+<section class="lesson-section" aria-labelledby="l3-hcn"><h2 id="l3-hcn">تطبيق علمي: قنوات HCN والرنين <a class="permalink" href="#l3-hcn" aria-label="رابط مباشر إلى: تطبيق علمي: قنوات HCN والرنين">#</a></h2><p class="concept-links"><a class="term-link" data-term="resonance" href="../glossary.html#term-resonance">الرنين <bdi dir="ltr">Resonance</bdi></a> · <a class="term-link" data-term="hcn" href="../glossary.html#term-hcn">قنوات HCN <bdi dir="ltr">Hyperpolarization-activated cyclic nucleotide-gated channels</bdi></a></p>
+<p>لننتقل من الأعداد إلى تجربة على خلية عصبية. قنوات <a class="term-link" data-term="hcn" href="../glossary.html#term-hcn">HCN</a> عائلة من القنوات الأيونية يمر عبرها التيار I<sub>h</sub>. وقد تسهم في <a class="term-link" data-term="resonance" href="../glossary.html#term-resonance">الرنين</a>، لكن دورها يتأثر بجهد الغشاء وبالتيارات الأخرى في الخلية.</p>
+<p>المقصود بالرنين هنا أن تكون استجابة الغشاء الكهربائية أقوى عند تردد غير صفري، وفق طريقة قياس محددة. هذا هو <a class="term-link" data-term="resonance" href="../glossary.html#term-resonance">رنين</a> <a class="term-link" data-term="impedance" href="../glossary.html#term-impedance">الممانعة</a> تحت العتبة، وليس مجرد إطلاق دوري لجهود الفعل.</p>
+<p>لنفترض أن P تعني أن قنوات <a class="term-link" data-term="hcn" href="../glossary.html#term-hcn">HCN</a> تعمل، وأن Q تعني أن الخلية تُظهر <a class="term-link" data-term="resonance" href="../glossary.html#term-resonance">الرنين</a> في الظروف التي حددناها. ما الذي يكفي لنقض كل <a class="term-link" data-term="hypothesis" href="../glossary.html#term-hypothesis">فرضية</a>؟</p>
+<table>
+<tr><th><a class="term-link" data-term="hypothesis" href="../glossary.html#term-hypothesis">الفرضية</a></th><th>الصياغة</th><th>ما ينقضها؟</th>
+</tr>
+<tr><td><a class="term-link" data-term="hcn" href="../glossary.html#term-hcn">HCN</a> ضرورية للرنين</td><td><bdi dir="ltr">Q → P (أو ¬P → ¬Q)</bdi></td><td><bdi dir="ltr">¬P مع Q</bdi></td>
+</tr>
+<tr><td><a class="term-link" data-term="hcn" href="../glossary.html#term-hcn">HCN</a> كافية للرنين</td><td><bdi dir="ltr">P → Q</bdi></td><td><bdi dir="ltr">P مع ¬Q</bdi></td>
+</tr>
+</table><p>هذه فرضيات نتعلم كيف نختبرها؛ ولسنا نفترض أن <a class="term-link" data-term="hcn" href="../glossary.html#term-hcn">HCN</a> ضرورية أو كافية لكل <a class="term-link" data-term="resonance" href="../glossary.html#term-resonance">رنين</a> في كل الخلايا. فقد وصفت دراسة Hu وزملائه (2002) صورتين من <a class="term-link" data-term="resonance" href="../glossary.html#term-resonance">الرنين</a> في خلايا CA1 بحصين الجرذ، ارتبطتا بتيارات مختلفة وبظروف جهد مختلفة.</p>
+
+</section>
+<section class="lesson-section" aria-labelledby="l3-cases"><h2 id="l3-cases">جرّب الحالات الأربع <a class="permalink" href="#l3-cases" aria-label="رابط مباشر إلى: جرّب الحالات الأربع">#</a></h2>
 <section class="lab">
-<h2>مختبر الضرورة والكفاية</h2>
-<p>هذا مختبر منطقي، وليس محاكاة لخلايا عصبية. اختر حالة واحدة لترى أي ادعاء عام يمكن أن تنقضه.</p>
+<h3>مختبر <a class="term-link" data-term="necessary" href="../glossary.html#term-necessary">الضرورة</a> والكفاية</h3>
+<p>هذا نشاط لتوضيح المنطق، وليس محاكاة لخلية. غيّر الاختيارين لترى أي <a class="term-link" data-term="hypothesis" href="../glossary.html#term-hypothesis">فرضية</a> تخالفها الحالة التي اخترتها.</p>
 <label><input id="condition-p" type="checkbox" checked> P متحققة (HCN وظيفية)</label>
 <label><input id="condition-q" type="checkbox" checked> Q متحققة (رنين وفق التعريف المحدد)</label>
 <p id="condition-output" aria-live="polite">
 </p>
-</section>
-<h2>ما الذي تقيسه تجربة الرنين؟</h2>
-<p>HCN اختصار Hyperpolarization-activated cyclic nucleotide-gated، وهي عائلة قنوات يمر عبرها التيار I<sub>h</sub>. نقصد هنا رنين الممانعة تحت العتبة (Subthreshold impedance resonance): قمة في مقدار الممانعة عند تردد غير صفري وفق مجال ترددات وبروتوكول محددين؛ وليس مجرد إطلاق دوري لجهود الفعل.</p>
-<p>وجود القنوات وحده لا يضمن الرنين؛ فحركيتها وكثافتها وجهد الغشاء والتيارات الأخرى تؤثر في الاستجابة. وصفت دراسة Hu وزملائه (2002) صورتين من الرنين في خلايا هرمية من حصين الجرذ ترتبطان بتيارات مختلفة وظروف جهد مختلفة. لذلك مثال الدرس فرضيات مشروطة للاختبار، وليس تقريرًا بأن HCN ضرورية أو كافية لكل رنين في كل الخلايا.</p>
-<p>لإجراء اختبار تجريبي، عرّف معيار الرنين مسبقًا، وثبّت جهد الغشاء وبروتوكول القياس وبقية الظروف، وتحقق من فاعلية التعطيل وانتقائيته، واستخدم ضوابط للمذيب والتغيرات الزمنية وتجربة إنقاذ عند الإمكان. اختفاء الرنين يدعم الدور السببي ضمن هذه القيود؛ ولا يحول عددًا محدودًا من المشاهدات إلى برهان على دعوى كلية.</p>
-<p>النقض في الجدول يفترض قياسات صحيحة وغياب P أو وجودها كما عُرّف، وأن الحالة ضمن نطاق الفرضية. أخطاء القياس أو تغير الظروف تستلزم مراجعة صلاحية الاختبار.</p>
-<p>المصدر العلمي: <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC2290731/">Hu, Vervaeke &amp; Storm (2002)</a>، دراسة أصلية؛ يتطلب فتحها اتصالًا بالإنترنت.</p>
-<h2>مثال HCN والرنين (Resonance)</h2>
-<p>لنحدد P = «قنوات HCN وظيفية»، وQ = «الخلية تُظهر رنينًا وفق بروتوكول وظروف محددة».</p>
-<table>
-<tr><th>الفرضية</th><th>الصياغة</th><th>ما ينقضها؟</th>
-</tr>
-<tr><td>HCN ضرورية للرنين</td><td><bdi dir="ltr">Q → P (أو ¬P → ¬Q)</bdi></td><td><bdi dir="ltr">¬P مع Q</bdi></td>
-</tr>
-<tr><td>HCN كافية للرنين</td><td><bdi dir="ltr">P → Q</bdi></td><td><bdi dir="ltr">P مع ¬Q</bdi></td>
-</tr>
-</table>
-<p>اختفاء الرنين بعد حجب HCN يتوافق مع الضرورة، لكنه لا يثبتها منطقيًا. وقد يؤثر الدواء على آليات أخرى؛ لذلك نحتاج ضوابط وتجارب إنقاذ (Rescue) وتدخلات أكثر تحديدًا.</p>
-<h2>جدول الحالات</h2>
-<table>
-<tr><th>P</th><th>Q</th><th>ينقض الضرورة؟</th><th>ينقض الكفاية؟</th>
+</section><table>
+<tr><th>P</th><th>Q</th><th>ينقض <a class="term-link" data-term="necessary" href="../glossary.html#term-necessary">الضرورة</a>؟</th><th>ينقض <a class="term-link" data-term="sufficient" href="../glossary.html#term-sufficient">الكفاية</a>؟</th>
 </tr>
 <tr><td>نعم</td><td>نعم</td><td>لا</td><td>لا</td>
 </tr>
@@ -62,9 +57,18 @@
 </tr>
 <tr><td>لا</td><td>لا</td><td>لا</td><td>لا</td>
 </tr>
-</table>
+</table><p>لكي تكون الحالة نقضًا حقيقيًا، يجب أن تقع ضمن الظروف التي تشملها <a class="term-link" data-term="hypothesis" href="../glossary.html#term-hypothesis">الفرضية</a>، وأن نكون قد قسنا وجود القنوات والرنين أو غيابهما قياسًا موثوقًا.</p>
+
+</section>
+<section class="lesson-section" aria-labelledby="l3-experiment"><h2 id="l3-experiment">ماذا نستنتج من تعطيل القنوات؟ <a class="permalink" href="#l3-experiment" aria-label="رابط مباشر إلى: ماذا نستنتج من تعطيل القنوات؟">#</a></h2><p class="concept-links"><a class="term-link" data-term="rescue" href="../glossary.html#term-rescue">تجربة الإنقاذ <bdi dir="ltr">Rescue experiment</bdi></a></p>
+<p>إذا اختفى <a class="term-link" data-term="resonance" href="../glossary.html#term-resonance">الرنين</a> بعد إعطاء دواء يحجب <a class="term-link" data-term="hcn" href="../glossary.html#term-hcn">HCN</a>، فهذا يدعم احتمال أن للقنوات دورًا فيه. لكنه لا يثبت وحده أنها ضرورية؛ فقد يؤثر الدواء في تيارات أخرى، أو يغيّر <a class="term-link" data-term="membrane-potential" href="../glossary.html#term-membrane-potential">جهد الغشاء</a>.</p>
+<p>لذلك نحدد معنى <a class="term-link" data-term="resonance" href="../glossary.html#term-resonance">الرنين</a> وطريقة قياسه مسبقًا، ونراقب <a class="term-link" data-term="membrane-potential" href="../glossary.html#term-membrane-potential">جهد الغشاء</a>، ونتحقق من أن التعطيل فعّال وأن أثره موجّه إلى القنوات المقصودة. ونستخدم <a class="term-link" data-term="control" href="../glossary.html#term-control">تجارب ضابطة</a> للتأكد من أن المذيب أو مرور الوقت لم يسببا التغير.</p>
+<p>وقد نضيف <a class="term-link" data-term="rescue" href="../glossary.html#term-rescue">تجربة إنقاذ</a>: نحاول استعادة وظيفة القنوات، ثم نفحص هل يعود <a class="term-link" data-term="resonance" href="../glossary.html#term-resonance">الرنين</a>. هذه الأدلة تقوّي التفسير ضمن ظروف التجربة، لكنها لا تتحول إلى برهان على جميع الخلايا الممكنة.</p>
+
+</section>
+<section class="lesson-section" aria-labelledby="l3-exercises"><h2 id="l3-exercises">اختبر فهمك <a class="permalink" href="#l3-exercises" aria-label="رابط مباشر إلى: اختبر فهمك">#</a></h2>
 <section class="quiz" data-quiz="l3q1" data-correct="s" data-explanation="كل مضاعفات 6 زوجية، لكن ليس كل عدد زوجي من مضاعفات 6.">
-<fieldset><legend>بالنسبة للأعداد الصحيحة: القسمة على 6 لكي يكون العدد زوجيًا هي…</legend>
+<fieldset><legend>لكي يكون العدد الصحيح زوجيًا، هل قبوله القسمة على 6 شرط ضروري أم كافٍ؟</legend>
 <label><input type="radio" name="l3q1" value="n"> ضرورية فقط</label>
 <label><input type="radio" name="l3q1" value="s"> كافية فقط</label>
 <label><input type="radio" name="l3q1" value="both"> ضرورية وكافية</label>
@@ -73,7 +77,7 @@
 <button data-check="l3q1">تحقق من الإجابة</button>
 <p id="l3q1-result" aria-live="polite">
 </p>
-</section>
+<details class="manual-answer"><summary>عرض الحل للمراجعة</summary><p>الإجابة: كافية فقط. كل مضاعفات 6 زوجية، لكن ليس كل عدد زوجي من مضاعفات 6.</p></details></section>
 <section class="quiz" data-quiz="l3q2" data-correct="n" data-explanation="وجود Q رغم غياب P ينقض Q → P، أي ضرورة P لحدوث Q.">
 <fieldset><legend>عُطّلت HCN بالكامل واستمر الرنين في الظروف نفسها. أي فرضية عامة نُقضت؟</legend>
 <label><input type="radio" name="l3q2" value="n"> الضرورة</label>
@@ -84,7 +88,7 @@
 <button data-check="l3q2">تحقق من الإجابة</button>
 <p id="l3q2-result" aria-live="polite">
 </p>
-</section>
+<details class="manual-answer"><summary>عرض الحل للمراجعة</summary><p>الإجابة: <a class="term-link" data-term="necessary" href="../glossary.html#term-necessary">الضرورة</a>. وجود Q رغم غياب P ينقض Q → P، أي ضرورة P لحدوث Q.</p></details></section>
 <section class="quiz" data-quiz="l3q3" data-correct="s" data-explanation="وجود P دون Q ينقض P → Q (الكفاية). لا ينقض Q → P (الضرورة).">
 <fieldset><legend>تحققت P ولم تتحقق Q في النطاق نفسه. أي ادعاء تنقض الحالة؟</legend>
 <label><input type="radio" name="l3q3" value="n"> P ضرورية لـ Q</label>
@@ -94,26 +98,20 @@
 <button data-check="l3q3">تحقق من الإجابة</button>
 <p class="feedback" id="l3q3-result" aria-live="polite">
 </p>
+<details class="manual-answer"><summary>عرض الحل للمراجعة</summary><p>الإجابة: P كافية لـ Q. وجود P دون Q ينقض P → Q (<a class="term-link" data-term="sufficient" href="../glossary.html#term-sufficient">الكفاية</a>). لا ينقض Q → P (<a class="term-link" data-term="necessary" href="../glossary.html#term-necessary">الضرورة</a>).</p></details></section>
 </section>
-<h2>سؤال مفتوح</h2>
-<p>هل وجود HCN كشرط ضروري يعني أنها الآلية المباشرة لتوليد الرنين؟ اكتب تفسيرًا بديلًا، ثم اقترح تجربة تميّز بين التفسيرين.</p>
-<details>
-<summary>إجابة مقترحة للسؤال المفتوح</summary>
-<p>لا؛ قد تغير HCN جهد الغشاء فتسمح لتيار آخر بإظهار الرنين. قارن تعطيل HCN مع ضبط جهد الغشاء عند القيمة الأصلية، ثم تجربة إنقاذ، مع التحقق من التيارات الأخرى وانتقائية التدخل. هذه فرضية بديلة، وليست نتيجة مثبتة.</p>
+<section class="lesson-section" aria-labelledby="l3-reflection"><h2 id="l3-reflection">فكّر في تفسير بديل <a class="permalink" href="#l3-reflection" aria-label="رابط مباشر إلى: فكّر في تفسير بديل">#</a></h2>
+<p>إذا كانت <a class="term-link" data-term="hcn" href="../glossary.html#term-hcn">HCN</a> ضرورية للرنين في خلية معينة، فهل يعني ذلك أنها تولّد <a class="term-link" data-term="resonance" href="../glossary.html#term-resonance">الرنين</a> مباشرة؟ اقترح تفسيرًا آخر وتجربة تميّز بين التفسيرين.</p>
+<details><summary>عرض إجابة مقترحة</summary><p>قد تؤثر القنوات في <a class="term-link" data-term="membrane-potential" href="../glossary.html#term-membrane-potential">جهد الغشاء</a>، فيصبح تيار آخر قادرًا على إظهار <a class="term-link" data-term="resonance" href="../glossary.html#term-resonance">الرنين</a>. يمكن تعطيل <a class="term-link" data-term="hcn" href="../glossary.html#term-hcn">HCN</a> مع إبقاء <a class="term-link" data-term="membrane-potential" href="../glossary.html#term-membrane-potential">جهد الغشاء</a> قريبًا من قيمته الأصلية، ثم مقارنة <a class="term-link" data-term="conclusion" href="../glossary.html#term-conclusion">النتيجة</a> وتجربة استعادة وظيفة القنوات. يظل هذا تفسيرًا مقترحًا يحتاج إلى اختبار.</p>
 </details>
+</section>
+<section class="lesson-section" aria-labelledby="l3-sources"><h2 id="l3-sources">المصدر العلمي <a class="permalink" href="#l3-sources" aria-label="رابط مباشر إلى: المصدر العلمي">#</a></h2>
+<p><a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC2290731/">Hu, Vervaeke &amp; Storm (2002)</a>، دراسة أصلية عن آليات <a class="term-link" data-term="resonance" href="../glossary.html#term-resonance">الرنين</a>. فتح الرابط يحتاج إلى اتصال بالإنترنت.</p>
 
-<p><a href="02-conditional-reasoning.html">→ السابق: الاستدلال الشرطي</a> · <a href="../index.html">العودة إلى خريطة المنهج</a>
-</p>
-<p class="source-note">للتوسع في المنطق: <a href="https://forallx.openlogicproject.org/">forall x: Calgary — Open Logic Project</a> (مصدر خارجي يتطلب الإنترنت).</p>
-<p><a href="04-types-of-inference.html">التالي: أنواع الاستدلال ←</a></p>
-<p id="progress" role="status">
-</p><progress id="mastery" value="0" max="1" aria-label="تمارين الدرس المتقنة"></progress>
-</article>
-</main>
-<footer>محتوى تعليمي تفاعلي يعمل دون اتصال بالإنترنت</footer>
-<script src="../assets/logic.js">
-</script>
-<script src="../assets/course.js">
-</script>
-</body>
-</html>
+</section>
+
+<p id="progress" role="status"></p><progress id="mastery" value="0" max="3" aria-label="تمارين الدرس المتقنة"></progress>
+<nav aria-label="متابعة الدرس"><a href="02-conditional-reasoning.html">الدرس السابق</a> · <a href="04-types-of-inference.html">الدرس التالي</a></nav></article></main>
+<footer>المنطق والاستدلال العلمي · تعلم على مهل، وارجع إلى التعريف متى احتجت إليه</footer>
+<script src="../assets/terms.js"></script><script src="../assets/logic.js"></script><script src="../assets/course.js"></script><script src="../assets/reference.js"></script>
+</body></html>

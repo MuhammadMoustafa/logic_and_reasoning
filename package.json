@@ -1,12 +1,16 @@
 {
   "name": "logic-and-reasoning-ar",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "private": true,
   "description": "Offline Arabic lessons in logic with English terminology",
   "scripts": {
+    "references:sync": "node tools/update-references.cjs",
     "start": "node tools/serve.cjs",
     "test": "node --test tests/logic.test.cjs tests/content.test.cjs",
-    "test:browser": "playwright test"
+    "test:browser": "npm run export:single && playwright test",
+    "export:single": "npm run references:sync && node tools/export-single.cjs"
   },
-  "devDependencies": { "@playwright/test": "^1.56.0" }
+  "devDependencies": {
+    "@playwright/test": "^1.56.0"
+  }
 }

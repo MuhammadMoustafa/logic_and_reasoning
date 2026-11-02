@@ -45,7 +45,7 @@ test('storage denied: no crash and in-memory progress works',async({page})=>{
   await page.goto(paths[1]);await expect(page.locator('#storage-notice')).toBeVisible();
   await page.locator('[data-quiz="l1q1"] input[value="no"]').check();await page.locator('[data-check="l1q1"]').click();
   await expect(page.locator('#progress')).toContainText('وأتقنت 1');
-  await page.locator('.toolbar').click();await expect(page.locator('body')).toHaveClass('dark');expect(errors).toEqual([]);
+  await page.locator('.toolbar').click();await expect(page.locator('body')).toHaveClass(/\bdark\b/);expect(errors).toEqual([]);
 });
 test('mobile/desktop layouts, dark theme persistence and reduced motion',async({page})=>{
   for(const width of [360,1280]){
@@ -57,7 +57,7 @@ test('mobile/desktop layouts, dark theme persistence and reduced motion',async({
       await page.screenshot({path:`work/screenshots/${width}-${url.split('/').pop()}.png`,fullPage:true});
     }
   }
-  await page.locator('.toolbar').click();await page.reload();await expect(page.locator('body')).toHaveClass('dark');
+  await page.locator('.toolbar').click();await page.reload();await expect(page.locator('body')).toHaveClass(/\bdark\b/);
   await page.screenshot({path:'work/screenshots/dark.png',fullPage:true});
   await page.screenshot({path:'work/screenshots/lesson4-desktop-top.png'});
   await page.setViewportSize({width:360,height:900});
@@ -85,4 +85,75 @@ test('lesson four evidence comparisons work with keyboard, offline and without s
   }
   await select.focus();await page.keyboard.press('Home');await page.keyboard.press('Enter');await expect(output).toContainText('لا تكفي للمفاضلة');
   await page.locator('[data-quiz="l4q1"] input[value="d"]').check();await page.locator('[data-check="l4q1"]').click();await expect(page.locator('#progress')).toContainText('وأتقنت 1');
+});
+
+test('definitions: touch open, close, focus, canonical bookmark and glossary search',async({browser})=>{
+  const context=await browser.newContext({viewport:{width:390,height:844},isMobile:true,hasTouch:true});
+  const page=await context.newPage();await page.goto('/lessons/04-types-of-inference.html');
+  const term=page.locator('a[data-term="deduction"]').first();
+  await term.tap();const dialog=page.getByRole('dialog');await expect(dialog).toBeVisible();
+  await expect(dialog.locator('#term-title')).toHaveText('الاستنباط');
+  await page.getByRole('button',{name:'إغلاق التعريف'}).tap();await expect(dialog).toBeHidden();await expect(term).toBeFocused();
+  await term.tap();await page.keyboard.press('Escape');await expect(dialog).toBeHidden();
+  await term.tap();await dialog.locator('#term-lesson').tap();await expect(page).toHaveURL(/#l4-deduction$/);await expect(dialog).toBeHidden();
+  await page.reload();await expect(page.locator('#l4-deduction')).toBeInViewport();
+  await page.goto('/glossary.html');await page.locator('#glossary-search').fill('Deduction');
+  await expect(page.locator('.glossary-entry:visible')).toHaveCount(1);
+  await page.locator('#glossary-search').fill('استنباط');await expect(page.locator('#term-deduction')).toBeVisible();
+  await page.locator('#glossary-search').fill('zzzz');await expect(page.locator('#glossary-count')).toContainText('لا توجد نتائج');
+  await page.goto('/glossary.html#term-necessary');await expect(page.locator('#term-necessary')).toBeInViewport();
+  await page.screenshot({path:'work/screenshots/glossary-mobile.png'});
+  await context.close();
+});
+test('separate lesson pages grade every quiz using touch, file URLs and blocked storage',async({browser})=>{
+  const context=await browser.newContext({viewport:{width:390,height:844},isMobile:true,hasTouch:true});
+  const page=await context.newPage();const errors=[];
+  page.on('pageerror',e=>errors.push(e.message));
+  await page.addInitScript(()=>{Object.defineProperty(window,'localStorage',{get(){throw new DOMException('blocked','SecurityError')}})});
+  const {pathToFileURL}=require('node:url');const path=require('node:path');
+  for(const url of paths.slice(1)){
+    await page.goto(pathToFileURL(path.resolve('.'+url)).href);
+    for(const quiz of await page.locator('[data-quiz]').all()){
+      const answer=await quiz.getAttribute('data-correct');
+      await quiz.locator(`input[value="${answer}"]`).tap();await quiz.locator('[data-check]').tap();
+      await expect(quiz.locator('.feedback')).toContainText('إجابة صحيحة');
+    }
+    const count=await page.locator('[data-quiz]').count();await expect(page.locator('#progress')).toContainText(`وأتقنت ${count}`);
+    expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
+  }
+  await page.locator('a[data-term="deduction"]').first().tap();await expect(page.getByRole('dialog')).toBeVisible();
+  await page.locator('#term-glossary').tap();await expect(page).toHaveURL(/glossary.html#term-deduction$/);
+  expect(errors).toEqual([]);await context.close();
+});
+test('missing scripts are visible and manual answers remain usable',async({page})=>{
+  await page.route('**/assets/*.js',route=>route.abort());
+  await page.goto('/lessons/01-arguments.html');await expect(page.locator('.interaction-warning')).toBeVisible();
+  const answer=page.locator('.manual-answer').first();await answer.locator('summary').click();await expect(answer).toContainText('الإجابة: لا');
+  await page.locator('a[data-term="validity"]').first().click();await expect(page).toHaveURL(/glossary.html#term-validity$/);
+});
+
+test('grading initializes when its script arrives after the page has loaded',async({page})=>{
+  await page.route('**/assets/course.js',route=>route.abort());
+  await page.goto('/lessons/01-arguments.html');await expect(page.locator('.interaction-warning')).toBeVisible();
+  await page.unroute('**/assets/course.js');await page.addScriptTag({url:'/assets/course.js'});
+  await expect(page.locator('.interaction-warning')).toBeHidden();
+  await page.locator('[data-quiz="l1q1"] input[value="no"]').check();await page.locator('[data-check="l1q1"]').click();await expect(page.locator('#l1q1-result')).toContainText('إجابة صحيحة');
+});
+
+test('generated share file grades all quizzes offline and keeps definitions local',async({browser})=>{
+  const context=await browser.newContext({viewport:{width:390,height:844},isMobile:true,hasTouch:true});
+  const page=await context.newPage();const errors=[],remote=[];
+  page.on('pageerror',e=>errors.push(e.message));page.on('request',r=>{if(/^https?:/.test(r.url()))remote.push(r.url())});
+  await page.addInitScript(()=>{Object.defineProperty(window,'localStorage',{get(){throw new DOMException('blocked','SecurityError')}})});
+  const {pathToFileURL}=require('node:url');const path=require('node:path');
+  await page.goto(pathToFileURL(path.resolve('dist/course.html')).href);
+  for(const quiz of await page.locator('[data-quiz]').all()){
+    const answer=await quiz.getAttribute('data-correct');await quiz.locator(`input[value="${answer}"]`).tap();await quiz.locator('[data-check]').tap();await expect(quiz.locator('.feedback')).toContainText('إجابة صحيحة');
+  }
+  for(const article of await page.locator('article[data-lesson]').all()){
+    const count=await article.locator('[data-quiz]').count();await expect(article.locator('.lesson-progress')).toContainText(`وأتقنت ${count}`);
+  }
+  await page.locator('a[data-term="validity"]').first().tap();await expect(page.getByRole('dialog')).toBeVisible();await page.locator('#term-lesson').tap();await expect(page).toHaveURL(/#l1-validity$/);
+  await page.locator('a[data-term="validity"]').first().tap();await page.locator('#term-glossary').tap();await expect(page).toHaveURL(/#term-validity$/);
+  expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);expect(errors).toEqual([]);expect(remote).toEqual([]);await context.close();
 });

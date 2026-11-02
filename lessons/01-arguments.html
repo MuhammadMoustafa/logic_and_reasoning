@@ -1,62 +1,63 @@
 <!doctype html>
-<html lang="ar" dir="rtl">
-<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>الحجج المنطقية: المقدمات والنتائج</title><link rel="stylesheet" href="../assets/style.css">
-</head>
-<body><a class="skip-link" href="#main">تخطَّ إلى المحتوى</a>
-<header>
-<button class="toolbar" onclick="toggleTheme()">فاتح / داكن</button>
-<p class="brand">المنطق والاستدلال العلمي</p>
-<nav><a href="../index.html">الفهرس</a> <a href="01-arguments.html">الدرس 1</a> <a href="02-conditional-reasoning.html">الدرس 2</a> <a href="03-necessary-sufficient.html">الدرس 3</a> <a href="04-types-of-inference.html">الدرس 4</a>
-</nav>
-</header>
-<main id="main">
-<article>
-<small>الدرس 1</small>
-<h1>الحجج المنطقية: المقدمات والنتائج</h1>
-<section class="lab">
-<h2>هدف الدرس</h2>
-<p>ميّز بين صدق القضية وصلاحية الحجة وسلامتها، وابنِ مثالًا مضادًا عندما لا تلزم النتيجة.</p>
+<html lang="ar" dir="rtl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>الحجج المنطقية: المقدمات والنتائج</title><link rel="stylesheet" href="../assets/style.css"></head>
+<body><a class="skip-link" href="#main">انتقل إلى المحتوى</a><header><button class="toolbar" type="button" onclick="toggleTheme()">فاتح / داكن</button><p class="brand">المنطق والاستدلال العلمي</p><nav aria-label="التنقل الرئيسي"><a href="../index.html">الفهرس</a> <a href="01-arguments.html">الدرس 1</a> <a href="02-conditional-reasoning.html">الدرس 2</a> <a href="03-necessary-sufficient.html">الدرس 3</a> <a href="04-types-of-inference.html">الدرس 4</a> <a href="../glossary.html">قاموس المصطلحات</a></nav></header>
+<main id="main"><article data-lesson="1"><small>الدرس 1</small><h1>الحجج المنطقية: المقدمات والنتائج</h1>
+<p class="interaction-warning" role="status">لم تعمل التفاعلات في هذه المعاينة. افتح صفحة الدرس في المتصفح، مع بقاء مجلد assets في مكانه. ويمكنك استخدام «عرض الحل للمراجعة» أسفل كل تمرين.</p>
+<p class="reading-help">اضغط على المصطلح المسطّر لقراءة تعريفه. وللعودة إلى أي قسم، استخدم رابط # بجوار عنوانه.</p>
+<div class="callout"><strong>بعد هذا الدرس، تستطيع أن:</strong><ul><li>تميّز بين صدق <a class="term-link" data-term="premise" href="../glossary.html#term-premise">المقدمات</a> وصلاحية <a class="term-link" data-term="argument" href="../glossary.html#term-argument">الحجة</a> وسلامتها.</li><li>تختبر <a class="term-link" data-term="argument" href="../glossary.html#term-argument">حجة</a> بسيطة بالبحث عن <a class="term-link" data-term="counterexample" href="../glossary.html#term-counterexample">مثال مضاد</a>.</li></ul></div>
+<nav class="lesson-toc" aria-label="أقسام الدرس"><strong>في هذا الدرس</strong><ol><li><a href="#l1-argument">ما المقصود بالحجة؟</a></li><li><a href="#l1-proposition">نحكم على الجملة بالصدق، وعلى الحجة بالصلاحية</a></li><li><a href="#l1-validity">متى تكون الحجة صالحة؟</a></li><li><a href="#l1-soundness">ومتى تكون سليمة؟</a></li><li><a href="#l1-counterexample">ابحث عن مثال مضاد</a></li><li><a href="#l1-exercises">اختبر فهمك</a></li><li><a href="#l1-reflection">فكّر قبل أن تفتح الإجابة</a></li></ol></nav><section class="lesson-section" aria-labelledby="l1-argument"><h2 id="l1-argument">ما المقصود بالحجة؟ <a class="permalink" href="#l1-argument" aria-label="رابط مباشر إلى: ما المقصود بالحجة؟">#</a></h2><p class="concept-links"><a class="term-link" data-term="argument" href="../glossary.html#term-argument">الحجة <bdi dir="ltr">Argument</bdi></a> · <a class="term-link" data-term="premise" href="../glossary.html#term-premise">المقدمة <bdi dir="ltr">Premise</bdi></a> · <a class="term-link" data-term="conclusion" href="../glossary.html#term-conclusion">النتيجة <bdi dir="ltr">Conclusion</bdi></a> · <a class="term-link" data-term="inference" href="../glossary.html#term-inference">الاستدلال <bdi dir="ltr">Inference</bdi></a></p><p><a class="term-link" data-term="argument" href="../glossary.html#term-argument">الحجة</a> في المنطق هي مجموعة من <a class="term-link" data-term="premise" href="../glossary.html#term-premise">المقدمات</a> نعرضها لتأييد نتيجة. ونسمّي الانتقال من هذه <a class="term-link" data-term="premise" href="../glossary.html#term-premise">المقدمات</a> إلى <a class="term-link" data-term="conclusion" href="../glossary.html#term-conclusion">النتيجة</a> استدلالًا. لنبدأ بمثال بسيط:</p>
+<div class="callout">كل الثدييات من ذوات الدم الحار.<br>الحوت من الثدييات.<br><strong>إذن الحوت من ذوات الدم الحار.</strong></div>
+<p>الجملتان الأوليان هما المقدمتان. والجملة الأخيرة هي <a class="term-link" data-term="conclusion" href="../glossary.html#term-conclusion">النتيجة</a> التي نريد إثباتها. والسؤال الآن: هل تصدق الجمل فحسب، أم أن <a class="term-link" data-term="conclusion" href="../glossary.html#term-conclusion">النتيجة</a> تلزم فعلًا عن المقدمتين؟</p>
+
 </section>
-<h2>ما الحجة (Argument)؟</h2>
-<p>الحجة تتكون من <strong>مقدمات (Premises)</strong> و<strong>نتيجة (Conclusion)</strong>؛ والاستدلال (Inference) هو الانتقال من الأولى إلى الثانية.</p>
-<div class="callout">كل الثدييات من ذوات الدم الحار. الحوت من الثدييات. إذن الحوت من ذوات الدم الحار.</div>
-<h2>Validity وSoundness</h2>
-<p>الحجة <strong>Valid</strong> إذا استحال أن تكون المقدمات صحيحة والنتيجة خاطئة. أما <strong>Sound</strong> فهي Valid وكل مقدماتها صحيحة فعلًا.</p>
-<p>مثال: «كل الأسماك تطير؛ السلمون سمكة؛ إذن السلمون يطير». الشكل Valid لكن الحجة ليست Sound لأن المقدمة الأولى خاطئة.</p>
-<h2>المثال المضاد (Counterexample)</h2>
-<p>يكفي تخيّل حالة ممكنة تصدق فيها المقدمات وتكذب النتيجة لإثبات عدم صحة الاستدلال.</p>
-<h2>القضية والحجة ليستا الشيء نفسه</h2>
-<p>القضية (Proposition) محتوى خبري يمكن وصفه بالصدق أو الكذب؛ أما السؤال والأمر فليسا قضيتين بهذا المعنى. نصف الحجة الاستنباطية بالصلاحية (Validity)، وبالسلامة (Soundness) عندما تكون صالحة ومقدماتها صادقة. لا نصف القضية المفردة بأنها Valid بهذا الاستخدام.</p>
-<p>صلاحية الحجة لا تضمن صدق نتيجتها دون صدق المقدمات. وقد تصدق نتيجة حجة غير صالحة بالمصادفة. والمثال المضاد المنطقي لا يلزم أن يكون حدثًا وقع فعلًا؛ يكفي تفسير يحقق جميع المقدمات ويكذب النتيجة.</p>
+<section class="lesson-section" aria-labelledby="l1-proposition"><h2 id="l1-proposition">نحكم على الجملة بالصدق، وعلى الحجة بالصلاحية <a class="permalink" href="#l1-proposition" aria-label="رابط مباشر إلى: نحكم على الجملة بالصدق، وعلى الحجة بالصلاحية">#</a></h2><p class="concept-links"><a class="term-link" data-term="proposition" href="../glossary.html#term-proposition">القضية <bdi dir="ltr">Proposition</bdi></a></p>
+<p>«العدد 6 زوجي» <a class="term-link" data-term="proposition" href="../glossary.html#term-proposition">قضية</a> يمكن الحكم عليها بالصدق أو الكذب. أما «هل العدد 6 زوجي؟» فسؤال، وليس <a class="term-link" data-term="proposition" href="../glossary.html#term-proposition">قضية</a> بهذا المعنى. وعندما نجمع قضايا في <a class="term-link" data-term="argument" href="../glossary.html#term-argument">حجة</a>، نفحص أمرين مختلفين: صدق <a class="term-link" data-term="premise" href="../glossary.html#term-premise">المقدمات</a>، وهل تكفي هذه <a class="term-link" data-term="premise" href="../glossary.html#term-premise">المقدمات</a> للوصول إلى <a class="term-link" data-term="conclusion" href="../glossary.html#term-conclusion">النتيجة</a>.</p>
+
+</section>
+<section class="lesson-section" aria-labelledby="l1-validity"><h2 id="l1-validity">متى تكون الحجة صالحة؟ <a class="permalink" href="#l1-validity" aria-label="رابط مباشر إلى: متى تكون الحجة صالحة؟">#</a></h2><p class="concept-links"><a class="term-link" data-term="validity" href="../glossary.html#term-validity">الصلاحية <bdi dir="ltr">Validity</bdi></a></p>
+<p>تكون <a class="term-link" data-term="argument" href="../glossary.html#term-argument">الحجة</a> صالحة إذا كان من المستحيل أن تصدق مقدماتها جميعًا وتكون نتيجتها كاذبة. جرّب أن تفترض صدق <a class="term-link" data-term="premise" href="../glossary.html#term-premise">المقدمات</a>، حتى لو لم تكن مقتنعًا بها في الواقع. ثم اسأل: هل يمكن أن تكون <a class="term-link" data-term="conclusion" href="../glossary.html#term-conclusion">النتيجة</a> كاذبة مع ذلك؟</p>
+<div class="callout">كل الأسماك تطير.<br>السلمون سمكة.<br><strong>إذن السلمون يطير.</strong></div>
+<p><a class="term-link" data-term="premise" href="../glossary.html#term-premise">المقدمة</a> الأولى كاذبة، لكن طريقة <a class="term-link" data-term="inference" href="../glossary.html#term-inference">الاستدلال</a> صالحة: لو صدقت المقدمتان، لكانت <a class="term-link" data-term="conclusion" href="../glossary.html#term-conclusion">النتيجة</a> لازمة عنهما. هذا المثال يوضح لماذا لا تكفي <a class="term-link" data-term="validity" href="../glossary.html#term-validity">الصلاحية</a> وحدها لضمان صدق <a class="term-link" data-term="conclusion" href="../glossary.html#term-conclusion">النتيجة</a> في الواقع.</p>
+
+</section>
+<section class="lesson-section" aria-labelledby="l1-soundness"><h2 id="l1-soundness">ومتى تكون سليمة؟ <a class="permalink" href="#l1-soundness" aria-label="رابط مباشر إلى: ومتى تكون سليمة؟">#</a></h2><p class="concept-links"><a class="term-link" data-term="soundness" href="../glossary.html#term-soundness">السلامة <bdi dir="ltr">Soundness</bdi></a></p>
+<p>تكون <a class="term-link" data-term="argument" href="../glossary.html#term-argument">الحجة</a> سليمة عندما يتحقق شرطان معًا: أن تكون صالحة، وأن تكون مقدماتها كلها صادقة فعلًا. عندها نضمن صدق <a class="term-link" data-term="conclusion" href="../glossary.html#term-conclusion">النتيجة</a>. أما <a class="term-link" data-term="argument" href="../glossary.html#term-argument">حجة</a> الأسماك فهي صالحة، لكنها غير سليمة لأن مقدمتها الأولى كاذبة.</p>
+<p>وقد تصل <a class="term-link" data-term="argument" href="../glossary.html#term-argument">حجة</a> غير صالحة إلى نتيجة صادقة بالمصادفة. لذلك لا نحكم على طريقة <a class="term-link" data-term="inference" href="../glossary.html#term-inference">الاستدلال</a> من <a class="term-link" data-term="conclusion" href="../glossary.html#term-conclusion">النتيجة</a> وحدها.</p>
+
+</section>
+<section class="lesson-section" aria-labelledby="l1-counterexample"><h2 id="l1-counterexample">ابحث عن مثال مضاد <a class="permalink" href="#l1-counterexample" aria-label="رابط مباشر إلى: ابحث عن مثال مضاد">#</a></h2><p class="concept-links"><a class="term-link" data-term="counterexample" href="../glossary.html#term-counterexample">المثال المضاد <bdi dir="ltr">Counterexample</bdi></a></p>
+<p>لإثبات أن <a class="term-link" data-term="argument" href="../glossary.html#term-argument">الحجة</a> غير صالحة، يكفي أن تجد حالة واحدة تصدق فيها <a class="term-link" data-term="premise" href="../glossary.html#term-premise">المقدمات</a> وتكذب فيها <a class="term-link" data-term="conclusion" href="../glossary.html#term-conclusion">النتيجة</a>. هذه هي فكرة <a class="term-link" data-term="counterexample" href="../glossary.html#term-counterexample">المثال المضاد</a>. لا يشترط أن تكون الحالة قد حدثت بالفعل؛ المهم أن تكون ممكنة مع <a class="term-link" data-term="premise" href="../glossary.html#term-premise">المقدمات</a> التي افترضناها.</p>
 <section class="lab">
-<h2>مختبر المثال المضاد</h2>
-<p>افترض: كل العلماء جامعيون، وأحمد جامعي. هل يمكن أن تظل المقدمتان صادقتين وتكذب النتيجة «أحمد عالم»؟</p>
+<h3>مختبر <a class="term-link" data-term="counterexample" href="../glossary.html#term-counterexample">المثال المضاد</a></h3>
+<p>افترض: كل العلماء جامعيون، وأحمد جامعي. هل يمكن أن تظل المقدمتان صادقتين وتكذب <a class="term-link" data-term="conclusion" href="../glossary.html#term-conclusion">النتيجة</a> «أحمد عالم»؟</p>
 <label><input type="checkbox" id="ahmad-scientist" checked> أحمد عالم</label>
 <div class="argument-flow" aria-hidden="true"><span>العلماء ⊆ الجامعيين</span><span>أحمد ∈ الجامعيين</span><span id="argument-badge"></span>
 </div>
 <p id="argument-output" aria-live="polite">
 </p>
 </section>
+</section>
+<section class="lesson-section" aria-labelledby="l1-exercises"><h2 id="l1-exercises">اختبر فهمك <a class="permalink" href="#l1-exercises" aria-label="رابط مباشر إلى: اختبر فهمك">#</a></h2>
 <section class="quiz" data-quiz="l1q1" data-correct="no" data-explanation="قد يكون أحمد جامعيًا دون أن يكون عالمًا؛ إذن النتيجة لا تلزم عن المقدمات.">
-<fieldset><legend>كل العلماء جامعيون، وأحمد جامعي؛ إذن أحمد عالم. هل الاستدلال Valid؟</legend>
+<fieldset><legend>كل العلماء جامعيون، وأحمد جامعي؛ إذن أحمد عالم. هل الحجة صالحة؟</legend>
 <label><input type="radio" name="l1q1" value="yes"> نعم</label>
 <label><input type="radio" name="l1q1" value="no"> لا</label>
 </fieldset>
 <button data-check="l1q1">تحقق من الإجابة</button>
 <p id="l1q1-result" aria-live="polite">
 </p>
-</section>
+<details class="manual-answer"><summary>عرض الحل للمراجعة</summary><p>الإجابة: لا. قد يكون أحمد جامعيًا دون أن يكون عالمًا؛ إذن <a class="term-link" data-term="conclusion" href="../glossary.html#term-conclusion">النتيجة</a> لا تلزم عن <a class="term-link" data-term="premise" href="../glossary.html#term-premise">المقدمات</a>.</p></details></section>
 <section class="quiz" data-quiz="l1q2" data-correct="yes" data-explanation="النتيجة تلزم عن المقدمتين بالضرورة.">
-<fieldset><legend>إذا كانت كل القطط ثدييات، ومشمش قطة، فمشمش ثديي. هل الاستدلال Valid؟</legend>
+<fieldset><legend>كل القطط ثدييات؛ ومشمش قطة؛ إذن مشمش من الثدييات. هل الحجة صالحة؟</legend>
 <label><input type="radio" name="l1q2" value="yes"> نعم</label>
 <label><input type="radio" name="l1q2" value="no"> لا</label>
 </fieldset>
 <button data-check="l1q2">تحقق من الإجابة</button>
 <p id="l1q2-result" aria-live="polite">
 </p>
-</section>
-<section class="quiz" data-quiz="l1q3" data-correct="valid" data-explanation="النتيجة تلزم عن المقدمات، لكن المقدمة الأولى كاذبة؛ لذلك الحجة Valid وليست Sound.">
-<fieldset><legend>كل الأسماك تطير؛ السلمون سمكة؛ إذن السلمون يطير. كيف نصنف الحجة؟</legend>
+<details class="manual-answer"><summary>عرض الحل للمراجعة</summary><p>الإجابة: نعم. <a class="term-link" data-term="conclusion" href="../glossary.html#term-conclusion">النتيجة</a> تلزم عن المقدمتين بالضرورة.</p></details></section>
+<section class="quiz" data-quiz="l1q3" data-correct="valid" data-explanation="طريقة الاستدلال صالحة، لكن المقدمة الأولى كاذبة؛ لذلك فالحجة غير سليمة.">
+<fieldset><legend>كل الأسماك تطير؛ السلمون سمكة؛ إذن السلمون يطير. كيف نصف هذه الحجة؟</legend>
 <label><input type="radio" name="l1q3" value="sound"> صالحة وسليمة</label>
 <label><input type="radio" name="l1q3" value="valid"> صالحة وغير سليمة</label>
 <label><input type="radio" name="l1q3" value="invalid"> غير صالحة</label>
@@ -64,25 +65,16 @@
 <button data-check="l1q3">تحقق من الإجابة</button>
 <p class="feedback" id="l1q3-result" aria-live="polite">
 </p>
+<details class="manual-answer"><summary>عرض الحل للمراجعة</summary><p>الإجابة: صالحة وغير سليمة. طريقة <a class="term-link" data-term="inference" href="../glossary.html#term-inference">الاستدلال</a> صالحة، لكن <a class="term-link" data-term="premise" href="../glossary.html#term-premise">المقدمة</a> الأولى كاذبة؛ لذلك فالحجة غير سليمة.</p></details></section>
 </section>
-<h2>للتفكير</h2>
-<p>هل يمكن أن تكون حجة Valid ونتيجتها خاطئة في الواقع؟ جرّب إنشاء مثال.</p>
-
-<details>
-<summary>إجابة مقترحة لسؤال التفكير</summary>
-<p>نعم، مثال الأسماك أعلاه حجة صالحة ذات نتيجة كاذبة، لأن إحدى مقدماتها كاذبة. أما الحجة السليمة فلا يمكن أن تكون نتيجتها كاذبة.</p>
+<section class="lesson-section" aria-labelledby="l1-reflection"><h2 id="l1-reflection">فكّر قبل أن تفتح الإجابة <a class="permalink" href="#l1-reflection" aria-label="رابط مباشر إلى: فكّر قبل أن تفتح الإجابة">#</a></h2>
+<p>هل يمكن أن تكون <a class="term-link" data-term="argument" href="../glossary.html#term-argument">الحجة</a> صالحة، ومع ذلك تكون نتيجتها كاذبة في الواقع؟ اكتب مثالًا من عندك.</p>
+<details><summary>عرض إجابة مقترحة</summary><p>نعم. <a class="term-link" data-term="argument" href="../glossary.html#term-argument">حجة</a> الأسماك مثال على ذلك: طريقة <a class="term-link" data-term="inference" href="../glossary.html#term-inference">الاستدلال</a> صالحة، لكن <a class="term-link" data-term="premise" href="../glossary.html#term-premise">المقدمة</a> الأولى كاذبة. أما <a class="term-link" data-term="argument" href="../glossary.html#term-argument">الحجة</a> السليمة فلا يمكن أن تكون نتيجتها كاذبة.</p>
 </details>
-<p><a href="02-conditional-reasoning.html">التالي: الاستدلال الشرطي ←</a>
-</p>
-<p class="source-note">للتوسع في المنطق: <a href="https://forallx.openlogicproject.org/">forall x: Calgary — Open Logic Project</a> (مصدر خارجي يتطلب الإنترنت).</p>
-<p id="progress" role="status">
-</p><progress id="mastery" value="0" max="1" aria-label="تمارين الدرس المتقنة"></progress>
-</article>
-</main>
-<footer>محتوى تعليمي تفاعلي يعمل دون اتصال بالإنترنت</footer>
-<script src="../assets/logic.js">
-</script>
-<script src="../assets/course.js">
-</script>
-</body>
-</html>
+</section>
+
+<p id="progress" role="status"></p><progress id="mastery" value="0" max="3" aria-label="تمارين الدرس المتقنة"></progress>
+<nav aria-label="متابعة الدرس"><a href="../index.html">الفهرس</a> · <a href="02-conditional-reasoning.html">الدرس التالي</a></nav></article></main>
+<footer>المنطق والاستدلال العلمي · تعلم على مهل، وارجع إلى التعريف متى احتجت إليه</footer>
+<script src="../assets/terms.js"></script><script src="../assets/logic.js"></script><script src="../assets/course.js"></script><script src="../assets/reference.js"></script>
+</body></html>

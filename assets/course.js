@@ -43,18 +43,18 @@ function checkQuiz(quiz) {
   updateProgress();
 }
 function updateProgress() {
-  const quizzes = [...document.querySelectorAll('[data-quiz]')];
-  if (quizzes.length) {
+  document.querySelectorAll('article[data-lesson]').forEach(article => {
+    const quizzes = [...article.querySelectorAll('[data-quiz]')];
     const attempted = quizzes.filter(q => readAnswer(q.dataset.quiz)).length;
     const mastered = quizzes.filter(q => {
       const a = readAnswer(q.dataset.quiz);
       return a && a.value === q.dataset.correct;
     }).length;
-    document.getElementById('progress').textContent = `حاولت ${attempted} من ${quizzes.length} تمارين؛ وأتقنت ${mastered} منها.`;
-    const meter = document.getElementById('mastery');
-    meter.max = quizzes.length;
-    meter.value = mastered;
-  }
+    const progress = article.querySelector('#progress, .lesson-progress');
+    if (progress) progress.textContent = `حاولت ${attempted} من ${quizzes.length} تمارين؛ وأتقنت ${mastered} منها.`;
+    const meter = article.querySelector('#mastery, .lesson-mastery');
+    if (meter) { meter.max = quizzes.length; meter.value = mastered; }
+  });
   const total = document.getElementById('course-progress');
   if (total) {
     const attempted = quizIds.filter(id => readAnswer(id)).length;
@@ -67,9 +67,9 @@ function setupLabs() {
   const evidence = document.getElementById('evidence-case');
   if (evidence) {
     const descriptions = {
-      none: 'لا تكفي للمفاضلة: غياب الإشارة متوافق مع أكثر من تفسير.',
-      power: 'يدعم تفسير البطارية مقارنة بالكابل، بشرط ثبات العوامل الأخرى؛ لا يثبت الحصرية أو الضرورة.',
-      cable: 'يدعم تفسير الكابل مقارنة بالبطارية، بشرط ثبات العوامل الأخرى؛ لا يثبت الحصرية أو الضرورة.',
+      none: 'لا تكفي للمفاضلة: قد تغيب الإشارة بسبب البطارية، أو الكابل، أو عطل آخر.',
+      power: 'يدعم تفسير البطارية: عودة الإشارة بعد استبدالها ترجّح أنها كانت سبب المشكلة، بشرط ثبات العوامل الأخرى. لكنها لا تثبت أن هذا هو السبب الوحيد الممكن.',
+      cable: 'يدعم تفسير الكابل: عودة الإشارة بعد توصيله ترجّح أنه كان سبب المشكلة، بشرط ثبات العوامل الأخرى. لكنها لا تثبت أن هذا هو السبب الوحيد الممكن.',
       both: 'تغيير عاملين معًا لا يعزل أثر كل منهما؛ نحتاج اختبارًا يغير عاملًا واحدًا مع ضوابط مناسبة.'
     };
     const update = () => { document.getElementById('evidence-output').textContent = descriptions[evidence.value]; };
@@ -106,7 +106,7 @@ function setupLabs() {
       : 'هذه الحالة لا تنقض الضرورة ولا الكفاية. توافق الفرضية في حالة واحدة لا يثبتها كليًا.';
   });
 }
-document.addEventListener('DOMContentLoaded', () => {
+function initializeCourse() {
   const notice = document.createElement('p');
   notice.id = 'storage-notice'; notice.className = 'callout'; notice.hidden = true;
   notice.setAttribute('role','status');
@@ -127,8 +127,12 @@ document.addEventListener('DOMContentLoaded', () => {
     quiz.querySelectorAll('input').forEach(input => input.addEventListener('change', () => {
       const output = document.getElementById(quiz.dataset.quiz + '-result');
       output.className = 'feedback';
-      output.textContent = 'اختيار جديد؛ اضغط تحقق لتصحيحه. التقدم يعكس آخر إجابة تحققت منها.';
+      output.textContent = 'غيّرت اختيارك. اضغط «تحقق من الإجابة» لتصحيحه؛ يظل التقدم محسوبًا على آخر إجابة صححتها.';
     }));
   });
-  setupLabs(); updateProgress();
-});
+  updateProgress();
+  document.body.classList.add('interactions-ready');
+  try { setupLabs(); } catch (error) { console.warn('A lesson activity could not initialize:', error); }
+}
+if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', initializeCourse, {once:true});
+else initializeCourse();
