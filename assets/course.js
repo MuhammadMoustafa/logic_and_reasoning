@@ -5,7 +5,7 @@ const storage = {
   set(key, value) { try { localStorage.setItem(key, value); return true; } catch { return false; } }
 };
 const answers = new Map();
-const quizIds = ['l1q1','l1q2','l1q3','l2q1','l2q2','l2q3','l2q4','l3q1','l3q2','l3q3'];
+const quizIds = ['l1q1','l1q2','l1q3','l2q1','l2q2','l2q3','l2q4','l3q1','l3q2','l3q3','l4q1','l4q2','l4q3','l4q4','l4q5','l4q6'];
 function readAnswer(id) {
   if (answers.has(id)) return answers.get(id);
   try {
@@ -64,6 +64,18 @@ function updateProgress() {
   }
 }
 function setupLabs() {
+  const evidence = document.getElementById('evidence-case');
+  if (evidence) {
+    const descriptions = {
+      none: 'لا تكفي للمفاضلة: غياب الإشارة متوافق مع أكثر من تفسير.',
+      power: 'يدعم تفسير البطارية مقارنة بالكابل، بشرط ثبات العوامل الأخرى؛ لا يثبت الحصرية أو الضرورة.',
+      cable: 'يدعم تفسير الكابل مقارنة بالبطارية، بشرط ثبات العوامل الأخرى؛ لا يثبت الحصرية أو الضرورة.',
+      both: 'تغيير عاملين معًا لا يعزل أثر كل منهما؛ نحتاج اختبارًا يغير عاملًا واحدًا مع ضوابط مناسبة.'
+    };
+    const update = () => { document.getElementById('evidence-output').textContent = descriptions[evidence.value]; };
+    evidence.addEventListener('change', update);
+    update();
+  }
   const bind = (ids, update) => {
     if (!document.getElementById(ids[0])) return;
     ids.forEach(id => document.getElementById(id).addEventListener('change', update));

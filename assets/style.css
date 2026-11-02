@@ -367,3 +367,6 @@ article {
   font-size:.9rem;
   color:var(--muted)
 }
+
+select { font: inherit; color: var(--ink); background: var(--surface); border: 1px solid var(--line); border-radius: 8px; padding: 10px; width: 100%; min-height: 44px; }
+select:focus-visible { outline: 3px solid #c17e15; outline-offset: 4px; }

@@ -1,5 +1,5 @@
 const {test,expect}=require('@playwright/test');
-const paths=['/index.html','/lessons/01-arguments.html','/lessons/02-conditional-reasoning.html','/lessons/03-necessary-sufficient.html'];
+const paths=['/index.html','/lessons/01-arguments.html','/lessons/02-conditional-reasoning.html','/lessons/03-necessary-sufficient.html','/lessons/04-types-of-inference.html'];
 test('every exercise: blank, wrong, correct, reload feedback and aggregate progress',async({page})=>{
   const errors=[];page.on('pageerror',e=>errors.push(e.message));
   for(const url of paths.slice(1)){
@@ -16,12 +16,12 @@ test('every exercise: blank, wrong, correct, reload feedback and aggregate progr
     await page.reload();
     for(const feedback of await page.locator('.quiz [aria-live]').all()) await expect(feedback).toContainText('إجابة صحيحة');
   }
-  await page.goto('/'); await expect(page.locator('#course-progress')).toContainText('وأتقنت 10');
+  await page.goto('/'); await expect(page.locator('#course-progress')).toContainText('وأتقنت 16');
   await page.goto(paths[1]);
   await page.locator('[data-quiz="l1q1"] input[value="yes"]').check();
   await page.locator('[data-check="l1q1"]').click();
   await expect(page.locator('#progress')).toContainText('وأتقنت 2');
-  await page.goto('/'); await expect(page.locator('#course-progress')).toContainText('وأتقنت 9');
+  await page.goto('/'); await expect(page.locator('#course-progress')).toContainText('وأتقنت 15');
   expect(errors).toEqual([]);
 });
 test('all logical lab states and keyboard use',async({page})=>{
@@ -59,6 +59,9 @@ test('mobile/desktop layouts, dark theme persistence and reduced motion',async({
   }
   await page.locator('.toolbar').click();await page.reload();await expect(page.locator('body')).toHaveClass('dark');
   await page.screenshot({path:'work/screenshots/dark.png',fullPage:true});
+  await page.screenshot({path:'work/screenshots/lesson4-desktop-top.png'});
+  await page.setViewportSize({width:360,height:900});
+  await page.screenshot({path:'work/screenshots/lesson4-mobile-top.png'});
   await page.emulateMedia({reducedMotion:'reduce'});
   expect(await page.locator('.feedback').first().evaluate(el=>getComputedStyle(el).animationName)).toBe('none');
 });
@@ -68,4 +71,18 @@ test('direct file opening stays offline and interactive',async({page})=>{
   await page.goto(pathToFileURL(path.resolve('lessons/02-conditional-reasoning.html')).href);
   await page.locator('#truth-q').uncheck();await expect(page.locator('#truth-output')).toContainText('P → Q = F');
   expect(requests).toEqual([]);
+});
+
+test('lesson four evidence comparisons work with keyboard, offline and without storage',async({page})=>{
+  await page.addInitScript(()=>{Object.defineProperty(window,'localStorage',{get(){throw new DOMException('blocked','SecurityError')}})});
+  const {pathToFileURL}=require('node:url'); const path=require('node:path');
+  await page.goto(pathToFileURL(path.resolve('lessons/04-types-of-inference.html')).href);
+  const expectedAnswers={l4q1:'d',l4q2:'no',l4q3:'ac',l4q4:'power',l4q5:'sample',l4q6:'no'};
+  for(const [id,answer] of Object.entries(expectedAnswers)) await expect(page.locator(`[data-quiz="${id}"]`)).toHaveAttribute('data-correct',answer);
+  const select=page.locator('#evidence-case');const output=page.locator('#evidence-output');
+  for(const [value,text] of [['none','لا تكفي للمفاضلة'],['power','يدعم تفسير البطارية'],['cable','يدعم تفسير الكابل'],['both','تغيير عاملين معًا']]){
+    await select.selectOption(value);await expect(output).toContainText(text);
+  }
+  await select.focus();await page.keyboard.press('Home');await page.keyboard.press('Enter');await expect(output).toContainText('لا تكفي للمفاضلة');
+  await page.locator('[data-quiz="l4q1"] input[value="d"]').check();await page.locator('[data-check="l4q1"]').click();await expect(page.locator('#progress')).toContainText('وأتقنت 1');
 });
