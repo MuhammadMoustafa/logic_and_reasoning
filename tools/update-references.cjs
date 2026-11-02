@@ -43,7 +43,7 @@ for(const file of pages){
     const t=terms[key],id=`definition-${prefix}-${key}`;
     return `<aside class="native-definition" id="${id}" popover role="dialog" aria-labelledby="${id}-title"><button type="button" class="term-close" popovertarget="${id}" popovertargetaction="hide" aria-label="إغلاق التعريف">إغلاق ×</button><h2 id="${id}-title">${esc(t.ar)}</h2><p lang="en" dir="ltr">${esc(t.en)}</p><p>${esc(t.definition)}</p><p><a href="${t.lesson.replace('lessons/','')}">عرض الشرح الكامل في الدرس</a> · <a href="../glossary.html#term-${key}">عرض صفحة المصطلح في القاموس</a></p></aside>`;
   }).join('\n');
-  html=html.replace('</article>',`<!-- definitions:start -->\n${frames}\n<!-- definitions:end -->\n</article>`);
+  html=html.replace(/\s*<\/article>/,`\n<!-- definitions:start -->\n${frames}\n<!-- definitions:end -->\n</article>`);
   write('lessons/'+file,html);
 }
 const glossaryContent=`<h1 id="glossary">قاموس المصطلحات</h1><p>تعريف مختصر بالعربية، والاسم الإنجليزي، ورابط يعود بك إلى الشرح في الدرس.</p><label for="glossary-search">ابحث بالعربية أو الإنجليزية</label><input type="search" id="glossary-search" placeholder="مثل: الاستنباط أو Deduction"><p id="glossary-count" role="status">عدد المصطلحات: ${Object.keys(terms).length}</p>`+Object.entries(terms).map(([id,t])=>`<section class="glossary-entry" id="term-${id}" aria-labelledby="title-${id}"><h2 id="title-${id}">${esc(t.ar)} <a class="permalink" href="#term-${id}" aria-label="رابط المصطلح: ${esc(t.ar)}">#</a></h2><p lang="en" dir="ltr">${esc(t.en)}</p><p>${esc(t.definition)}</p><a href="${t.lesson}">الشرح والأمثلة في الدرس</a></section>`).join('\n');

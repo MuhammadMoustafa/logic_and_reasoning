@@ -23,7 +23,7 @@ test('local links exist; quiz IDs and answer options are consistent',()=>{
       assert.ok(match[4].includes(`id="${match[1]}-result"`));
     }
   }
-  assert.equal(ids.size,16);
+  assert.equal(ids.size,24);
 });
 
 test('every glossary definition has a real lesson destination',()=>{

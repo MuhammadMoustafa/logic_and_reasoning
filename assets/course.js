@@ -5,7 +5,7 @@ const storage = {
   set(key, value) { try { localStorage.setItem(key, value); return true; } catch { return false; } }
 };
 const answers = new Map();
-const quizIds = ['l1q1','l1q2','l1q3','l2q1','l2q2','l2q3','l2q4','l3q1','l3q2','l3q3','l4q1','l4q2','l4q3','l4q4','l4q5','l4q6'];
+const quizIds = ['l1q1','l1q2','l1q3','l2q1','l2q2','l2q3','l2q4','l3q1','l3q2','l3q3','l4q1','l4q2','l4q3','l4q4','l4q5','l4q6','l5q1','l5q2','l5q3','l5q4','l5q5','l5q6','l5q7','l5q8'];
 function readAnswer(id) {
   if (answers.has(id)) return answers.get(id);
   try {
@@ -64,6 +64,34 @@ function updateProgress() {
   }
 }
 function setupLabs() {
+  const compoundMode=document.getElementById('compound-mode');
+  if(compoundMode){
+    const configs={
+      'grouped-or':{step:'P ∨ Q',formula:'(P ∨ Q) ∧ R'},
+      'grouped-and':{step:'Q ∧ R',formula:'P ∨ (Q ∧ R)'},
+      'conditional-and':{step:'P ∧ Q',formula:'(P ∧ Q) → R'}
+    };
+    const word=value=>value?'صادقة':'كاذبة';
+    const update=()=>{
+      const mode=compoundMode.value,config=configs[mode];
+      const selected=['compound-p','compound-q','compound-r'].map(id=>document.getElementById(id).checked);
+      const current=CourseLogic.compound(mode,...selected);
+      document.getElementById('compound-output').textContent=`P: ${word(selected[0])}، Q: ${word(selected[1])}، R: ${word(selected[2])}. نحسب أولًا ⁦${config.step}⁩: ${word(current.step)}. ثم نحسب ⁦${config.formula}⁩: ${word(current.result)}.`;
+      document.getElementById('compound-caption').innerHTML='حساب <bdi dir="ltr">'+config.formula+'</bdi>';
+      document.getElementById('compound-step-heading').innerHTML='<bdi dir="ltr">'+config.step+'</bdi>';
+      document.getElementById('compound-result-heading').innerHTML='<bdi dir="ltr">'+config.formula+'</bdi>';
+      const body=document.getElementById('compound-rows');body.replaceChildren();
+      for(const p of [true,false])for(const q of [true,false])for(const r of [true,false]){
+        const values=CourseLogic.compound(mode,p,q,r),row=document.createElement('tr');
+        row.dataset.assignment=`${+p}${+q}${+r}`;
+        if(p===selected[0]&&q===selected[1]&&r===selected[2]){row.className='selected-row';row.setAttribute('aria-current','true');}
+        for(const value of [p,q,r,values.step,values.result]){const td=document.createElement('td');td.textContent=word(value);row.appendChild(td);}
+        body.appendChild(row);
+      }
+    };
+    [compoundMode,...['compound-p','compound-q','compound-r'].map(id=>document.getElementById(id))].forEach(el=>el.addEventListener('change',update));
+    update();
+  }
   const evidence = document.getElementById('evidence-case');
   if (evidence) {
     const descriptions = {

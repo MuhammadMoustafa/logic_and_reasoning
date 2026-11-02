@@ -19,3 +19,21 @@ test('MP and MT have no countermodel; AC and DA each have one', () => {
   }
   assert.deepEqual(countermodels,{mp:[],mt:[],ac:[[false,true]],da:[[false,true]]});
 });
+test('basic connectives match independent truth-table columns',()=>{
+  const logic=require('../assets/logic.js');
+  const expected={and:[true,false,false,false],or:[true,true,true,false],xor:[false,true,true,false],iff:[true,false,false,true]};
+  for(const [name,column] of Object.entries(expected))assert.deepEqual(rows.map(([p,q])=>logic[name](p,q)),column);
+});
+test('three compound formulas match every independently specified row',()=>{
+  const {compound}=require('../assets/logic.js');
+  const expected={
+    'grouped-or':[true,false,true,false,true,false,false,false],
+    'grouped-and':[true,true,true,true,true,false,false,false],
+    'conditional-and':[true,false,true,true,true,true,true,true]
+  };
+  for(const [mode,column] of Object.entries(expected)){
+    let index=0;
+    for(const p of [true,false])for(const q of [true,false])for(const r of [true,false])assert.equal(compound(mode,p,q,r).result,column[index++]);
+  }
+  assert.throws(()=>compound('not-a-mode',true,true,true));
+});

@@ -403,3 +403,7 @@ button.term-link:hover { color:var(--accent); background:none; }
 .native-definition::backdrop { background:#06162270; }
 .native-definition h2 { clear:both; margin-top:12px; }
 @media(max-width:600px) { .native-definition { inset:auto 0 12px; margin-inline:auto; padding:18px; } }
+
+.table-scroll { overflow-x:auto; margin:20px 0; }
+.table-scroll table { min-width:560px; margin:0; }
+.table-scroll:focus-visible { outline:3px solid #c17e15; outline-offset:3px; }

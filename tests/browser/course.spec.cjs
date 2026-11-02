@@ -1,5 +1,5 @@
 const {test,expect}=require('@playwright/test');
-const paths=['/index.html','/lessons/01-arguments.html','/lessons/02-conditional-reasoning.html','/lessons/03-necessary-sufficient.html','/lessons/04-types-of-inference.html'];
+const paths=['/index.html','/lessons/01-arguments.html','/lessons/02-conditional-reasoning.html','/lessons/03-necessary-sufficient.html','/lessons/04-types-of-inference.html','/lessons/05-connectives.html'];
 test('every exercise: blank, wrong, correct, reload feedback and aggregate progress',async({page})=>{
   const errors=[];page.on('pageerror',e=>errors.push(e.message));
   for(const url of paths.slice(1)){
@@ -16,12 +16,12 @@ test('every exercise: blank, wrong, correct, reload feedback and aggregate progr
     await page.reload();
     for(const feedback of await page.locator('.quiz [aria-live]').all()) await expect(feedback).toContainText('إجابة صحيحة');
   }
-  await page.goto('/'); await expect(page.locator('#course-progress')).toContainText('وأتقنت 16');
+  await page.goto('/'); await expect(page.locator('#course-progress')).toContainText('وأتقنت 24');
   await page.goto(paths[1]);
   await page.locator('[data-quiz="l1q1"] input[value="yes"]').check();
   await page.locator('[data-check="l1q1"]').click();
   await expect(page.locator('#progress')).toContainText('وأتقنت 2');
-  await page.goto('/'); await expect(page.locator('#course-progress')).toContainText('وأتقنت 15');
+  await page.goto('/'); await expect(page.locator('#course-progress')).toContainText('وأتقنت 23');
   expect(errors).toEqual([]);
 });
 test('all logical lab states and keyboard use',async({page})=>{
@@ -170,4 +170,23 @@ test('native definition frame works without JavaScript on touch and has separate
   await frame.getByRole('button',{name:'إغلاق التعريف'}).tap();await expect(page.locator('.native-definition:popover-open')).toHaveCount(0);
   await trigger.tap();await frame.getByRole('link',{name:'عرض صفحة المصطلح في القاموس'}).tap();await expect(page).toHaveURL(/glossary.html#term-deduction$/);
   await context.close();
+});
+test('lesson five: every compound state and independent exercise answer keys',async({page})=>{
+  await page.goto('/lessons/05-connectives.html');
+  const keys={l5q1:'f',l5q2:'tf',l5q3:'some',l5q4:'b',l5q5:'eight',l5q6:'no',l5q7:'contradiction',l5q8:'t'};
+  for(const [id,answer] of Object.entries(keys))await expect(page.locator(`[data-quiz="${id}"]`)).toHaveAttribute('data-correct',answer);
+  const expected={
+    'grouped-or':[[true,false,true,false,true,false,false,false],[true,true,true,true,true,true,false,false]],
+    'grouped-and':[[true,true,true,true,true,false,false,false],[true,false,false,false,true,false,false,false]],
+    'conditional-and':[[true,false,true,true,true,true,true,true],[true,true,false,false,false,false,false,false]]
+  };
+  for(const [mode,[column,steps]] of Object.entries(expected)){
+    await page.locator('#compound-mode').selectOption(mode);let index=0;
+    for(const p of [true,false])for(const q of [true,false])for(const r of [true,false]){
+      await page.locator('#compound-p').setChecked(p);await page.locator('#compound-q').setChecked(q);await page.locator('#compound-r').setChecked(r);
+      const row=page.locator('#compound-rows tr[aria-current="true"]');await expect(row).toHaveAttribute('data-assignment',`${+p}${+q}${+r}`);
+      await expect(row.locator('td').nth(3)).toHaveText(steps[index]?'صادقة':'كاذبة');
+      await expect(row.locator('td').last()).toHaveText(column[index]?'صادقة':'كاذبة');index++;
+    }
+  }
 });

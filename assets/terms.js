@@ -342,6 +342,89 @@
     "aliases": [
       "الممانعة"
     ]
+  },
+  "connective": {
+    "ar": "الرابط المنطقي",
+    "en": "Logical connective",
+    "definition": "أداة لبناء قضية مركبة من قضية أو أكثر. نحدد بها كيف تعتمد قيمة العبارة المركبة على قيم أجزائها.",
+    "lesson": "lessons/05-connectives.html#l5-connectives",
+    "aliases": [
+      "الرابط المنطقي",
+      "الروابط المنطقية"
+    ]
+  },
+  "conjunction": {
+    "ar": "العطف",
+    "en": "Conjunction",
+    "definition": "العبارة P ∧ Q تصدق فقط عندما تصدق P وQ معًا.",
+    "lesson": "lessons/05-connectives.html#l5-and",
+    "aliases": [
+      "العطف"
+    ]
+  },
+  "disjunction": {
+    "ar": "الفصل الشامل",
+    "en": "Inclusive disjunction",
+    "definition": "العبارة P ∨ Q تصدق إذا صدق طرف واحد على الأقل، وتسمح بصدق الطرفين معًا.",
+    "lesson": "lessons/05-connectives.html#l5-or",
+    "aliases": [
+      "الفصل الشامل"
+    ]
+  },
+  "xor": {
+    "ar": "الفصل الحصري",
+    "en": "Exclusive disjunction",
+    "definition": "العبارة P ⊕ Q تصدق عندما يصدق أحد الطرفين فقط، وتكذب إذا اتفقت قيمتاهما.",
+    "lesson": "lessons/05-connectives.html#l5-or",
+    "aliases": [
+      "الفصل الحصري"
+    ]
+  },
+  "biconditional": {
+    "ar": "شرط التكافؤ",
+    "en": "Biconditional",
+    "definition": "العبارة P ↔ Q تعني «P إذا وفقط إذا Q». تصدق عندما تتفق قيمتا الطرفين، ولا يثبت صدقها في صف واحد التكافؤ المنطقي في جميع الصفوف.",
+    "lesson": "lessons/05-connectives.html#l5-conditional",
+    "aliases": [
+      "شرط التكافؤ"
+    ]
+  },
+  "scope": {
+    "ar": "نطاق الرابط",
+    "en": "Scope",
+    "definition": "الجزء الذي يعمل عليه الرابط داخل العبارة. تساعد الأقواس على تحديده؛ فنفي P ∧ Q كلها يختلف عن نفي كل طرف على حدة ثم عطفهما.",
+    "lesson": "lessons/05-connectives.html#l5-brackets",
+    "aliases": [
+      "نطاق الرابط"
+    ]
+  },
+  "tautology": {
+    "ar": "الصدق المنطقي",
+    "en": "Tautology",
+    "definition": "صدق العبارة في كل إسناد ممكن لقيم رموزها، مثل P ∨ ¬P في المنطق الكلاسيكي.",
+    "lesson": "lessons/05-connectives.html#l5-classification",
+    "aliases": [
+      "الصدق المنطقي"
+    ]
+  },
+  "contradiction": {
+    "ar": "التناقض",
+    "en": "Contradiction",
+    "definition": "عبارة تكذب في كل إسناد ممكن للقيم، مثل P ∧ ¬P في المنطق الكلاسيكي.",
+    "lesson": "lessons/05-connectives.html#l5-classification",
+    "aliases": [
+      "التناقض",
+      "تناقض"
+    ]
+  },
+  "contingency": {
+    "ar": "عبارة ممكنة الصدق والكذب",
+    "en": "Contingent sentence",
+    "definition": "عبارة تصدق في بعض إسنادات القيم وتكذب في غيرها، مثل P ∧ Q.",
+    "lesson": "lessons/05-connectives.html#l5-classification",
+    "aliases": [
+      "عبارة ممكنة الصدق والكذب"
+    ]
   }
 };
   if(typeof module !== 'undefined' && module.exports) module.exports=terms;
