@@ -3,7 +3,7 @@
   if (!window.CourseTerms) return;
   const overlay = document.createElement('div');
   overlay.className = 'term-overlay'; overlay.hidden = true;
-  overlay.innerHTML = '<section class="term-dialog" role="dialog" aria-modal="true" aria-labelledby="term-title" tabindex="-1"><button type="button" class="term-close" aria-label="إغلاق التعريف">إغلاق ×</button><h2 id="term-title"></h2><p id="term-english" lang="en" dir="ltr"></p><p id="term-definition"></p><p><a id="term-lesson">راجع الشرح في الدرس</a> · <a id="term-glossary">افتح المصطلح في القاموس</a></p></section>';
+  overlay.innerHTML = '<section class="term-dialog" role="dialog" aria-modal="true" aria-labelledby="term-title" tabindex="-1"><button type="button" class="term-close" aria-label="إغلاق التعريف">إغلاق ×</button><h2 id="term-title"></h2><p id="term-english" lang="en" dir="ltr"></p><p id="term-definition"></p><p><a id="term-lesson">عرض الشرح الكامل في الدرس</a> · <a id="term-glossary">عرض صفحة المصطلح في القاموس</a></p></section>';
   document.body.appendChild(overlay);
   let opener = null;
   const panel = overlay.querySelector('.term-dialog');
@@ -13,7 +13,7 @@
     if (opener) opener.focus();
   }
   const localLink = url => window.COURSE_SINGLE_FILE ? '#' + url.split('#')[1] : (location.pathname.includes('/lessons/') ? '../' : '') + url;
-  document.querySelectorAll('a[data-term]').forEach(link => {
+  document.querySelectorAll('[data-term]').forEach(link => {
     link.setAttribute('aria-haspopup','dialog');
     link.addEventListener('click', event => {
       const term = CourseTerms[link.dataset.term];

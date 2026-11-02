@@ -7,11 +7,11 @@ test('every exercise: blank, wrong, correct, reload feedback and aggregate progr
     for(const quiz of await page.locator('[data-quiz]').all()){
       const correct=await quiz.getAttribute('data-correct');
       const feedback=quiz.locator('[aria-live]');
-      await quiz.locator('button').click(); await expect(feedback).toContainText('اختر إجابة');
+      await quiz.locator('[data-check]').click(); await expect(feedback).toContainText('اختر إجابة');
       await quiz.locator(`input:not([value="${correct}"])`).first().check();
-      await quiz.locator('button').click(); await expect(feedback).toContainText('راجع المحاولة');
+      await quiz.locator('[data-check]').click(); await expect(feedback).toContainText('راجع المحاولة');
       await quiz.locator(`input[value="${correct}"]`).check();
-      await quiz.locator('button').click(); await expect(feedback).toContainText('إجابة صحيحة');
+      await quiz.locator('[data-check]').click(); await expect(feedback).toContainText('إجابة صحيحة');
     }
     await page.reload();
     for(const feedback of await page.locator('.quiz [aria-live]').all()) await expect(feedback).toContainText('إجابة صحيحة');
@@ -90,7 +90,7 @@ test('lesson four evidence comparisons work with keyboard, offline and without s
 test('definitions: touch open, close, focus, canonical bookmark and glossary search',async({browser})=>{
   const context=await browser.newContext({viewport:{width:390,height:844},isMobile:true,hasTouch:true});
   const page=await context.newPage();await page.goto('/lessons/04-types-of-inference.html');
-  const term=page.locator('a[data-term="deduction"]').first();
+  const term=page.locator('[data-term="deduction"]').first();
   await term.tap();const dialog=page.getByRole('dialog');await expect(dialog).toBeVisible();
   await expect(dialog.locator('#term-title')).toHaveText('الاستنباط');
   await page.getByRole('button',{name:'إغلاق التعريف'}).tap();await expect(dialog).toBeHidden();await expect(term).toBeFocused();
@@ -121,7 +121,7 @@ test('separate lesson pages grade every quiz using touch, file URLs and blocked 
     const count=await page.locator('[data-quiz]').count();await expect(page.locator('#progress')).toContainText(`وأتقنت ${count}`);
     expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
   }
-  await page.locator('a[data-term="deduction"]').first().tap();await expect(page.getByRole('dialog')).toBeVisible();
+  await page.locator('[data-term="deduction"]').first().tap();await expect(page.getByRole('dialog')).toBeVisible();
   await page.locator('#term-glossary').tap();await expect(page).toHaveURL(/glossary.html#term-deduction$/);
   expect(errors).toEqual([]);await context.close();
 });
@@ -129,7 +129,10 @@ test('missing scripts are visible and manual answers remain usable',async({page}
   await page.route('**/assets/*.js',route=>route.abort());
   await page.goto('/lessons/01-arguments.html');await expect(page.locator('.interaction-warning')).toBeVisible();
   const answer=page.locator('.manual-answer').first();await answer.locator('summary').click();await expect(answer).toContainText('الإجابة: لا');
-  await page.locator('a[data-term="validity"]').first().click();await expect(page).toHaveURL(/glossary.html#term-validity$/);
+  await page.locator('[data-term="validity"]').first().click();
+  const frame=page.locator('.native-definition:popover-open');await expect(frame).toBeVisible();await expect(frame).toContainText('الصلاحية');
+  await expect(page).toHaveURL(/01-arguments.html$/);
+  await frame.getByRole('button',{name:'إغلاق التعريف'}).click();await expect(frame).toHaveCount(0);
 });
 
 test('grading initializes when its script arrives after the page has loaded',async({page})=>{
@@ -153,7 +156,18 @@ test('generated share file grades all quizzes offline and keeps definitions loca
   for(const article of await page.locator('article[data-lesson]').all()){
     const count=await article.locator('[data-quiz]').count();await expect(article.locator('.lesson-progress')).toContainText(`وأتقنت ${count}`);
   }
-  await page.locator('a[data-term="validity"]').first().tap();await expect(page.getByRole('dialog')).toBeVisible();await page.locator('#term-lesson').tap();await expect(page).toHaveURL(/#l1-validity$/);
-  await page.locator('a[data-term="validity"]').first().tap();await page.locator('#term-glossary').tap();await expect(page).toHaveURL(/#term-validity$/);
+  await page.locator('[data-term="validity"]').first().tap();await expect(page.getByRole('dialog')).toBeVisible();await page.locator('#term-lesson').tap();await expect(page).toHaveURL(/#l1-validity$/);
+  await page.locator('[data-term="validity"]').first().tap();await page.locator('#term-glossary').tap();await expect(page).toHaveURL(/#term-validity$/);
   expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);expect(errors).toEqual([]);expect(remote).toEqual([]);await context.close();
+});
+
+test('native definition frame works without JavaScript on touch and has separate full-page links',async({browser})=>{
+  const context=await browser.newContext({javaScriptEnabled:false,viewport:{width:390,height:844},isMobile:true,hasTouch:true});
+  const page=await context.newPage();await page.goto('/lessons/04-types-of-inference.html');
+  const trigger=page.locator('[data-term="deduction"]').first();await trigger.tap();
+  const frame=page.locator('.native-definition:popover-open');await expect(frame).toBeVisible();await expect(frame).toContainText('الاستنباط');await expect(page).toHaveURL(/04-types-of-inference.html$/);
+  await page.screenshot({path:'work/screenshots/native-definition-mobile.png'});
+  await frame.getByRole('button',{name:'إغلاق التعريف'}).tap();await expect(page.locator('.native-definition:popover-open')).toHaveCount(0);
+  await trigger.tap();await frame.getByRole('link',{name:'عرض صفحة المصطلح في القاموس'}).tap();await expect(page).toHaveURL(/glossary.html#term-deduction$/);
+  await context.close();
 });
