@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>الحجج المنطقية: المقدمات والنتائج</title><link rel="stylesheet" href="../assets/style.css">
+</head>
+<body><a class="skip-link" href="#main">تخطَّ إلى المحتوى</a>
+<header>
+<button class="toolbar" onclick="toggleTheme()">فاتح / داكن</button>
+<p class="brand">المنطق والاستدلال العلمي</p>
+<nav><a href="../index.html">الفهرس</a> <a href="01-arguments.html">الدرس 1</a> <a href="02-conditional-reasoning.html">الدرس 2</a> <a href="03-necessary-sufficient.html">الدرس 3</a>
+</nav>
+</header>
+<main id="main">
+<article>
+<small>الدرس 1</small>
+<h1>الحجج المنطقية: المقدمات والنتائج</h1>
+<section class="lab">
+<h2>هدف الدرس</h2>
+<p>ميّز بين صدق القضية وصلاحية الحجة وسلامتها، وابنِ مثالًا مضادًا عندما لا تلزم النتيجة.</p>
+</section>
+<h2>ما الحجة (Argument)؟</h2>
+<p>الحجة تتكون من <strong>مقدمات (Premises)</strong> و<strong>نتيجة (Conclusion)</strong>؛ والاستدلال (Inference) هو الانتقال من الأولى إلى الثانية.</p>
+<div class="callout">كل الثدييات من ذوات الدم الحار. الحوت من الثدييات. إذن الحوت من ذوات الدم الحار.</div>
+<h2>Validity وSoundness</h2>
+<p>الحجة <strong>Valid</strong> إذا استحال أن تكون المقدمات صحيحة والنتيجة خاطئة. أما <strong>Sound</strong> فهي Valid وكل مقدماتها صحيحة فعلًا.</p>
+<p>مثال: «كل الأسماك تطير؛ السلمون سمكة؛ إذن السلمون يطير». الشكل Valid لكن الحجة ليست Sound لأن المقدمة الأولى خاطئة.</p>
+<h2>المثال المضاد (Counterexample)</h2>
+<p>يكفي تخيّل حالة ممكنة تصدق فيها المقدمات وتكذب النتيجة لإثبات عدم صحة الاستدلال.</p>
+<h2>القضية والحجة ليستا الشيء نفسه</h2>
+<p>القضية (Proposition) محتوى خبري يمكن وصفه بالصدق أو الكذب؛ أما السؤال والأمر فليسا قضيتين بهذا المعنى. نصف الحجة الاستنباطية بالصلاحية (Validity)، وبالسلامة (Soundness) عندما تكون صالحة ومقدماتها صادقة. لا نصف القضية المفردة بأنها Valid بهذا الاستخدام.</p>
+<p>صلاحية الحجة لا تضمن صدق نتيجتها دون صدق المقدمات. وقد تصدق نتيجة حجة غير صالحة بالمصادفة. والمثال المضاد المنطقي لا يلزم أن يكون حدثًا وقع فعلًا؛ يكفي تفسير يحقق جميع المقدمات ويكذب النتيجة.</p>
+<section class="lab">
+<h2>مختبر المثال المضاد</h2>
+<p>افترض: كل العلماء جامعيون، وأحمد جامعي. هل يمكن أن تظل المقدمتان صادقتين وتكذب النتيجة «أحمد عالم»؟</p>
+<label><input type="checkbox" id="ahmad-scientist" checked> أحمد عالم</label>
+<div class="argument-flow" aria-hidden="true"><span>العلماء ⊆ الجامعيين</span><span>أحمد ∈ الجامعيين</span><span id="argument-badge"></span>
+</div>
+<p id="argument-output" aria-live="polite">
+</p>
+</section>
+<section class="quiz" data-quiz="l1q1" data-correct="no" data-explanation="قد يكون أحمد جامعيًا دون أن يكون عالمًا؛ إذن النتيجة لا تلزم عن المقدمات.">
+<fieldset><legend>كل العلماء جامعيون، وأحمد جامعي؛ إذن أحمد عالم. هل الاستدلال Valid؟</legend>
+<label><input type="radio" name="l1q1" value="yes"> نعم</label>
+<label><input type="radio" name="l1q1" value="no"> لا</label>
+</fieldset>
+<button data-check="l1q1">تحقق من الإجابة</button>
+<p id="l1q1-result" aria-live="polite">
+</p>
+</section>
+<section class="quiz" data-quiz="l1q2" data-correct="yes" data-explanation="النتيجة تلزم عن المقدمتين بالضرورة.">
+<fieldset><legend>إذا كانت كل القطط ثدييات، ومشمش قطة، فمشمش ثديي. هل الاستدلال Valid؟</legend>
+<label><input type="radio" name="l1q2" value="yes"> نعم</label>
+<label><input type="radio" name="l1q2" value="no"> لا</label>
+</fieldset>
+<button data-check="l1q2">تحقق من الإجابة</button>
+<p id="l1q2-result" aria-live="polite">
+</p>
+</section>
+<section class="quiz" data-quiz="l1q3" data-correct="valid" data-explanation="النتيجة تلزم عن المقدمات، لكن المقدمة الأولى كاذبة؛ لذلك الحجة Valid وليست Sound.">
+<fieldset><legend>كل الأسماك تطير؛ السلمون سمكة؛ إذن السلمون يطير. كيف نصنف الحجة؟</legend>
+<label><input type="radio" name="l1q3" value="sound"> صالحة وسليمة</label>
+<label><input type="radio" name="l1q3" value="valid"> صالحة وغير سليمة</label>
+<label><input type="radio" name="l1q3" value="invalid"> غير صالحة</label>
+</fieldset>
+<button data-check="l1q3">تحقق من الإجابة</button>
+<p class="feedback" id="l1q3-result" aria-live="polite">
+</p>
+</section>
+<h2>للتفكير</h2>
+<p>هل يمكن أن تكون حجة Valid ونتيجتها خاطئة في الواقع؟ جرّب إنشاء مثال.</p>
+
+<details>
+<summary>إجابة مقترحة لسؤال التفكير</summary>
+<p>نعم، مثال الأسماك أعلاه حجة صالحة ذات نتيجة كاذبة، لأن إحدى مقدماتها كاذبة. أما الحجة السليمة فلا يمكن أن تكون نتيجتها كاذبة.</p>
+</details>
+<p><a href="02-conditional-reasoning.html">التالي: الاستدلال الشرطي ←</a>
+</p>
+<p class="source-note">للتوسع في المنطق: <a href="https://forallx.openlogicproject.org/">forall x: Calgary — Open Logic Project</a> (مصدر خارجي يتطلب الإنترنت).</p>
+<p id="progress" role="status">
+</p><progress id="mastery" value="0" max="1" aria-label="تمارين الدرس المتقنة"></progress>
+</article>
+</main>
+<footer>محتوى تعليمي تفاعلي يعمل دون اتصال بالإنترنت</footer>
+<script src="../assets/logic.js">
+</script>
+<script src="../assets/course.js">
+</script>
+</body>
+</html>

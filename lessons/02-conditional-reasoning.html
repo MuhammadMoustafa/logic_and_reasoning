@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>الاستدلال الشرطي وأشكاله الأربعة</title><link rel="stylesheet" href="../assets/style.css">
+</head>
+<body><a class="skip-link" href="#main">تخطَّ إلى المحتوى</a>
+<header>
+<button class="toolbar" onclick="toggleTheme()">فاتح / داكن</button>
+<p class="brand">المنطق والاستدلال العلمي</p>
+<nav><a href="../index.html">الفهرس</a> <a href="01-arguments.html">الدرس 1</a> <a href="02-conditional-reasoning.html">الدرس 2</a> <a href="03-necessary-sufficient.html">الدرس 3</a>
+</nav>
+</header>
+<main id="main">
+<article>
+<small>الدرس 2</small>
+<h1>الاستدلال الشرطي وأشكاله الأربعة</h1>
+<section class="lab">
+<h2>هدف الدرس</h2>
+<p>اقرأ الشرط المادي، واختبر الأشكال الأربعة بجدول الصدق، وحدد صفًا مضادًا لكل شكل غير صالح.</p>
+</section>
+<h2>الرموز</h2>
+<table>
+<tr><th>الرمز</th><th>القراءة</th><th>المعنى</th>
+</tr>
+<tr><td><bdi dir="ltr">P, Q</bdi></td><td>بي، كيو</td><td>قضايا منطقية</td>
+</tr>
+<tr><td><bdi dir="ltr">→</bdi></td><td>if … then</td><td>إذا… فإن (الشرط المادي)</td>
+</tr>
+<tr><td><bdi dir="ltr">¬</bdi></td><td>not</td><td>نفي</td>
+</tr>
+<tr><td><bdi dir="ltr">∴</bdi></td><td>therefore</td><td>إذن</td>
+</tr>
+<tr><td>↔</td><td>if and only if</td><td>إذا وفقط إذا</td>
+</tr>
+</table>
+<h2>الشرط المادي (Material conditional)</h2>
+<p>نستخدم هنا المنطق الكلاسيكي ثنائي القيمة: كل قضية إما صادقة أو كاذبة. نرمز إلى الشرط داخل اللغة بـ <bdi dir="ltr">P → Q</bdi>؛ وهو كاذب فقط عندما تصدق P وتكذب Q. لا يعني هذا الرمز وحده أن P تسبب Q أو تسبقها زمنيًا. الرمز ⇒ يُستخدم أيضًا في بعض المراجع للاستلزام؛ سنوحّد الكتابة هنا على → للشرط.</p>
+<p>إذا كذبت P كان الشرط المادي صادقًا مهما كانت Q، لكنه لا يخبرنا أي قيمة لـ Q تتحقق فعليًا. والعكس <bdi dir="ltr">Q → P</bdi> ليس مكافئًا للأصل، بينما المقابل النقيض <bdi dir="ltr">¬Q → ¬P</bdi> مكافئ له.</p>
+<section class="lab">
+<h2>مختبر جدول الصدق</h2>
+<p>غيّر قيمتي P وQ. لاحظ الحالة الوحيدة التي تكذب فيها عبارة «إذا P فإن Q».</p>
+<label><input id="truth-p" type="checkbox" checked> P صادقة</label> <label><input id="truth-q" type="checkbox" checked> Q صادقة</label>
+<p class="formula" id="truth-output" aria-live="polite" dir="ltr">
+</p>
+<table><caption>جدول الصدق الكامل للشرط المادي</caption><thead>
+<tr><th scope="col">P</th><th scope="col">Q</th><th scope="col"><bdi dir="ltr">P → Q</bdi></th>
+</tr></thead><tbody>
+<tr data-truth="11"><td>صادقة</td><td>صادقة</td><td>صادقة</td>
+</tr>
+<tr data-truth="10"><td>صادقة</td><td>كاذبة</td><td>كاذبة</td>
+</tr>
+<tr data-truth="01"><td>كاذبة</td><td>صادقة</td><td>صادقة</td>
+</tr>
+<tr data-truth="00"><td>كاذبة</td><td>كاذبة</td><td>صادقة</td>
+</tr></tbody>
+</table>
+</section>
+<h2>كيف نختبر الأشكال الأربعة؟</h2>
+<p>نفترض صدق الشرط. في Modus Ponens، إضافة P تستبعد كل الصفوف إلا صف P وQ الصادقتين. في Modus Tollens، إضافة ¬Q لا تترك إلا صف P وQ الكاذبتين. أما صف P الكاذبة وQ الصادقة فيكذّب نتيجة كل من إثبات التالي ونفي المقدّم مع صدق مقدماتهما.</p>
+<p>مجال المثال العددي هو الأعداد الصحيحة؛ فـ «غير زوجي» يساوي «فردي» في هذا المجال. وفي مثال المطر نفترض الشرط معطى وصادقًا لأغراض فحص الشكل، ولا نزعم أنه قانون طبيعي بلا استثناء.</p>
+<h2>الأشكال الأربعة</h2>
+<table>
+<tr><th>الاسم</th><th>الشكل (مع افتراض <bdi dir="ltr">P → Q</bdi>)</th><th>الحكم</th>
+</tr>
+<tr><td>Modus Ponens — إثبات المقدّم</td><td><bdi dir="ltr">P ∴ Q</bdi></td><td>Valid</td>
+</tr>
+<tr><td>Modus Tollens — نفي التالي</td><td><bdi dir="ltr">¬Q ∴ ¬P</bdi></td><td>Valid</td>
+</tr>
+<tr><td>Affirming the Consequent — إثبات التالي</td><td><bdi dir="ltr">Q ∴ P</bdi></td><td>Invalid</td>
+</tr>
+<tr><td>Denying the Antecedent — نفي المقدّم</td><td><bdi dir="ltr">¬P ∴ ¬Q</bdi></td><td>Invalid</td>
+</tr>
+</table>
+<h2>أصل المصطلحات</h2>
+<p><strong>Modus</strong> لاتينية بمعنى نمط أو طريقة؛ <strong>Ponens</strong> بمعنى المُثبِت (من ponere)؛ <strong>Tollens</strong> بمعنى الرافع أو النافي (من tollere). في اصطلاح المنطق العربي «وضع المقدّم» و«رفع التالي». و«استثناء عين المقدّم» يعني إثباته، بينما «استثناء نقيض المقدّم» يعني نفيه.</p>
+<h2>مثال موحد</h2>
+<p>إذا كان العدد يقبل القسمة على 4 فهو زوجي. معرفة أنه يقبل القسمة على 4 تثبت زوجيته، ومعرفة أنه غير زوجي تنفي قابليته للقسمة على 4. أما معرفة أنه زوجي فلا تثبت القسمة على 4 (مثل 6).</p>
+<section class="quiz" data-quiz="l2q1" data-correct="da" data-explanation="نفي المطر لا يمنع ابتلال الشارع بسبب آخر.">
+<fieldset><legend>إذا أمطرت ابتل الشارع؛ لم تمطر؛ إذن الشارع جاف. ما نوع الاستدلال؟</legend>
+<label><input type="radio" name="l2q1" value="mp"> إثبات المقدّم</label>
+<label><input type="radio" name="l2q1" value="mt"> نفي التالي</label>
+<label><input type="radio" name="l2q1" value="da"> نفي المقدّم</label>
+<label><input type="radio" name="l2q1" value="ac"> إثبات التالي</label>
+</fieldset>
+<button data-check="l2q1">تحقق من الإجابة</button>
+<p id="l2q1-result" aria-live="polite">
+</p>
+</section>
+<section class="quiz" data-quiz="l2q2" data-correct="yes" data-explanation="هذا Modus Tollens: نفي التالي يستلزم نفي المقدّم.">
+<fieldset><legend>إذا كان العدد من مضاعفات 4 فهو زوجي؛ العدد فردي؛ إذن ليس من مضاعفات 4. هل هو Valid؟</legend>
+<label><input type="radio" name="l2q2" value="yes"> نعم</label>
+<label><input type="radio" name="l2q2" value="no"> لا</label>
+</fieldset>
+<button data-check="l2q2">تحقق من الإجابة</button>
+<p id="l2q2-result" aria-live="polite">
+</p>
+</section>
+
+
+<section class="quiz" data-quiz="l2q3" data-correct="6" data-explanation="6 زوجي وليس من مضاعفات 4؛ يحقق المقدمتين ويكذب النتيجة. هذا إثبات التالي.">
+<fieldset><legend>إذا كان العدد من مضاعفات 4 فهو زوجي؛ العدد زوجي؛ إذن هو من مضاعفات 4. ما المثال المضاد؟</legend>
+<label><input type="radio" name="l2q3" value="8"> العدد 8</label>
+<label><input type="radio" name="l2q3" value="6"> العدد 6</label>
+<label><input type="radio" name="l2q3" value="3"> العدد 3</label>
+</fieldset>
+<button data-check="l2q3">تحقق من الإجابة</button>
+<p class="feedback" id="l2q3-result" aria-live="polite">
+</p>
+</section>
+<section class="quiz" data-quiz="l2q4" data-correct="true" data-explanation="الشرط المادي يكذب فقط عند صدق P وكذب Q؛ صدقه هنا لا يثبت علاقة سببية.">
+<fieldset><legend>ما قيمة P → Q عندما تكون P كاذبة وQ صادقة؟</legend>
+<label><input type="radio" name="l2q4" value="true"> صادقة</label>
+<label><input type="radio" name="l2q4" value="false"> كاذبة</label>
+</fieldset>
+<button data-check="l2q4">تحقق من الإجابة</button>
+<p class="feedback" id="l2q4-result" aria-live="polite">
+</p>
+</section>
+<p><a href="01-arguments.html">→ السابق: الحجج</a>
+</p>
+<p><a href="03-necessary-sufficient.html">التالي: الضرورة والكفاية ←</a>
+</p>
+<p class="source-note">للتوسع في المنطق: <a href="https://forallx.openlogicproject.org/">forall x: Calgary — Open Logic Project</a> (مصدر خارجي يتطلب الإنترنت).</p>
+<p id="progress" role="status">
+</p><progress id="mastery" value="0" max="1" aria-label="تمارين الدرس المتقنة"></progress>
+</article>
+</main>
+<footer>محتوى تعليمي تفاعلي يعمل دون اتصال بالإنترنت</footer>
+<script src="../assets/logic.js">
+</script>
+<script src="../assets/course.js">
+</script>
+</body>
+</html>
