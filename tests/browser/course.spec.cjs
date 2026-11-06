@@ -16,18 +16,20 @@ test('every exercise: blank, wrong, correct, reload feedback and aggregate progr
     await page.reload();
     for(const feedback of await page.locator('.quiz [aria-live]').all()) await expect(feedback).toContainText('إجابة صحيحة');
   }
-  await page.goto('/'); await expect(page.locator('#course-progress')).toContainText('وأتقنت 24');
+  await page.goto('/'); await expect(page.locator('#course-progress')).toContainText('من 26 تمرينًا؛ وأتقنت 26');
   await page.goto(paths[1]);
   await page.locator('[data-quiz="l1q1"] input[value="yes"]').check();
   await page.locator('[data-check="l1q1"]').click();
-  await expect(page.locator('#progress')).toContainText('وأتقنت 2');
-  await page.goto('/'); await expect(page.locator('#course-progress')).toContainText('وأتقنت 23');
+  await expect(page.locator('#progress')).toContainText('من 3 تمارين؛ وأتقنت 2');
+  await page.goto('/'); await expect(page.locator('#course-progress')).toContainText('وأتقنت 25');
   expect(errors).toEqual([]);
 });
 test('all logical lab states and keyboard use',async({page})=>{
   await page.goto(paths[1]);await page.locator('#ahmad-scientist').focus();await page.keyboard.press('Space');
   await expect(page.locator('#argument-output')).toContainText('مثال مضاد');
   await page.goto(paths[2]);
+  const lessonTwoKeys={l2q1:'da',l2q2:'yes',l2q3:'6',l2q4:'true',l2q5:'contrapositive'};
+  for(const [id,answer] of Object.entries(lessonTwoKeys))await expect(page.locator(`[data-quiz="${id}"]`)).toHaveAttribute('data-correct',answer);
   for(const p of [true,false]) for(const q of [true,false]){
     await page.locator('#truth-p').setChecked(p);await page.locator('#truth-q').setChecked(q);
     await expect(page.locator('#truth-output')).toContainText(`P → Q = ${!p||q?'T':'F'}`);
@@ -173,7 +175,7 @@ test('native definition frame works without JavaScript on touch and has separate
 });
 test('lesson five: every compound state and independent exercise answer keys',async({page})=>{
   await page.goto('/lessons/05-connectives.html');
-  const keys={l5q1:'f',l5q2:'tf',l5q3:'some',l5q4:'b',l5q5:'eight',l5q6:'no',l5q7:'contradiction',l5q8:'t'};
+  const keys={l5q1:'f',l5q2:'tf',l5q3:'some',l5q4:'b',l5q5:'eight',l5q6:'no',l5q7:'contradiction',l5q8:'t',l5q9:'or'};
   for(const [id,answer] of Object.entries(keys))await expect(page.locator(`[data-quiz="${id}"]`)).toHaveAttribute('data-correct',answer);
   const expected={
     'grouped-or':[[true,false,true,false,true,false,false,false],[true,true,true,true,true,true,false,false]],

@@ -5,7 +5,7 @@ const storage = {
   set(key, value) { try { localStorage.setItem(key, value); return true; } catch { return false; } }
 };
 const answers = new Map();
-const quizIds = ['l1q1','l1q2','l1q3','l2q1','l2q2','l2q3','l2q4','l3q1','l3q2','l3q3','l4q1','l4q2','l4q3','l4q4','l4q5','l4q6','l5q1','l5q2','l5q3','l5q4','l5q5','l5q6','l5q7','l5q8'];
+const quizIds = ['l1q1','l1q2','l1q3','l2q1','l2q2','l2q3','l2q4','l2q5','l3q1','l3q2','l3q3','l4q1','l4q2','l4q3','l4q4','l4q5','l4q6','l5q1','l5q2','l5q3','l5q4','l5q5','l5q6','l5q7','l5q8','l5q9'];
 function readAnswer(id) {
   if (answers.has(id)) return answers.get(id);
   try {
@@ -42,16 +42,21 @@ function checkQuiz(quiz) {
   }
   updateProgress();
 }
+// Arabic counted noun agrees with the total: 3–10 take the plural, 11+ the singular accusative.
+function exerciseCount(n) {
+  if (n === 1) return 'تمرين واحد';
+  if (n === 2) return 'تمرينين';
+  return n >= 3 && n <= 10 ? `${n} تمارين` : `${n} تمرينًا`;
+}
+const progressText = (attempted, total, mastered) => `حاولت ${attempted} من ${exerciseCount(total)}؛ وأتقنت ${mastered} منها.`;
+// Lesson and index both count the stored result of the last checked answer, so they always agree.
 function updateProgress() {
   document.querySelectorAll('article[data-lesson]').forEach(article => {
     const quizzes = [...article.querySelectorAll('[data-quiz]')];
     const attempted = quizzes.filter(q => readAnswer(q.dataset.quiz)).length;
-    const mastered = quizzes.filter(q => {
-      const a = readAnswer(q.dataset.quiz);
-      return a && a.value === q.dataset.correct;
-    }).length;
+    const mastered = quizzes.filter(q => readAnswer(q.dataset.quiz)?.correct).length;
     const progress = article.querySelector('#progress, .lesson-progress');
-    if (progress) progress.textContent = `حاولت ${attempted} من ${quizzes.length} تمارين؛ وأتقنت ${mastered} منها.`;
+    if (progress) progress.textContent = progressText(attempted, quizzes.length, mastered);
     const meter = article.querySelector('#mastery, .lesson-mastery');
     if (meter) { meter.max = quizzes.length; meter.value = mastered; }
   });
@@ -59,7 +64,7 @@ function updateProgress() {
   if (total) {
     const attempted = quizIds.filter(id => readAnswer(id)).length;
     const mastered = quizIds.filter(id => readAnswer(id)?.correct).length;
-    total.textContent = `حاولت ${attempted} من ${quizIds.length} تمارين؛ وأتقنت ${mastered} منها.`;
+    total.textContent = progressText(attempted, quizIds.length, mastered);
     document.getElementById('course-mastery').value = mastered;
   }
 }
@@ -118,7 +123,7 @@ function setupLabs() {
   });
   bind(['truth-p', 'truth-q'], () => {
     const p = on('truth-p'), q = on('truth-q');
-    document.getElementById('truth-output').textContent = `P = ${p ? 'T' : 'F'}   |   Q = ${q ? 'T' : 'F'}   |   P → Q = ${CourseLogic.implies(p,q) ? 'T (صادق)' : 'F (كاذب)'}`;
+    document.getElementById('truth-output').textContent = `P = ${p ? 'T' : 'F'}   |   Q = ${q ? 'T' : 'F'}   |   P → Q = ${CourseLogic.implies(p,q) ? 'T (صادقة)' : 'F (كاذبة)'}`;
     document.querySelectorAll('[data-truth]').forEach(row => {
       const selected = row.dataset.truth === `${+p}${+q}`;
       row.classList.toggle('selected-row', selected);

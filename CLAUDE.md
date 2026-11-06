@@ -47,8 +47,8 @@ npx playwright test -g "lesson five"
 
 **Quiz contract.** Each exercise is `<section class="quiz" data-quiz="<id>" data-correct="<value>" data-explanation="...">` containing a `<fieldset><legend>`, radio inputs, a `[data-check]` button and an output `#<id>-result`. `tests/content.test.cjs` parses this with a regex in exactly that attribute order. When adding a quiz, update all of these together:
 1. `quizIds` in `assets/course.js`.
-2. `max="24"` on `#course-mastery` and the text counts in `index.html`.
-3. `assert.equal(ids.size, 24)` in `tests/content.test.cjs`.
+2. The `max` on `#course-mastery` and the text counts in `index.html`.
+3. The `assert.equal(ids.size, N)` total in `tests/content.test.cjs`.
 4. The independent answer keys in `tests/browser/course.spec.cjs`.
 5. The counts in `README.md`, `exercises/README.md` and `docs/`.
 

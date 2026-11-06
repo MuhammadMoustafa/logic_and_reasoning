@@ -23,7 +23,7 @@ test('local links exist; quiz IDs and answer options are consistent',()=>{
       assert.ok(match[4].includes(`id="${match[1]}-result"`));
     }
   }
-  assert.equal(ids.size,24);
+  assert.equal(ids.size,26);
 });
 
 test('every glossary definition has a real lesson destination',()=>{
@@ -34,4 +34,14 @@ test('every glossary definition has a real lesson destination',()=>{
     assert.ok(fs.readFileSync(path.join(root,'glossary.html'),'utf8').includes(`id="term-${id}"`),id);
   }
 
+});
+
+test('lesson five De Morgan table matches the shared logic',()=>{
+  const {and,or}=require('../assets/logic.js');
+  const html=fs.readFileSync(path.join(root,'lessons/05-connectives.html'),'utf8');
+  const body=html.match(/<tbody id="de-morgan-rows">([\s\S]*?)<\/tbody>/)[1];
+  const rows=[...body.matchAll(/<tr>([\s\S]*?)<\/tr>/g)].map(r=>[...r[1].matchAll(/<td>(صادقة|كاذبة)<\/td>/g)].map(c=>c[1]==='صادقة'));
+  const expected=[[true,true],[true,false],[false,true],[false,false]].map(([p,q])=>[p,q,!and(p,q),or(!p,!q),and(!p,!q)]);
+  assert.deepEqual(rows,expected);
+  for(const [p,q] of expected) assert.equal(!or(p,q),and(!p,!q));
 });

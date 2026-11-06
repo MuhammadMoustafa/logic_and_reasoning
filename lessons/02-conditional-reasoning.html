@@ -1,11 +1,11 @@
 <!doctype html>
 <html lang="ar" dir="rtl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>كيف نفهم الاستدلال الشرطي؟</title><link rel="stylesheet" href="../assets/style.css"></head>
 <body><a class="skip-link" href="#main">انتقل إلى المحتوى</a><header><button class="toolbar" type="button" onclick="toggleTheme()">فاتح / داكن</button><p class="brand">المنطق والاستدلال العلمي</p><nav aria-label="التنقل الرئيسي"><a href="../index.html">الفهرس</a> <a href="01-arguments.html">الدرس 1</a> <a href="02-conditional-reasoning.html">الدرس 2</a> <a href="03-necessary-sufficient.html">الدرس 3</a> <a href="04-types-of-inference.html">الدرس 4</a> <a href="05-connectives.html">الدرس 5</a> <a href="../glossary.html">قاموس المصطلحات</a></nav></header>
-<main id="main"><article data-lesson="2"><small>الدرس 2</small><h1>كيف نفهم الاستدلال الشرطي؟</h1>
+<main id="main"><article data-lesson="2"><small>الدرس 2 · المتطلبات: الدرس الأول · نحو 30 دقيقة مع التمارين</small><h1>كيف نفهم الاستدلال الشرطي؟</h1>
 <p class="interaction-warning" role="status">لم تعمل التفاعلات في هذه المعاينة. افتح صفحة الدرس في المتصفح، مع بقاء مجلد assets في مكانه. ويمكنك استخدام «عرض الحل للمراجعة» أسفل كل تمرين.</p>
 <p class="reading-help">اضغط على المصطلح المسطّر لقراءة تعريفه. وللعودة إلى أي قسم، استخدم رابط # بجوار عنوانه.</p>
 <div class="callout"><strong>بعد هذا الدرس، تستطيع أن:</strong><ul><li>تقرأ العبارة الشرطية وتعرف متى تكون صادقة أو كاذبة.</li><li>تميّز بين أربع طرق للاستدلال من الشرط.</li></ul></div>
-<nav class="lesson-toc" aria-label="أقسام الدرس"><strong>في هذا الدرس</strong><ol><li><a href="#l2-conditional">إذا حدث هذا، فماذا يلزم عنه؟</a></li><li><a href="#l2-symbols">دليل الرموز</a></li><li><a href="#l2-truth-table">الحالات الأربع للشرط</a></li><li><a href="#l2-forms">أربع طرق للاستدلال من الشرط</a></li><li><a href="#l2-converse">العكس والمقابل النقيض</a></li><li><a href="#l2-names">لماذا هذه الأسماء؟</a></li><li><a href="#l2-exercises">اختبر فهمك</a></li></ol></nav><section class="lesson-section" aria-labelledby="l2-conditional"><h2 id="l2-conditional">إذا حدث هذا، فماذا يلزم عنه؟ <a class="permalink" href="#l2-conditional" aria-label="رابط مباشر إلى: إذا حدث هذا، فماذا يلزم عنه؟">#</a></h2><p class="concept-links"><button type="button" class="term-link" data-term="conditional" popovertarget="definition-02-conditional" aria-haspopup="dialog">الشرط المادي <bdi dir="ltr">Material conditional</bdi></button> · <button type="button" class="term-link" data-term="antecedent" popovertarget="definition-02-antecedent" aria-haspopup="dialog">المقدّم <bdi dir="ltr">Antecedent</bdi></button> · <button type="button" class="term-link" data-term="consequent" popovertarget="definition-02-consequent" aria-haspopup="dialog">التالي <bdi dir="ltr">Consequent</bdi></button></p>
+<nav class="lesson-toc" aria-label="أقسام الدرس"><strong>في هذا الدرس</strong><ol><li><a href="#l2-conditional">إذا حدث هذا، فماذا يلزم عنه؟</a></li><li><a href="#l2-symbols">دليل الرموز</a></li><li><a href="#l2-truth-table">الحالات الأربع للشرط</a></li><li><a href="#l2-forms">أربع طرق للاستدلال من الشرط</a></li><li><a href="#l2-converse">العكس والمقابل النقيض</a></li><li><a href="#l2-names">لماذا هذه الأسماء؟</a></li><li><a href="#l2-exercises">اختبر فهمك</a></li><li><a href="#l2-reflection">فكّر في وعد</a></li><li><a href="#l2-sources">للقراءة والتوسع</a></li></ol></nav><section class="lesson-section" aria-labelledby="l2-conditional"><h2 id="l2-conditional">إذا حدث هذا، فماذا يلزم عنه؟ <a class="permalink" href="#l2-conditional" aria-label="رابط مباشر إلى: إذا حدث هذا، فماذا يلزم عنه؟">#</a></h2><p class="concept-links"><button type="button" class="term-link" data-term="conditional" popovertarget="definition-02-conditional" aria-haspopup="dialog">الشرط المادي <bdi dir="ltr">Material conditional</bdi></button> · <button type="button" class="term-link" data-term="antecedent" popovertarget="definition-02-antecedent" aria-haspopup="dialog">المقدّم <bdi dir="ltr">Antecedent</bdi></button> · <button type="button" class="term-link" data-term="consequent" popovertarget="definition-02-consequent" aria-haspopup="dialog">التالي <bdi dir="ltr">Consequent</bdi></button></p>
 <p>لنفترض أننا نتحدث عن الأعداد الصحيحة: «إذا كان العدد من مضاعفات 4، فإنه زوجي». نرمز إلى الجزء الأول بالحرف P، وإلى الجزء الثاني بالحرف Q.</p>
 <div class="callout"><bdi dir="ltr">P → Q</bdi><br>P: العدد من مضاعفات 4.<br>Q: العدد زوجي.</div>
 <p>نسمّي P <button type="button" class="term-link" data-term="antecedent" popovertarget="definition-02-antecedent" aria-haspopup="dialog">المقدّم</button>، ونسمّي Q التالي. وفي المنطق الكلاسيكي نستخدم «<button type="button" class="term-link" data-term="conditional" popovertarget="definition-02-conditional" aria-haspopup="dialog">الشرط المادي</button>»: تكون العبارة الشرطية كاذبة فقط عندما يتحقق <button type="button" class="term-link" data-term="antecedent" popovertarget="definition-02-antecedent" aria-haspopup="dialog">المقدّم</button> ولا يتحقق التالي.</p>
@@ -14,7 +14,7 @@
 </section>
 <section class="lesson-section" aria-labelledby="l2-symbols"><h2 id="l2-symbols">دليل الرموز <a class="permalink" href="#l2-symbols" aria-label="رابط مباشر إلى: دليل الرموز">#</a></h2>
 <table>
-<tr><th>الرمز</th><th>القراءة</th><th>المعنى</th>
+<tr><th scope="col">الرمز</th><th scope="col">القراءة</th><th scope="col">المعنى</th>
 </tr>
 <tr><td><bdi dir="ltr">P, Q</bdi></td><td>بي، كيو</td><td>قضايا منطقية</td>
 </tr>
@@ -24,7 +24,7 @@
 </tr>
 <tr><td><bdi dir="ltr">∴</bdi></td><td>therefore</td><td>إذن</td>
 </tr>
-<tr><td>↔</td><td>if and only if</td><td>إذا وفقط إذا</td>
+<tr><td><bdi dir="ltr">↔</bdi></td><td>if and only if</td><td>إذا وفقط إذا</td>
 </tr>
 </table>
 </section>
@@ -85,8 +85,8 @@
 <label><input type="radio" name="l2q1" value="da"> نفي المقدّم</label>
 <label><input type="radio" name="l2q1" value="ac"> إثبات التالي</label>
 </fieldset>
-<button data-check="l2q1">تحقق من الإجابة</button>
-<p id="l2q1-result" aria-live="polite">
+<button type="button" data-check="l2q1">تحقق من الإجابة</button>
+<p class="feedback" id="l2q1-result" aria-live="polite">
 </p>
 <details class="manual-answer"><summary>عرض الحل للمراجعة</summary><p>الإجابة: <button type="button" class="term-link" data-term="da" popovertarget="definition-02-da" aria-haspopup="dialog">نفي المقدّم</button>. نفي المطر لا يمنع ابتلال الشارع بسبب آخر.</p></details></section>
 <section class="quiz" data-quiz="l2q2" data-correct="yes" data-explanation="هذا نفي التالي: بما أن العدد غير زوجي، فلا يمكن أن يكون من مضاعفات 4.">
@@ -94,8 +94,8 @@
 <label><input type="radio" name="l2q2" value="yes"> نعم</label>
 <label><input type="radio" name="l2q2" value="no"> لا</label>
 </fieldset>
-<button data-check="l2q2">تحقق من الإجابة</button>
-<p id="l2q2-result" aria-live="polite">
+<button type="button" data-check="l2q2">تحقق من الإجابة</button>
+<p class="feedback" id="l2q2-result" aria-live="polite">
 </p>
 <details class="manual-answer"><summary>عرض الحل للمراجعة</summary><p>الإجابة: نعم. هذا <button type="button" class="term-link" data-term="mt" popovertarget="definition-02-mt" aria-haspopup="dialog">نفي التالي</button>: بما أن العدد غير زوجي، فلا يمكن أن يكون من مضاعفات 4.</p></details></section>
 <section class="quiz" data-quiz="l2q3" data-correct="6" data-explanation="6 زوجي وليس من مضاعفات 4؛ يحقق المقدمتين ويكذب النتيجة. هذا إثبات التالي.">
@@ -104,7 +104,7 @@
 <label><input type="radio" name="l2q3" value="6"> العدد 6</label>
 <label><input type="radio" name="l2q3" value="3"> العدد 3</label>
 </fieldset>
-<button data-check="l2q3">تحقق من الإجابة</button>
+<button type="button" data-check="l2q3">تحقق من الإجابة</button>
 <p class="feedback" id="l2q3-result" aria-live="polite">
 </p>
 <details class="manual-answer"><summary>عرض الحل للمراجعة</summary><p>الإجابة: العدد 6. 6 زوجي وليس من مضاعفات 4؛ يحقق المقدمتين ويكذب <button type="button" class="term-link" data-term="conclusion" popovertarget="definition-02-conclusion" aria-haspopup="dialog">النتيجة</button>. هذا <button type="button" class="term-link" data-term="ac" popovertarget="definition-02-ac" aria-haspopup="dialog">إثبات التالي</button>.</p></details></section>
@@ -113,13 +113,16 @@
 <label><input type="radio" name="l2q4" value="true"> صادقة</label>
 <label><input type="radio" name="l2q4" value="false"> كاذبة</label>
 </fieldset>
-<button data-check="l2q4">تحقق من الإجابة</button>
+<button type="button" data-check="l2q4">تحقق من الإجابة</button>
 <p class="feedback" id="l2q4-result" aria-live="polite">
 </p>
 <details class="manual-answer"><summary>عرض الحل للمراجعة</summary><p>الإجابة: صادقة. <button type="button" class="term-link" data-term="conditional" popovertarget="definition-02-conditional" aria-haspopup="dialog">الشرط المادي</button> يكذب فقط عند صدق P وكذب Q؛ صدقه هنا لا يثبت علاقة سببية.</p></details></section>
+<section class="quiz" data-quiz="l2q5" data-correct="contrapositive" data-explanation="هذا هو المقابل النقيض، وهو يكافئ الشرط الأصلي. أما الخياران الآخران فيكذبان عند العدد 6 مع أن الشرط الأصلي صادق: 6 زوجي وليس من مضاعفات 4."><fieldset><legend>«إذا كان العدد من مضاعفات 4 فهو زوجي». أي عبارة تكافئها منطقيًا في الأعداد الصحيحة؟</legend><label><input type="radio" name="l2q5" value="converse"> إذا كان العدد زوجيًا فهو من مضاعفات 4</label><label><input type="radio" name="l2q5" value="contrapositive"> إذا لم يكن العدد زوجيًا فليس من مضاعفات 4</label><label><input type="radio" name="l2q5" value="inverse"> إذا لم يكن العدد من مضاعفات 4 فليس زوجيًا</label></fieldset><button type="button" data-check="l2q5">تحقق من الإجابة</button><p class="feedback" id="l2q5-result" aria-live="polite"></p><details class="manual-answer"><summary>عرض الحل للمراجعة</summary><p>الإجابة: إذا لم يكن العدد زوجيًا فليس من مضاعفات 4. هذا هو <button type="button" class="term-link" data-term="contrapositive" popovertarget="definition-02-contrapositive" aria-haspopup="dialog">المقابل النقيض</button>، وهو يكافئ الشرط الأصلي. أما الخياران الآخران فيكذبان عند العدد 6 مع أن الشرط الأصلي صادق: 6 زوجي وليس من مضاعفات 4.</p></details></section>
 </section>
 
-<p id="progress" role="status"></p><progress id="mastery" value="0" max="4" aria-label="تمارين الدرس المتقنة"></progress>
+<section class="lesson-section" aria-labelledby="l2-reflection"><h2 id="l2-reflection">فكّر في وعد <a class="permalink" href="#l2-reflection" aria-label="رابط مباشر إلى: فكّر في وعد">#</a></h2><p>قال لك صديق: «إذا نجحتَ في الامتحان، فسأهديك كتابًا». في أي حالة يكون قد نقض وعده؟ وماذا لو رسبتَ ثم أهداك الكتاب؟ قارن إجابتك بجدول الصدق.</p><details><summary>عرض إجابة مقترحة</summary><p>ينقض الوعد في حالة واحدة: أن تنجح ولا يهديك الكتاب. هذه هي الحالة التي يكذب فيها <button type="button" class="term-link" data-term="conditional" popovertarget="definition-02-conditional" aria-haspopup="dialog">الشرط المادي</button>. أما إذا رسبت وأهداك الكتاب، فلم ينقض وعده؛ لأن الوعد لم يحدد ما يحدث عند الرسوب. وقد يفهم بعض الناس من الوعد في الحديث اليومي معنى إضافيًا، مثل «ولن أهديك كتابًا إن رسبت». هذا فهم للسياق، وليس جزءًا من <button type="button" class="term-link" data-term="conditional" popovertarget="definition-02-conditional" aria-haspopup="dialog">الشرط المادي</button>.</p></details></section>
+<section class="lesson-section" aria-labelledby="l2-sources"><h2 id="l2-sources">للقراءة والتوسع <a class="permalink" href="#l2-sources" aria-label="رابط مباشر إلى: للقراءة والتوسع">#</a></h2><p>راجع <a href="https://forallx.openlogicproject.org/html/Ch5.html">forall x: Calgary، الفصل 5: الروابط</a>، وخاصة القسم 5.4 عن الشرط، و<a href="https://forallx.openlogicproject.org/html/Ch9.html">الفصل 9: جداول الروابط الأساسية</a>. الأمثلة هنا مؤلفة للتعليم؛ فتح المراجع يحتاج إلى اتصال بالإنترنت.</p></section>
+<p id="progress" role="status"></p><progress id="mastery" value="0" max="5" aria-label="تمارين الدرس المتقنة"></progress>
 <nav aria-label="متابعة الدرس"><a href="01-arguments.html">الدرس السابق</a> · <a href="03-necessary-sufficient.html">الدرس التالي</a></nav>
 <!-- definitions:start -->
 <aside class="native-definition" id="definition-02-conditional" popover role="dialog" aria-labelledby="definition-02-conditional-title"><button type="button" class="term-close" popovertarget="definition-02-conditional" popovertargetaction="hide" aria-label="إغلاق التعريف">إغلاق ×</button><h2 id="definition-02-conditional-title">الشرط المادي</h2><p lang="en" dir="ltr">Material conditional</p><p>عبارة «إذا كانت P فإن Q» في المنطق الكلاسيكي. تكون كاذبة فقط إذا صدقت P وكذبت Q، ولا تعني وحدها وجود علاقة سببية.</p><p><a href="02-conditional-reasoning.html#l2-conditional">عرض الشرح الكامل في الدرس</a> · <a href="../glossary.html#term-conditional">عرض صفحة المصطلح في القاموس</a></p></aside>
@@ -135,7 +138,7 @@
 <aside class="native-definition" id="definition-02-inference" popover role="dialog" aria-labelledby="definition-02-inference-title"><button type="button" class="term-close" popovertarget="definition-02-inference" popovertargetaction="hide" aria-label="إغلاق التعريف">إغلاق ×</button><h2 id="definition-02-inference-title">الاستدلال</h2><p lang="en" dir="ltr">Inference</p><p>الانتقال من مقدمات أو أدلة إلى نتيجة، سواء أكانت النتيجة لازمة أم مرجحة.</p><p><a href="01-arguments.html#l1-argument">عرض الشرح الكامل في الدرس</a> · <a href="../glossary.html#term-inference">عرض صفحة المصطلح في القاموس</a></p></aside>
 <aside class="native-definition" id="definition-02-contrapositive" popover role="dialog" aria-labelledby="definition-02-contrapositive-title"><button type="button" class="term-close" popovertarget="definition-02-contrapositive" popovertargetaction="hide" aria-label="إغلاق التعريف">إغلاق ×</button><h2 id="definition-02-contrapositive-title">المقابل النقيض</h2><p lang="en" dir="ltr">Contrapositive</p><p>المقابل النقيض لـ P → Q هو ¬Q → ¬P. العبارتان متكافئتان في المنطق الكلاسيكي.</p><p><a href="02-conditional-reasoning.html#l2-converse">عرض الشرح الكامل في الدرس</a> · <a href="../glossary.html#term-contrapositive">عرض صفحة المصطلح في القاموس</a></p></aside>
 <aside class="native-definition" id="definition-02-converse" popover role="dialog" aria-labelledby="definition-02-converse-title"><button type="button" class="term-close" popovertarget="definition-02-converse" popovertargetaction="hide" aria-label="إغلاق التعريف">إغلاق ×</button><h2 id="definition-02-converse-title">العكس</h2><p lang="en" dir="ltr">Converse</p><p>عكس P → Q هو Q → P. صدق الشرط الأصلي لا يضمن صدق عكسه؛ فكون العدد زوجيًا لا يعني أنه من مضاعفات 4.</p><p><a href="02-conditional-reasoning.html#l2-converse">عرض الشرح الكامل في الدرس</a> · <a href="../glossary.html#term-converse">عرض صفحة المصطلح في القاموس</a></p></aside>
-<aside class="native-definition" id="definition-02-negation" popover role="dialog" aria-labelledby="definition-02-negation-title"><button type="button" class="term-close" popovertarget="definition-02-negation" popovertargetaction="hide" aria-label="إغلاق التعريف">إغلاق ×</button><h2 id="definition-02-negation-title">النفي</h2><p lang="en" dir="ltr">Negation</p><p>نفي القضية يكون صادقًا عندما تكون القضية كاذبة، وكاذبًا عندما تكون صادقة. نرمز إليه بـ ¬.</p><p><a href="02-conditional-reasoning.html#l2-symbols">عرض الشرح الكامل في الدرس</a> · <a href="../glossary.html#term-negation">عرض صفحة المصطلح في القاموس</a></p></aside>
+<aside class="native-definition" id="definition-02-negation" popover role="dialog" aria-labelledby="definition-02-negation-title"><button type="button" class="term-close" popovertarget="definition-02-negation" popovertargetaction="hide" aria-label="إغلاق التعريف">إغلاق ×</button><h2 id="definition-02-negation-title">النفي</h2><p lang="en" dir="ltr">Negation</p><p>نفي القضية يكون صادقًا عندما تكون القضية كاذبة، وكاذبًا عندما تكون صادقة. نرمز إليه بـ ¬.</p><p><a href="05-connectives.html#l5-negation">عرض الشرح الكامل في الدرس</a> · <a href="../glossary.html#term-negation">عرض صفحة المصطلح في القاموس</a></p></aside>
 <aside class="native-definition" id="definition-02-conclusion" popover role="dialog" aria-labelledby="definition-02-conclusion-title"><button type="button" class="term-close" popovertarget="definition-02-conclusion" popovertargetaction="hide" aria-label="إغلاق التعريف">إغلاق ×</button><h2 id="definition-02-conclusion-title">النتيجة</h2><p lang="en" dir="ltr">Conclusion</p><p>القضية التي نحاول الوصول إليها أو تأييدها اعتمادًا على المقدمات.</p><p><a href="01-arguments.html#l1-argument">عرض الشرح الكامل في الدرس</a> · <a href="../glossary.html#term-conclusion">عرض صفحة المصطلح في القاموس</a></p></aside>
 <!-- definitions:end -->
 </article></main>

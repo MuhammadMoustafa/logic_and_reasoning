@@ -301,7 +301,7 @@
     "ar": "النفي",
     "en": "Negation",
     "definition": "نفي القضية يكون صادقًا عندما تكون القضية كاذبة، وكاذبًا عندما تكون صادقة. نرمز إليه بـ ¬.",
-    "lesson": "lessons/02-conditional-reasoning.html#l2-symbols",
+    "lesson": "lessons/05-connectives.html#l5-negation",
     "aliases": [
       "النفي"
     ]
@@ -401,7 +401,7 @@
   "tautology": {
     "ar": "الصدق المنطقي",
     "en": "Tautology",
-    "definition": "صدق العبارة في كل إسناد ممكن لقيم رموزها، مثل P ∨ ¬P في المنطق الكلاسيكي.",
+    "definition": "عبارة تصدق في كل إسناد ممكن للقيم، مثل P ∨ ¬P في المنطق الكلاسيكي. ونسمي هذه الخاصية الصدق المنطقي.",
     "lesson": "lessons/05-connectives.html#l5-classification",
     "aliases": [
       "الصدق المنطقي"
