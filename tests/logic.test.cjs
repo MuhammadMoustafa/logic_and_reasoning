@@ -94,3 +94,20 @@ test('failed prediction: suspects are H plus every auxiliary not checked indepen
   for(const H of [true,false])for(const A of [true,false])for(const O of [true,false])
     if((!(H&&A)||O)&&!O)assert.ok(!H||!A);
 });
+test('Bayes: natural-frequency counts, direct formula and odds form agree',()=>{
+  const {bayes}=require('../assets/logic.js');
+  const r=bayes({prior:0.01,sensitivity:0.9,falsePositive:0.09});
+  assert.equal(Math.round(r.sick),100);assert.equal(Math.round(r.truePos),90);assert.equal(Math.round(r.falsePos),891);
+  assert.ok(Math.abs(r.posterior-90/981)<1e-12);assert.ok(Math.abs(r.likelihoodRatio-10)<1e-12);
+  for(const prior of [0.001,0.01,0.1,0.5])for(const sensitivity of [0.8,0.9,0.99])for(const falsePositive of [0.01,0.05,0.09,0.2]){
+    const b=bayes({prior,sensitivity,falsePositive});
+    // Counts give the same answer as the formula, and so does posterior odds = prior odds × LR.
+    assert.ok(Math.abs(b.truePos/(b.truePos+b.falsePos)-b.posterior)<1e-12);
+    const odds=prior/(1-prior)*sensitivity/falsePositive;
+    assert.ok(Math.abs(odds/(1+odds)-b.posterior)<1e-12);
+    assert.ok(Math.abs(b.sick+b.healthy-10000)<1e-9);
+  }
+  // Exercise keys checked by hand: 20 of 69 positives; odds 1:4 × 8 = 2:1.
+  assert.equal(Math.round(bayes({prior:0.02,sensitivity:1,falsePositive:0.05},1000).posterior*100),29);
+  assert.equal(Math.round(100*(8/4)/(1+8/4)),67);
+});

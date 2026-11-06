@@ -1,5 +1,5 @@
 const {test,expect}=require('@playwright/test');
-const paths=['/index.html','/lessons/01-arguments.html','/lessons/02-conditional-reasoning.html','/lessons/03-necessary-sufficient.html','/lessons/04-types-of-inference.html','/lessons/05-connectives.html','/lessons/06-quantifiers.html','/lessons/07-proofs-fallacies.html','/lessons/08-knowledge-justification.html','/lessons/09-philosophy-of-science.html'];
+const paths=['/index.html','/lessons/01-arguments.html','/lessons/02-conditional-reasoning.html','/lessons/03-necessary-sufficient.html','/lessons/04-types-of-inference.html','/lessons/05-connectives.html','/lessons/06-quantifiers.html','/lessons/07-proofs-fallacies.html','/lessons/08-knowledge-justification.html','/lessons/09-philosophy-of-science.html','/lessons/10-probability-bayes.html'];
 test('every exercise: blank, wrong, correct, reload feedback and aggregate progress',async({page})=>{
   const errors=[];page.on('pageerror',e=>errors.push(e.message));
   for(const url of paths.slice(1)){
@@ -16,12 +16,12 @@ test('every exercise: blank, wrong, correct, reload feedback and aggregate progr
     await page.reload();
     for(const feedback of await page.locator('.quiz [aria-live]').all()) await expect(feedback).toContainText('إجابة صحيحة');
   }
-  await page.goto('/'); await expect(page.locator('#course-progress')).toContainText('من 58 تمرينًا؛ وأتقنت 58');
+  await page.goto('/'); await expect(page.locator('#course-progress')).toContainText('من 66 تمرينًا؛ وأتقنت 66');
   await page.goto(paths[1]);
   await page.locator('[data-quiz="l1q1"] input[value="yes"]').check();
   await page.locator('[data-check="l1q1"]').click();
   await expect(page.locator('#progress')).toContainText('من 3 تمارين؛ وأتقنت 2');
-  await page.goto('/'); await expect(page.locator('#course-progress')).toContainText('وأتقنت 57');
+  await page.goto('/'); await expect(page.locator('#course-progress')).toContainText('وأتقنت 65');
   expect(errors).toEqual([]);
 });
 test('all logical lab states and keyboard use',async({page})=>{
@@ -223,7 +223,7 @@ test('lesson menu and collapsible sections: keyboard, links reveal sections, pri
   await page.goto('/lessons/03-necessary-sufficient.html');
   const menu=page.locator('header .lesson-menu');
   await menu.locator('summary').click();
-  await expect(menu.locator('li')).toHaveCount(9);
+  await expect(menu.locator('li')).toHaveCount(10);
   await expect(menu.locator('a[aria-current="page"]')).toHaveAttribute('href','03-necessary-sufficient.html');
   await page.keyboard.press('Escape');await expect(menu).not.toHaveAttribute('open','');await expect(menu.locator('summary')).toBeFocused();
   await menu.locator('summary').click();await page.locator('main h1').click();await expect(menu).not.toHaveAttribute('open','');
@@ -302,5 +302,20 @@ test('lesson nine: failed-prediction lab, keyboard and independent answer keys',
   await expect(output).toHaveAttribute('data-verdict','against-h');await expect(formula).toHaveText('¬H');
   await page.locator('#test-observed').selectOption('yes');
   await expect(output).toHaveAttribute('data-verdict','passed');await expect(output).toContainText('إثبات للتالي');await expect(formula).toHaveText('O ⊬ H');
+  expect(errors).toEqual([]);
+});
+test('lesson ten: natural-frequency lab, base-rate changes and independent answer keys',async({page})=>{
+  const errors=[];page.on('pageerror',e=>errors.push(e.message));
+  await page.goto('/lessons/10-probability-bayes.html');
+  const keys={l10q1:'inverse',l10q2:'p29',l10q3:'rises',l10q4:'testb',l10q5:'confuse',l10q6:'independent',l10q7:'weak',l10q8:'p67'};
+  for(const [id,answer] of Object.entries(keys))await expect(page.locator(`[data-quiz="${id}"]`)).toHaveAttribute('data-correct',answer);
+  const output=page.locator('#bayes-output');
+  await expect(output).toContainText('نحو 981');await expect(output).toContainText('9.2%');await expect(page.locator('#b-healthy-pos')).toHaveText('891');
+  await page.locator('#b-prior').selectOption('0.5');
+  await expect(page.locator('#b-sick')).toHaveText('5000');await expect(output).toContainText('90.9%');
+  await page.locator('#b-prior').selectOption('0.001');await expect(output).toContainText('1%');await expect(page.locator('#b-sick-pos')).toHaveText('9');
+  await page.locator('#b-prior').selectOption('0.01');await page.locator('#b-fpr').focus();await page.keyboard.press('ArrowUp');
+  await expect(page.locator('#b-fpr')).toHaveValue('0.05');await expect(output).toContainText('نسبة الترجيح 18');
+  await expect(page.locator('#bayes-bar')).toHaveAttribute('aria-label',/لمصابين/);
   expect(errors).toEqual([]);
 });

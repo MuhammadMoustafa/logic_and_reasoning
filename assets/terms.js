@@ -727,6 +727,108 @@
     "aliases": [
       "التبسيط المثالي"
     ]
+  },
+  "probability": {
+    "ar": "الاحتمال",
+    "en": "Probability",
+    "definition": "رقم بين 0 (مستحيل) و1 (مؤكد) يعبّر عن تكرار حدث في مجموعة، أو عن درجة الاعتقاد. نكتبه P(A).",
+    "lesson": "lessons/10-probability-bayes.html#l10-probability",
+    "aliases": [
+      "الاحتمال"
+    ]
+  },
+  "conditional-probability": {
+    "ar": "الاحتمال الشرطي",
+    "en": "Conditional probability",
+    "definition": "P(A | B): احتمال A إذا عرفنا أن B حدث. نحسبه داخل الحالات التي حدث فيها B فقط. يختلف عادة عن P(B | A).",
+    "lesson": "lessons/10-probability-bayes.html#l10-conditional",
+    "aliases": [
+      "الاحتمال الشرطي"
+    ]
+  },
+  "base-rate": {
+    "ar": "معدل الأساس",
+    "en": "Base rate",
+    "definition": "نسبة الحالة في المجموعة قبل أي دليل، مثل نسبة المصابين بين من نفحصهم. يؤثر كثيرًا في معنى نتيجة الاختبار.",
+    "lesson": "lessons/10-probability-bayes.html#l10-base-rate",
+    "aliases": [
+      "معدل الأساس"
+    ]
+  },
+  "sensitivity": {
+    "ar": "الحساسية",
+    "en": "Sensitivity",
+    "definition": "نسبة المصابين الذين يعطيهم الاختبار نتيجة إيجابية: P(إيجابية | مصاب).",
+    "lesson": "lessons/10-probability-bayes.html#l10-base-rate",
+    "aliases": [
+      "الحساسية"
+    ]
+  },
+  "false-positive-rate": {
+    "ar": "معدل الإيجابية الكاذبة",
+    "en": "False positive rate",
+    "definition": "نسبة السليمين الذين يعطيهم الاختبار نتيجة إيجابية: P(إيجابية | سليم). يساوي 1 ناقص النوعية (Specificity).",
+    "lesson": "lessons/10-probability-bayes.html#l10-base-rate",
+    "aliases": [
+      "معدل الإيجابية الكاذبة",
+      "معدل إيجابيته الكاذبة"
+    ]
+  },
+  "natural-frequencies": {
+    "ar": "التكرارات الطبيعية",
+    "en": "Natural frequencies",
+    "definition": "عرض الاحتمالات بأعداد من مجموعة متخيلة، مثل «90 من 100 مصاب»، بدل النسب. يسهّل حساب الاحتمال الشرطي.",
+    "lesson": "lessons/10-probability-bayes.html#l10-base-rate",
+    "aliases": [
+      "التكرارات الطبيعية",
+      "بالتكرارات الطبيعية"
+    ]
+  },
+  "base-rate-neglect": {
+    "ar": "إهمال معدل الأساس",
+    "en": "Base-rate neglect",
+    "definition": "الحكم على معنى دليل من دقة الاختبار وحدها، دون النظر إلى ندرة الحالة أو شيوعها.",
+    "lesson": "lessons/10-probability-bayes.html#l10-base-rate",
+    "aliases": [
+      "إهمال معدل الأساس"
+    ]
+  },
+  "bayes-theorem": {
+    "ar": "قاعدة بايز",
+    "en": "Bayes' theorem",
+    "definition": "قاعدة لتحديث الاحتمال بعد الدليل: P(H | E) = P(E | H) · P(H) / P(E). وبصيغة الحظوظ: الحظوظ بعد الدليل = الحظوظ قبله × نسبة الترجيح.",
+    "lesson": "lessons/10-probability-bayes.html#l10-bayes",
+    "aliases": [
+      "قاعدة بايز"
+    ]
+  },
+  "odds": {
+    "ar": "الحظوظ",
+    "en": "Odds",
+    "definition": "مقارنة احتمال الشيء باحتمال عكسه. احتمال 1% يقابل حظوظًا 1 إلى 99.",
+    "lesson": "lessons/10-probability-bayes.html#l10-bayes",
+    "aliases": [
+      "الحظوظ"
+    ]
+  },
+  "likelihood-ratio": {
+    "ar": "نسبة الترجيح",
+    "en": "Likelihood ratio",
+    "definition": "P(E | H) ÷ P(E | ¬H): كم مرة يكون الدليل أرجح إذا صدقت الفرضية منه إذا كذبت. تقيس قوة الدليل؛ القيمة 1 لا تغيّر شيئًا.",
+    "lesson": "lessons/10-probability-bayes.html#l10-bayes",
+    "aliases": [
+      "نسبة الترجيح",
+      "نسبة ترجيحه"
+    ]
+  },
+  "prosecutor-fallacy": {
+    "ar": "مغالطة المدعي العام",
+    "en": "Prosecutor's fallacy",
+    "definition": "الخلط بين احتمال الدليل إذا كان المتهم بريئًا واحتمال البراءة إذا ظهر الدليل، مع إهمال معدل الأساس.",
+    "lesson": "lessons/10-probability-bayes.html#l10-fallacies",
+    "aliases": [
+      "مغالطة المدعي العام"
+    ]
   }
 };
   if(typeof module !== 'undefined' && module.exports) module.exports=terms;

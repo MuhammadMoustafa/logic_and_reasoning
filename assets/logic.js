@@ -59,6 +59,13 @@
       const suspects = checks.map((checked, i) => checked ? -1 : i).filter(i => i >= 0);
       return {verdict: suspects.length ? 'open' : 'against-h', suspects};
     },
+    /* Lesson 10: a diagnostic test in natural frequencies. Counts may be fractional; the lab rounds them for display. */
+    bayes: ({prior, sensitivity, falsePositive}, population = 10000) => {
+      const sick = prior * population, healthy = population - sick;
+      const truePos = sick * sensitivity, falsePos = healthy * falsePositive;
+      const posterior = prior * sensitivity / (prior * sensitivity + (1 - prior) * falsePositive);
+      return {sick, healthy, truePos, falsePos, posterior, likelihoodRatio: sensitivity / falsePositive};
+    },
     implies: (p, q) => !p || q,
     classify: (p, q) => ({ violatesNecessity: q && !p, violatesSufficiency: p && !q })
   };

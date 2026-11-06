@@ -5,7 +5,7 @@ const storage = {
   set(key, value) { try { localStorage.setItem(key, value); return true; } catch { return false; } }
 };
 const answers = new Map();
-const quizIds = ['l1q1','l1q2','l1q3','l2q1','l2q2','l2q3','l2q4','l2q5','l3q1','l3q2','l3q3','l4q1','l4q2','l4q3','l4q4','l4q5','l4q6','l5q1','l5q2','l5q3','l5q4','l5q5','l5q6','l5q7','l5q8','l5q9','l6q1','l6q2','l6q3','l6q4','l6q5','l6q6','l6q7','l6q8','l7q1','l7q2','l7q3','l7q4','l7q5','l7q6','l7q7','l7q8','l8q1','l8q2','l8q3','l8q4','l8q5','l8q6','l8q7','l8q8','l9q1','l9q2','l9q3','l9q4','l9q5','l9q6','l9q7','l9q8'];
+const quizIds = ['l1q1','l1q2','l1q3','l2q1','l2q2','l2q3','l2q4','l2q5','l3q1','l3q2','l3q3','l4q1','l4q2','l4q3','l4q4','l4q5','l4q6','l5q1','l5q2','l5q3','l5q4','l5q5','l5q6','l5q7','l5q8','l5q9','l6q1','l6q2','l6q3','l6q4','l6q5','l6q6','l6q7','l6q8','l7q1','l7q2','l7q3','l7q4','l7q5','l7q6','l7q7','l7q8','l8q1','l8q2','l8q3','l8q4','l8q5','l8q6','l8q7','l8q8','l9q1','l9q2','l9q3','l9q4','l9q5','l9q6','l9q7','l9q8','l10q1','l10q2','l10q3','l10q4','l10q5','l10q6','l10q7','l10q8'];
 function readAnswer(id) {
   if (answers.has(id)) return answers.get(id);
   try {
@@ -189,6 +189,28 @@ function setupLabs() {
           : `لم يتحقق التنبؤ. المنطق يخبرنا فقط أن واحدًا على الأقل كاذب: الفرضية، أو ${result.suspects.map(i => names[i]).join('، أو ')}. افحص ما لم تفحصه قبل أن تحكم على الفرضية.`;
     };
     [testObserved, ...checks].forEach(control => control.addEventListener('change', update));
+    update();
+  }
+  const bayesPrior = document.getElementById('b-prior');
+  if (bayesPrior) {
+    const selects = ['b-prior', 'b-sens', 'b-fpr'].map(id => document.getElementById(id));
+    const round = n => Math.round(n);
+    const percent = p => (Math.round(p * 1000) / 10) + '%';
+    const update = () => {
+      const [prior, sensitivity, falsePositive] = selects.map(select => Number(select.value));
+      const r = CourseLogic.bayes({prior, sensitivity, falsePositive});
+      const set = (id, value) => { document.getElementById(id).textContent = value; };
+      set('b-sick', round(r.sick)); set('b-sick-pos', round(r.truePos));
+      set('b-healthy', round(r.healthy)); set('b-healthy-pos', round(r.falsePos));
+      const positives = round(r.truePos) + round(r.falsePos);
+      const share = r.truePos / (r.truePos + r.falsePos);
+      document.querySelector('#bayes-bar .bar-true').style.width = (share * 100) + '%';
+      document.getElementById('bayes-bar').setAttribute('aria-label', `من كل النتائج الإيجابية، ${percent(share)} لمصابين`);
+      document.getElementById('bayes-output').textContent =
+        `عدد النتائج الإيجابية نحو ${positives}، منها ${round(r.truePos)} فقط لمصابين؛ أي إن احتمال الإصابة عند نتيجة إيجابية نحو ${percent(r.posterior)}. ` +
+        `نسبة الترجيح ${Math.round(r.likelihoodRatio * 10) / 10}: النتيجة الإيجابية أرجح بهذا القدر عند المصاب منها عند السليم.`;
+    };
+    selects.forEach(select => select.addEventListener('change', update));
     update();
   }
   const evidence = document.getElementById('evidence-case');

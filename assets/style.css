@@ -455,3 +455,41 @@ button.section-toggle::after { content:"▾"; margin-inline-start:auto; font-siz
   button.section-toggle::after, .section-controls { display:none!important; }
   .section-body[hidden] { display:block!important; content-visibility:visible!important; }
 }
+/* Lesson 10: share of positive results that are true positives. Stripes, not colour alone, mark the false positives. */
+.freq-bar {
+  display:flex;
+  height:30px;
+  border:1px solid var(--line);
+  border-radius:6px;
+  overflow:hidden;
+  margin:12px 0 6px
+}
+.freq-bar span {
+  display:block;
+  height:100%
+}
+.freq-bar .bar-true {
+  background:var(--accent)
+}
+.freq-bar .bar-false {
+  flex:1;
+  background:repeating-linear-gradient(135deg,var(--muted) 0 3px,transparent 3px 8px)
+}
+.freq-legend {
+  display:flex;
+  flex-wrap:wrap;
+  gap:4px 18px;
+  font-size:.92rem;
+  color:var(--muted);
+  margin:0 0 12px;
+  padding:0;
+  list-style:none
+}
+.freq-legend .swatch {
+  display:inline-block;
+  width:14px;
+  height:14px;
+  border:1px solid var(--line);
+  vertical-align:middle;
+  margin-inline-end:6px
+}
