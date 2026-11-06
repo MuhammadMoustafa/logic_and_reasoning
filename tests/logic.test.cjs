@@ -81,3 +81,16 @@ test('knowledge check: every combination of the four conditions',()=>{
     assert.ok(!(r.knowledge&&r.gettier));
   }
 });
+test('failed prediction: suspects are H plus every auxiliary not checked independently',()=>{
+  const {testOutcome}=require('../assets/logic.js');
+  for(let bits=0;bits<8;bits++){
+    const checks=[0,1,2].map(i=>Boolean(bits>>i&1));
+    assert.deepEqual(testOutcome(true,checks),{verdict:'passed',suspects:[]});
+    const r=testOutcome(false,checks);
+    assert.deepEqual(r.suspects,[0,1,2].filter(i=>!checks[i]));
+    assert.equal(r.verdict,checks.every(Boolean)?'against-h':'open');
+  }
+  // The logic behind it: with (H ∧ A) → O and ¬O, every row left open has ¬H or ¬A.
+  for(const H of [true,false])for(const A of [true,false])for(const O of [true,false])
+    if((!(H&&A)||O)&&!O)assert.ok(!H||!A);
+});

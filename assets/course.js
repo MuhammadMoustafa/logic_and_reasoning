@@ -5,7 +5,7 @@ const storage = {
   set(key, value) { try { localStorage.setItem(key, value); return true; } catch { return false; } }
 };
 const answers = new Map();
-const quizIds = ['l1q1','l1q2','l1q3','l2q1','l2q2','l2q3','l2q4','l2q5','l3q1','l3q2','l3q3','l4q1','l4q2','l4q3','l4q4','l4q5','l4q6','l5q1','l5q2','l5q3','l5q4','l5q5','l5q6','l5q7','l5q8','l5q9','l6q1','l6q2','l6q3','l6q4','l6q5','l6q6','l6q7','l6q8','l7q1','l7q2','l7q3','l7q4','l7q5','l7q6','l7q7','l7q8','l8q1','l8q2','l8q3','l8q4','l8q5','l8q6','l8q7','l8q8'];
+const quizIds = ['l1q1','l1q2','l1q3','l2q1','l2q2','l2q3','l2q4','l2q5','l3q1','l3q2','l3q3','l4q1','l4q2','l4q3','l4q4','l4q5','l4q6','l5q1','l5q2','l5q3','l5q4','l5q5','l5q6','l5q7','l5q8','l5q9','l6q1','l6q2','l6q3','l6q4','l6q5','l6q6','l6q7','l6q8','l7q1','l7q2','l7q3','l7q4','l7q5','l7q6','l7q7','l7q8','l8q1','l8q2','l8q3','l8q4','l8q5','l8q6','l8q7','l8q8','l9q1','l9q2','l9q3','l9q4','l9q5','l9q6','l9q7','l9q8'];
 function readAnswer(id) {
   if (answers.has(id)) return answers.get(id);
   try {
@@ -169,6 +169,26 @@ function setupLabs() {
       update();
     });
     names.forEach(name => boxes[name].addEventListener('change', () => { knowledgeCase.value = 'custom'; update(); }));
+    update();
+  }
+  const testObserved = document.getElementById('test-observed');
+  if (testObserved) {
+    const checks = [1, 2, 3].map(i => document.getElementById('t-a' + i));
+    const names = ['حجب الدواء للقنوات', 'ضبط جهد الغشاء عند ⁦−80 mV⁩', 'معايرة جهاز التسجيل'];
+    const update = () => {
+      const result = CourseLogic.testOutcome(testObserved.value === 'yes', checks.map(box => box.checked));
+      const output = document.getElementById('test-output');
+      output.dataset.verdict = result.verdict;
+      document.getElementById('test-formula').textContent = result.verdict === 'passed'
+        ? 'O ⊬ H'
+        : ['¬H', ...result.suspects.map(i => '¬A' + (i + 1))].join(' ∨ ');
+      output.textContent = result.verdict === 'passed'
+        ? 'تحقق التنبؤ. هذا لا يثبت الفرضية؛ فاستنتاجها من التنبؤ إثبات للتالي. لكنها اجتازت اختبارًا كان يمكن أن تفشل فيه، فتزداد الثقة بها.'
+        : result.verdict === 'against-h'
+          ? 'لم يتحقق التنبؤ، والافتراضات المساعدة الثلاثة فُحصت بطرق مستقلة. يتجه الشك الآن إلى الفرضية نفسها. ويبقى احتمال خطأ في الفحوص المستقلة، فهي قابلة للخطأ أيضًا.'
+          : `لم يتحقق التنبؤ. المنطق يخبرنا فقط أن واحدًا على الأقل كاذب: الفرضية، أو ${result.suspects.map(i => names[i]).join('، أو ')}. افحص ما لم تفحصه قبل أن تحكم على الفرضية.`;
+    };
+    [testObserved, ...checks].forEach(control => control.addEventListener('change', update));
     update();
   }
   const evidence = document.getElementById('evidence-case');

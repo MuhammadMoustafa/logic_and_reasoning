@@ -660,6 +660,73 @@
     "aliases": [
       "النزعة الشكية"
     ]
+  },
+  "falsifiability": {
+    "ar": "قابلية التكذيب",
+    "en": "Falsifiability",
+    "definition": "أن توجد ملاحظة ممكنة لو حدثت لكذّبت الفرضية. اقترحها بوبر معيارًا للعلم، وهو معيار مفيد لكنه موضع نقاش.",
+    "lesson": "lessons/09-philosophy-of-science.html#l9-falsifiable",
+    "aliases": [
+      "قابلية التكذيب"
+    ]
+  },
+  "corroboration": {
+    "ar": "التعزيز",
+    "en": "Corroboration",
+    "definition": "وصف بوبر لفرضية اجتازت اختبارات جريئة كان يمكن أن تفشل فيها. التعزيز ليس إثباتًا؛ تبقى الفرضية قابلة للتكذيب.",
+    "lesson": "lessons/09-philosophy-of-science.html#l9-falsifiable",
+    "aliases": [
+      "التعزيز"
+    ]
+  },
+  "auxiliary-hypothesis": {
+    "ar": "الفرضية المساعدة",
+    "en": "Auxiliary hypothesis",
+    "definition": "افتراض نحتاج إليه مع الفرضية الأصلية لنستخرج تنبؤًا، مثل أن الأداة تعمل أو أن الدواء يحجب ما نظن. إذا فشل التنبؤ فقد تكون هي الكاذبة.",
+    "lesson": "lessons/09-philosophy-of-science.html#l9-auxiliary",
+    "aliases": [
+      "الفرضيات المساعدة",
+      "الفرضية المساعدة",
+      "فرضية مساعدة"
+    ]
+  },
+  "duhem-problem": {
+    "ar": "مشكلة دوهيم",
+    "en": "Duhem problem",
+    "definition": "التجربة تختبر الفرضية مع فرضياتها المساعدة معًا. فشل التنبؤ يعني أن واحدة منها على الأقل كاذبة، دون أن يحدد المنطق أيها.",
+    "lesson": "lessons/09-philosophy-of-science.html#l9-auxiliary",
+    "aliases": [
+      "مشكلة دوهيم"
+    ]
+  },
+  "ad-hoc": {
+    "ar": "الفرضية المخصصة",
+    "en": "Ad hoc hypothesis",
+    "definition": "تعديل يضاف لتفسير فشل تنبؤ فقط، ولا يعطي تنبؤًا جديدًا يمكن اختباره بطريقة مستقلة.",
+    "lesson": "lessons/09-philosophy-of-science.html#l9-adhoc",
+    "aliases": [
+      "الفرضية المخصصة",
+      "فرضية مخصصة",
+      "التعديلات المخصصة"
+    ]
+  },
+  "scientific-model": {
+    "ar": "النموذج العلمي",
+    "en": "Scientific model",
+    "definition": "تمثيل مبسط لنظام ما نستعمله لنفهمه ونتنبأ بسلوكه. يُقيَّم بحسب غرضه ونطاقه، لا بأنه صادق أو كاذب ببساطة.",
+    "lesson": "lessons/09-philosophy-of-science.html#l9-models",
+    "aliases": [
+      "النموذج العلمي"
+    ]
+  },
+  "idealization": {
+    "ar": "التبسيط المثالي",
+    "en": "Idealization",
+    "definition": "تجاهل مقصود لعوامل نعرف أنها موجودة، مثل الاحتكاك، لنجعل النموذج قابلًا للحساب والفهم.",
+    "lesson": "lessons/09-philosophy-of-science.html#l9-models",
+    "aliases": [
+      "التبسيط المثالي"
+    ]
   }
 };
   if(typeof module !== 'undefined' && module.exports) module.exports=terms;

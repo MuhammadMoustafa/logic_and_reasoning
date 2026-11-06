@@ -53,6 +53,12 @@
       const gettier = missing.length === 0 && luck;
       return {knowledge: missing.length === 0 && !luck, gettier, missing};
     },
+    /* Lesson 9: (H ∧ A1 ∧ … ∧ An) → O. A failed prediction only shows ¬H ∨ ¬A1 ∨ … ; auxiliaries checked independently drop out of suspicion. */
+    testOutcome: (observed, checks) => {
+      if (observed) return {verdict:'passed', suspects:[]};
+      const suspects = checks.map((checked, i) => checked ? -1 : i).filter(i => i >= 0);
+      return {verdict: suspects.length ? 'open' : 'against-h', suspects};
+    },
     implies: (p, q) => !p || q,
     classify: (p, q) => ({ violatesNecessity: q && !p, violatesSufficiency: p && !q })
   };
