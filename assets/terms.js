@@ -585,6 +585,81 @@
     "aliases": [
       "الثنائية الزائفة"
     ]
+  },
+  "knowledge": {
+    "ar": "المعرفة",
+    "en": "Knowledge",
+    "definition": "نقصد هنا معرفة أن شيئًا ما صحيح. تتطلب على الأقل اعتقادًا صادقًا مبررًا، لكن حالات غيتييه تبيّن أن هذه الشروط الثلاثة لا تكفي.",
+    "lesson": "lessons/08-knowledge-justification.html#l8-know",
+    "aliases": [
+      "المعرفة"
+    ]
+  },
+  "belief": {
+    "ar": "الاعتقاد",
+    "en": "Belief",
+    "definition": "أن تقبل قضية على أنها صادقة. قد يكون الاعتقاد صادقًا أو كاذبًا، ومبررًا أو غير مبرر.",
+    "lesson": "lessons/08-knowledge-justification.html#l8-jtb",
+    "aliases": [
+      "الاعتقاد"
+    ]
+  },
+  "justification": {
+    "ar": "التبرير",
+    "en": "Justification",
+    "definition": "السبب الجيد الذي يجعل الاعتقاد معقولًا، مثل دليل أو قياس موثوق أو استدلال صالح. يأتي بدرجات، ولا يضمن الصدق.",
+    "lesson": "lessons/08-knowledge-justification.html#l8-jtb",
+    "aliases": [
+      "التبرير"
+    ]
+  },
+  "jtb": {
+    "ar": "الاعتقاد الصادق المبرر",
+    "en": "Justified true belief (JTB)",
+    "definition": "التحليل الثلاثي للمعرفة: يعرف الشخص أن P إذا اعتقدها، وكانت صادقة، وكان اعتقاده مبررًا.",
+    "lesson": "lessons/08-knowledge-justification.html#l8-jtb",
+    "aliases": [
+      "الاعتقاد الصادق المبرر",
+      "اعتقاد صادق مبرر",
+      "التحليل الثلاثي"
+    ]
+  },
+  "gettier-case": {
+    "ar": "حالة غيتييه",
+    "en": "Gettier case",
+    "definition": "حالة يكون فيها الاعتقاد صادقًا ومبررًا، لكن صدقه جاء مصادفة، فلا يعدّه أغلب الفلاسفة معرفة.",
+    "lesson": "lessons/08-knowledge-justification.html#l8-gettier",
+    "aliases": [
+      "حالات غيتييه",
+      "حالة غيتييه"
+    ]
+  },
+  "testimony": {
+    "ar": "الشهادة",
+    "en": "Testimony",
+    "definition": "ما ينقله لنا غيرنا من معلومات، من أشخاص أو كتب أو مقالات. مصدر تبرير معقول عندما يكون المصدر في تخصصه ويعرض أدلته، وقد يخطئ.",
+    "lesson": "lessons/08-knowledge-justification.html#l8-grounds",
+    "aliases": [
+      "الشهادة"
+    ]
+  },
+  "fallibilism": {
+    "ar": "القابلية للخطأ",
+    "en": "Fallibilism",
+    "definition": "موقف يرى أن المعرفة لا تتطلب اليقين التام: يمكن أن نعرف مع بقاء الخطأ ممكنًا من حيث المبدأ. وهي لا تعني أن كل الآراء متساوية.",
+    "lesson": "lessons/08-knowledge-justification.html#l8-fallible",
+    "aliases": [
+      "القابلية للخطأ"
+    ]
+  },
+  "skepticism": {
+    "ar": "النزعة الشكية",
+    "en": "Skepticism",
+    "definition": "موقف يشكك في إمكان المعرفة أصلًا، أو في مجال منها، لأننا لا نستطيع استبعاد كل احتمالات الخطأ.",
+    "lesson": "lessons/08-knowledge-justification.html#l8-fallible",
+    "aliases": [
+      "النزعة الشكية"
+    ]
   }
 };
   if(typeof module !== 'undefined' && module.exports) module.exports=terms;

@@ -69,3 +69,15 @@ test('argument forms: valid rules have no counterexample; fallacies return a rea
     if((!P||Q)&&(!Q||R))assert.equal(!P||R,true);
   assert.throws(()=>checkForm('not-a-form'));
 });
+test('knowledge check: every combination of the four conditions',()=>{
+  const {knowledgeCheck}=require('../assets/logic.js');
+  for(let bits=0;bits<16;bits++){
+    const [belief,truth,justified,luck]=[0,1,2,3].map(i=>Boolean(bits>>i&1));
+    const r=knowledgeCheck({belief,truth,justified,luck});
+    const expectedMissing=[!belief&&'belief',!truth&&'truth',!justified&&'justified'].filter(Boolean);
+    assert.deepEqual(r.missing,expectedMissing);
+    assert.equal(r.knowledge,belief&&truth&&justified&&!luck);
+    assert.equal(r.gettier,belief&&truth&&justified&&luck);
+    assert.ok(!(r.knowledge&&r.gettier));
+  }
+});

@@ -5,7 +5,7 @@ const storage = {
   set(key, value) { try { localStorage.setItem(key, value); return true; } catch { return false; } }
 };
 const answers = new Map();
-const quizIds = ['l1q1','l1q2','l1q3','l2q1','l2q2','l2q3','l2q4','l2q5','l3q1','l3q2','l3q3','l4q1','l4q2','l4q3','l4q4','l4q5','l4q6','l5q1','l5q2','l5q3','l5q4','l5q5','l5q6','l5q7','l5q8','l5q9','l6q1','l6q2','l6q3','l6q4','l6q5','l6q6','l6q7','l6q8','l7q1','l7q2','l7q3','l7q4','l7q5','l7q6','l7q7','l7q8'];
+const quizIds = ['l1q1','l1q2','l1q3','l2q1','l2q2','l2q3','l2q4','l2q5','l3q1','l3q2','l3q3','l4q1','l4q2','l4q3','l4q4','l4q5','l4q6','l5q1','l5q2','l5q3','l5q4','l5q5','l5q6','l5q7','l5q8','l5q9','l6q1','l6q2','l6q3','l6q4','l6q5','l6q6','l6q7','l6q8','l7q1','l7q2','l7q3','l7q4','l7q5','l7q6','l7q7','l7q8','l8q1','l8q2','l8q3','l8q4','l8q5','l8q6','l8q7','l8q8'];
 function readAnswer(id) {
   if (answers.has(id)) return answers.get(id);
   try {
@@ -145,6 +145,30 @@ function setupLabs() {
         : `غير صالح: مثال مضاد عندما تكون ${Object.entries(result.counterexample).map(([name, value]) => `${name} ${word(value)}`).join(' و')}؛ عندها تصدق المقدمات كلها وتكذب النتيجة. هذه مغالطة شكلية: الخطأ في الشكل نفسه، أيًّا كان المحتوى.`;
     };
     formChoice.addEventListener('change', update);
+    update();
+  }
+  const knowledgeCase = document.getElementById('knowledge-case');
+  if (knowledgeCase) {
+    const names = ['belief', 'truth', 'justified', 'luck'];
+    const boxes = Object.fromEntries(names.map(name => [name, document.getElementById('k-' + name)]));
+    const presets = {broken:[1,1,1,1], calibrated:[1,1,1,0], guess:[1,1,0,0], wrong:[1,0,1,0]};
+    const label = {belief:'الاعتقاد', truth:'الصدق', justified:'التبرير'};
+    const output = document.getElementById('knowledge-output');
+    const update = () => {
+      const result = CourseLogic.knowledgeCheck(Object.fromEntries(names.map(name => [name, boxes[name].checked])));
+      output.dataset.verdict = result.knowledge ? 'knowledge' : result.gettier ? 'gettier' : 'missing';
+      output.textContent = result.knowledge
+        ? 'معرفة بحسب هذا التحليل: الشروط الثلاثة متحققة، وصدق الاعتقاد ليس مصادفة.'
+        : result.gettier
+          ? 'ليست معرفة عند أغلب الفلاسفة: الاعتقاد صادق ومبرَّر، لكن صدقه جاء مصادفة. هذه حالة من نوع غيتييه، وتبيّن أن الشروط الثلاثة لا تكفي.'
+          : `ليست معرفة: ينقصها ${result.missing.map(name => label[name]).join(' و')}.${result.missing.includes('truth') ? ' لا نعرف ما ليس صادقًا، مهما كان المبرر قويًا.' : ''}`;
+    };
+    knowledgeCase.addEventListener('change', () => {
+      const preset = presets[knowledgeCase.value];
+      if (preset) names.forEach((name, i) => { boxes[name].checked = Boolean(preset[i]); });
+      update();
+    });
+    names.forEach(name => boxes[name].addEventListener('change', () => { knowledgeCase.value = 'custom'; update(); }));
     update();
   }
   const evidence = document.getElementById('evidence-case');

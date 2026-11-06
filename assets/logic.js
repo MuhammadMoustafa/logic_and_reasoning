@@ -47,6 +47,12 @@
       }
       return {valid:true, rows, counterexample:null};
     },
+    /* Lesson 8: the tripartite analysis plus a no-luck condition. A teaching simplification: philosophers do not agree how to state that condition. */
+    knowledgeCheck: ({belief, truth, justified, luck}) => {
+      const missing = [['belief', belief], ['truth', truth], ['justified', justified]].filter(([, held]) => !held).map(([name]) => name);
+      const gettier = missing.length === 0 && luck;
+      return {knowledge: missing.length === 0 && !luck, gettier, missing};
+    },
     implies: (p, q) => !p || q,
     classify: (p, q) => ({ violatesNecessity: q && !p, violatesSufficiency: p && !q })
   };
