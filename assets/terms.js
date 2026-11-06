@@ -829,6 +829,104 @@
     "aliases": [
       "مغالطة المدعي العام"
     ]
+  },
+  "correlation": {
+    "ar": "الارتباط",
+    "en": "Correlation",
+    "definition": "أن يميل متغيران إلى التغير معًا. لا يكفي وحده لإثبات أن أحدهما يسبب الآخر.",
+    "lesson": "lessons/11-causal-inference.html#l11-correlation",
+    "aliases": [
+      "الارتباط"
+    ]
+  },
+  "reverse-causation": {
+    "ar": "السببية العكسية",
+    "en": "Reverse causation",
+    "definition": "أن يكون B هو الذي يسبب A، مع أننا افترضنا أن A يسبب B.",
+    "lesson": "lessons/11-causal-inference.html#l11-correlation",
+    "aliases": [
+      "السببية العكسية"
+    ]
+  },
+  "confounder": {
+    "ar": "المتغير المربك",
+    "en": "Confounder",
+    "definition": "عامل يؤثر في السبب المفترض وفي النتيجة معًا، فيصنع ارتباطًا بينهما أو يغيّره. نضبطه لنقدّر الأثر السببي.",
+    "lesson": "lessons/11-causal-inference.html#l11-correlation",
+    "aliases": [
+      "المتغير المربك",
+      "المتغيرات المربكة",
+      "المربك",
+      "المربكات"
+    ]
+  },
+  "causal-diagram": {
+    "ar": "الرسم السببي",
+    "en": "Causal diagram (DAG)",
+    "definition": "رسم فيه كل متغير في صندوق، وكل سهم يعني تأثيرًا مباشرًا، دون دوائر مغلقة. يكتب افتراضاتنا السببية لنفحصها ونختار ما نضبطه.",
+    "lesson": "lessons/11-causal-inference.html#l11-dag",
+    "aliases": [
+      "الرسم السببي",
+      "رسم سببي",
+      "رسمًا سببيًا",
+      "الرسوم السببية"
+    ]
+  },
+  "mediator": {
+    "ar": "المتغير الوسيط",
+    "en": "Mediator",
+    "definition": "متغير يمر عبره جزء من أثر السبب في النتيجة. ضبطه يقطع هذا الجزء، فلا يبقى إلا الأثر المباشر.",
+    "lesson": "lessons/11-causal-inference.html#l11-dag",
+    "aliases": [
+      "المتغير الوسيط",
+      "الوسيط"
+    ]
+  },
+  "collider": {
+    "ar": "المتغير المصادم",
+    "en": "Collider",
+    "definition": "متغير يتأثر بمتغيرين معًا. ضبطه أو اختيار العينة بحسبه يصنع ارتباطًا زائفًا بينهما.",
+    "lesson": "lessons/11-causal-inference.html#l11-dag",
+    "aliases": [
+      "المتغير المصادم",
+      "المصادم"
+    ]
+  },
+  "simpson-paradox": {
+    "ar": "مفارقة سيمبسون",
+    "en": "Simpson's paradox",
+    "definition": "أن تظهر علاقة في كل مجموعة فرعية، وتنعكس أو تختفي عند جمع المجموعات. الرسم السببي يحدد أي المقارنتين نثق بها.",
+    "lesson": "lessons/11-causal-inference.html#l11-confounder",
+    "aliases": [
+      "مفارقة سيمبسون"
+    ]
+  },
+  "selection-bias": {
+    "ar": "انحياز الاختيار",
+    "en": "Selection bias",
+    "definition": "خطأ ينشأ من طريقة اختيار العينة، مثل اختيارها بحسب أثر مشترك، فيظهر فيها ارتباط لا يوجد في المجتمع.",
+    "lesson": "lessons/11-causal-inference.html#l11-collider",
+    "aliases": [
+      "انحياز الاختيار"
+    ]
+  },
+  "intervention": {
+    "ar": "التدخل",
+    "en": "Intervention",
+    "definition": "أن يحدد الباحث قيمة المتغير بنفسه بدل أن يلاحظها. في الرسم السببي يقطع التدخل كل الأسهم الداخلة إلى المتغير.",
+    "lesson": "lessons/11-causal-inference.html#l11-intervention",
+    "aliases": [
+      "التدخل"
+    ]
+  },
+  "randomization": {
+    "ar": "التوزيع العشوائي",
+    "en": "Randomization",
+    "definition": "تحديد من يتلقى العلاج بالقرعة. لأن القرعة لا تتأثر بأي عامل آخر، لا تبقى أسهم من المربكات إلى العلاج في المتوسط.",
+    "lesson": "lessons/11-causal-inference.html#l11-intervention",
+    "aliases": [
+      "التوزيع العشوائي"
+    ]
   }
 };
   if(typeof module !== 'undefined' && module.exports) module.exports=terms;

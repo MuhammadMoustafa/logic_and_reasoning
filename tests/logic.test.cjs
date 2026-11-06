@@ -111,3 +111,17 @@ test('Bayes: natural-frequency counts, direct formula and odds form agree',()=>{
   assert.equal(Math.round(bayes({prior:0.02,sensitivity:1,falsePositive:0.05},1000).posterior*100),29);
   assert.equal(Math.round(100*(8/4)/(1+8/4)),67);
 });
+test('causal model: only adjusting for the confounder recovers the total effect',()=>{
+  const {causalEstimate,causalModel}=require('../assets/logic.js');
+  const close=(a,b)=>Math.abs(a-b)<1e-9;
+  const e=(c,m,s)=>causalEstimate({c,m,s});
+  assert.ok(close(e(true,false,false).estimate,causalModel.totalEffect));
+  assert.ok(close(e(true,true,false).estimate,causalModel.directEffect));
+  // Unadjusted, computed by hand: cov(T,Y)/var(T) = (0.5·1.64 + 0.7·0.8)/1.64.
+  assert.ok(close(e(false,false,false).estimate,(0.5*1.64+0.7*0.8)/1.64));
+  for(const c of [false,true])for(const m of [false,true])for(const s of [false,true]){
+    const r=e(c,m,s),ok=c&&!m&&!s;
+    assert.equal(r.problems.length===0,ok);
+    if(!ok)assert.ok(!close(r.estimate,causalModel.totalEffect));
+  }
+});

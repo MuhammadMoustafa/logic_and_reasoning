@@ -66,6 +66,33 @@
       const posterior = prior * sensitivity / (prior * sensitivity + (1 - prior) * falsePositive);
       return {sick, healthy, truePos, falsePos, posterior, likelihoodRatio: sensitivity / falsePositive};
     },
+    /* Lesson 11: a fixed, hypothetical linear causal model, variables in causal order C, T, M, Y, S, unit noise.
+       C → T, C → Y (confounder); T → M → Y (mediator); T → Y (direct); T → S ← Y (collider).
+       causalEstimate returns the population regression coefficient of T when predicting Y from T plus the adjusted variables. */
+    causalModel: {names:['C','T','M','Y','S'], edges:{T:{C:0.8}, M:{T:0.5}, Y:{T:0.2, M:0.6, C:0.7}, S:{T:0.7, Y:0.7}}, totalEffect:0.5, directEffect:0.2},
+    causalEstimate: adjust => {
+      const {names, edges} = api.causalModel, n = names.length, index = Object.fromEntries(names.map((name, i) => [name, i]));
+      // Each variable as a weighted sum of the independent noise terms: row i of (I − B)^-1.
+      const weights = [];
+      names.forEach((name, i) => {
+        const row = names.map((_, k) => k === i ? 1 : 0);
+        for (const [parent, b] of Object.entries(edges[name] || {})) weights[index[parent]].forEach((w, k) => { row[k] += b * w; });
+        weights.push(row);
+      });
+      const cov = (i, j) => weights[i].reduce((sum, w, k) => sum + w * weights[j][k], 0);
+      const predictors = ['T', ...['C', 'M', 'S'].filter(name => adjust[name.toLowerCase()])].map(name => index[name]);
+      // Solve cov(X, X) β = cov(X, Y) by Gaussian elimination; β[0] is the coefficient of T.
+      const m = predictors.map(i => [...predictors.map(j => cov(i, j)), cov(i, index.Y)]);
+      for (let col = 0; col < m.length; col++) {
+        for (let row = col + 1; row < m.length; row++) {
+          const f = m[row][col] / m[col][col];
+          for (let k = col; k <= m.length; k++) m[row][k] -= f * m[col][k];
+        }
+      }
+      const beta = [];
+      for (let row = m.length - 1; row >= 0; row--) beta[row] = (m[row][m.length] - m[row].slice(row + 1, m.length).reduce((sum, v, k) => sum + v * beta[row + 1 + k], 0)) / m[row][row];
+      return {estimate: beta[0], problems: [!adjust.c && 'confounder', adjust.m && 'mediator', adjust.s && 'collider'].filter(Boolean)};
+    },
     implies: (p, q) => !p || q,
     classify: (p, q) => ({ violatesNecessity: q && !p, violatesSufficiency: p && !q })
   };

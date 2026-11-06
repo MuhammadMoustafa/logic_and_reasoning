@@ -5,7 +5,7 @@ const storage = {
   set(key, value) { try { localStorage.setItem(key, value); return true; } catch { return false; } }
 };
 const answers = new Map();
-const quizIds = ['l1q1','l1q2','l1q3','l2q1','l2q2','l2q3','l2q4','l2q5','l3q1','l3q2','l3q3','l4q1','l4q2','l4q3','l4q4','l4q5','l4q6','l5q1','l5q2','l5q3','l5q4','l5q5','l5q6','l5q7','l5q8','l5q9','l6q1','l6q2','l6q3','l6q4','l6q5','l6q6','l6q7','l6q8','l7q1','l7q2','l7q3','l7q4','l7q5','l7q6','l7q7','l7q8','l8q1','l8q2','l8q3','l8q4','l8q5','l8q6','l8q7','l8q8','l9q1','l9q2','l9q3','l9q4','l9q5','l9q6','l9q7','l9q8','l10q1','l10q2','l10q3','l10q4','l10q5','l10q6','l10q7','l10q8'];
+const quizIds = ['l1q1','l1q2','l1q3','l2q1','l2q2','l2q3','l2q4','l2q5','l3q1','l3q2','l3q3','l4q1','l4q2','l4q3','l4q4','l4q5','l4q6','l5q1','l5q2','l5q3','l5q4','l5q5','l5q6','l5q7','l5q8','l5q9','l6q1','l6q2','l6q3','l6q4','l6q5','l6q6','l6q7','l6q8','l7q1','l7q2','l7q3','l7q4','l7q5','l7q6','l7q7','l7q8','l8q1','l8q2','l8q3','l8q4','l8q5','l8q6','l8q7','l8q8','l9q1','l9q2','l9q3','l9q4','l9q5','l9q6','l9q7','l9q8','l10q1','l10q2','l10q3','l10q4','l10q5','l10q6','l10q7','l10q8','l11q1','l11q2','l11q3','l11q4','l11q5','l11q6','l11q7','l11q8'];
 function readAnswer(id) {
   if (answers.has(id)) return answers.get(id);
   try {
@@ -211,6 +211,28 @@ function setupLabs() {
         `نسبة الترجيح ${Math.round(r.likelihoodRatio * 10) / 10}: النتيجة الإيجابية أرجح بهذا القدر عند المصاب منها عند السليم.`;
     };
     selects.forEach(select => select.addEventListener('change', update));
+    update();
+  }
+  const adjustC = document.getElementById('adj-c');
+  if (adjustC) {
+    const boxes = {c: adjustC, m: document.getElementById('adj-m'), s: document.getElementById('adj-s')};
+    const messages = {
+      confounder: 'لم تضبط اهتمام الأسرة: المسار الخلفي عبره مفتوح، فيختلط أثره بأثر دروس التقوية.',
+      mediator: 'ضبطت ساعات المراجعة: هذا يقطع الجزء من الأثر الذي يمر عبرها، فلا يبقى إلا الأثر المباشر.',
+      collider: 'ضبطت القبول في برنامج المتفوقين: هو أثر مشترك للدروس والدرجة، وضبطه يصنع ارتباطًا لا يعبّر عن أثر الدروس.'
+    };
+    const update = () => {
+      const result = CourseLogic.causalEstimate(Object.fromEntries(Object.entries(boxes).map(([key, box]) => [key, box.checked])));
+      Object.entries(boxes).forEach(([key, box]) => document.getElementById('dag-' + key)?.classList.toggle('adjusted', box.checked));
+      const estimate = result.estimate.toFixed(2);
+      document.getElementById('causal-estimate').textContent = estimate;
+      const output = document.getElementById('causal-output');
+      output.dataset.ok = String(result.problems.length === 0);
+      output.textContent = result.problems.length
+        ? `التقدير ⁦${estimate}⁩، والأثر الكلي في هذا النموذج 0.50. ${result.problems.map(p => messages[p]).join(' ')}`
+        : `التقدير ⁦${estimate}⁩، ويساوي الأثر الكلي في هذا النموذج. ضبطت المربك وحده، فأغلقت المسار الخلفي، وتركت مسار الأثر عبر ساعات المراجعة مفتوحًا.`;
+    };
+    Object.values(boxes).forEach(box => box.addEventListener('change', update));
     update();
   }
   const evidence = document.getElementById('evidence-case');

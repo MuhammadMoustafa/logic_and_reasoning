@@ -493,3 +493,41 @@ button.section-toggle::after { content:"▾"; margin-inline-start:auto; font-siz
   vertical-align:middle;
   margin-inline-end:6px
 }
+/* Lesson 11: causal diagrams drawn as inline SVG; colours follow the theme through currentColor. */
+.dag {
+  display:block;
+  width:100%;
+  max-width:560px;
+  height:auto;
+  margin:14px auto;
+  color:var(--ink)
+}
+.dag.small {
+  max-width:340px
+}
+.dag rect {
+  fill:var(--surface);
+  stroke:currentColor;
+  stroke-width:1.5
+}
+.dag .edge {
+  stroke:currentColor;
+  stroke-width:1.6;
+  fill:none
+}
+.dag text {
+  fill:currentColor;
+  font-size:15px
+}
+/* An adjusted variable gets a thick border (not colour alone) and a tinted fill. */
+.dag .adjusted rect {
+  stroke-width:4;
+  fill:var(--tint)
+}
+/* A large diagram keeps readable labels on phones by scrolling sideways, like wide tables. */
+.dag-scroll {
+  overflow-x:auto
+}
+.dag-scroll .dag {
+  min-width:500px
+}

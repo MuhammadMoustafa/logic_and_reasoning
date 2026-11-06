@@ -11,7 +11,7 @@ const aliases=Object.entries(terms).flatMap(([id,t])=>t.aliases.map(alias=>({id,
 const termByAlias=new Map(aliases.map(x=>[x.alias,x.id]));
 const pattern=new RegExp('(?<![\\p{L}\\p{N}_])('+aliases.map(x=>x.alias.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')).join('|')+')(?![\\p{L}\\p{N}_])','gu');
 function linkTerms(html){
-  const skip=['a','nav','script','style','button','label','legend','option','summary','h1','h2','head'];
+  const skip=['a','nav','script','style','button','label','legend','option','summary','h1','h2','head','svg'];
   const stack=[];
   return html.split(/(<[^>]+>)/g).map(token=>{
     if(token.startsWith('<')){
