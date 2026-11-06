@@ -125,3 +125,15 @@ test('causal model: only adjusting for the confounder recovers the total effect'
     if(!ok)assert.ok(!close(r.estimate,causalModel.totalEffect));
   }
 });
+test('design statistics: normal CDF, margin of error and power',()=>{
+  const {normalCdf,designStats}=require('../assets/logic.js');
+  const close=(a,b,tol=1e-6)=>Math.abs(a-b)<tol;
+  // Reference values of the standard normal CDF.
+  assert.ok(close(normalCdf(0),0.5));assert.ok(close(normalCdf(1.96),0.9750021,1e-6));assert.ok(close(normalCdf(-1),0.1586553,1e-6));
+  const r=designStats({n:50,effect:5});
+  assert.ok(close(r.se,2));assert.ok(close(r.margin,3.92));assert.ok(close(r.power,0.7054,1e-4));
+  // No effect: power equals the 5% false positive rate. Four times the sample halves the margin.
+  assert.ok(close(designStats({n:20,effect:0}).power,0.05,1e-4));
+  assert.ok(close(designStats({n:80,effect:5}).margin*2,designStats({n:20,effect:5}).margin));
+  for(const n of [10,20,50,100,200])assert.ok(designStats({n,effect:5}).power<designStats({n:n*2,effect:5}).power);
+});

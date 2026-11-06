@@ -93,6 +93,18 @@
       for (let row = m.length - 1; row >= 0; row--) beta[row] = (m[row][m.length] - m[row].slice(row + 1, m.length).reduce((sum, v, k) => sum + v * beta[row + 1 + k], 0)) / m[row][row];
       return {estimate: beta[0], problems: [!adjust.c && 'confounder', adjust.m && 'mediator', adjust.s && 'collider'].filter(Boolean)};
     },
+    /* Lesson 12: standard normal CDF (Abramowitz and Stegun 7.1.26, error below 1.5e-7). */
+    normalCdf: z => {
+      const t = 1 / (1 + 0.3275911 * Math.abs(z) / Math.SQRT2);
+      const erf = 1 - t * (0.254829592 + t * (-0.284496736 + t * (1.421413741 + t * (-1.453152027 + t * 1.061405429)))) * Math.exp(-z * z / 2);
+      return z >= 0 ? (1 + erf) / 2 : (1 - erf) / 2;
+    },
+    /* Two groups of n, outcome spread sd: margin of error of the difference and the chance a two-sided 5% test detects it. */
+    designStats: ({n, effect, sd = 10}) => {
+      const se = sd * Math.sqrt(2 / n);
+      const z = effect / se;
+      return {se, margin: 1.96 * se, power: api.normalCdf(z - 1.96) + api.normalCdf(-z - 1.96)};
+    },
     implies: (p, q) => !p || q,
     classify: (p, q) => ({ violatesNecessity: q && !p, violatesSufficiency: p && !q })
   };

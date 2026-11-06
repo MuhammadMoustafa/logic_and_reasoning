@@ -5,7 +5,7 @@ const storage = {
   set(key, value) { try { localStorage.setItem(key, value); return true; } catch { return false; } }
 };
 const answers = new Map();
-const quizIds = ['l1q1','l1q2','l1q3','l2q1','l2q2','l2q3','l2q4','l2q5','l3q1','l3q2','l3q3','l4q1','l4q2','l4q3','l4q4','l4q5','l4q6','l5q1','l5q2','l5q3','l5q4','l5q5','l5q6','l5q7','l5q8','l5q9','l6q1','l6q2','l6q3','l6q4','l6q5','l6q6','l6q7','l6q8','l7q1','l7q2','l7q3','l7q4','l7q5','l7q6','l7q7','l7q8','l8q1','l8q2','l8q3','l8q4','l8q5','l8q6','l8q7','l8q8','l9q1','l9q2','l9q3','l9q4','l9q5','l9q6','l9q7','l9q8','l10q1','l10q2','l10q3','l10q4','l10q5','l10q6','l10q7','l10q8','l11q1','l11q2','l11q3','l11q4','l11q5','l11q6','l11q7','l11q8'];
+const quizIds = ['l1q1','l1q2','l1q3','l2q1','l2q2','l2q3','l2q4','l2q5','l3q1','l3q2','l3q3','l4q1','l4q2','l4q3','l4q4','l4q5','l4q6','l5q1','l5q2','l5q3','l5q4','l5q5','l5q6','l5q7','l5q8','l5q9','l6q1','l6q2','l6q3','l6q4','l6q5','l6q6','l6q7','l6q8','l7q1','l7q2','l7q3','l7q4','l7q5','l7q6','l7q7','l7q8','l8q1','l8q2','l8q3','l8q4','l8q5','l8q6','l8q7','l8q8','l9q1','l9q2','l9q3','l9q4','l9q5','l9q6','l9q7','l9q8','l10q1','l10q2','l10q3','l10q4','l10q5','l10q6','l10q7','l10q8','l11q1','l11q2','l11q3','l11q4','l11q5','l11q6','l11q7','l11q8','l12q1','l12q2','l12q3','l12q4','l12q5','l12q6','l12q7','l12q8'];
 function readAnswer(id) {
   if (answers.has(id)) return answers.get(id);
   try {
@@ -233,6 +233,31 @@ function setupLabs() {
         : `التقدير ⁦${estimate}⁩، ويساوي الأثر الكلي في هذا النموذج. ضبطت المربك وحده، فأغلقت المسار الخلفي، وتركت مسار الأثر عبر ساعات المراجعة مفتوحًا.`;
     };
     Object.values(boxes).forEach(box => box.addEventListener('change', update));
+    update();
+  }
+  const designN = document.getElementById('d-n');
+  if (designN) {
+    const designEffect = document.getElementById('d-effect');
+    const [axisMin, axisMax] = [-15, 25];
+    const at = value => ((Math.min(Math.max(value, axisMin), axisMax) - axisMin) / (axisMax - axisMin)) * 100;
+    const num = value => '⁦' + String(Math.round(value * 10) / 10).replace('-', '−') + '⁩';
+    const update = () => {
+      const effect = Number(designEffect.value);
+      const r = CourseLogic.designStats({n: Number(designN.value), effect});
+      const [lo, hi] = [effect - r.margin, effect + r.margin];
+      const band = document.querySelector('#d-range .range-band');
+      band.style.left = at(lo) + '%'; band.style.width = (at(hi) - at(lo)) + '%';
+      document.querySelector('#d-range .range-true').style.left = at(effect) + '%';
+      document.getElementById('d-range').setAttribute('aria-label', `في 95 من كل 100 تكرار، يقع الفرق المقدّر بين ${Math.round(lo * 10) / 10} و${Math.round(hi * 10) / 10} نقطة`);
+      const power = Math.round(r.power * 100);
+      const output = document.getElementById('design-output');
+      output.dataset.power = String(power);
+      output.textContent = effect === 0
+        ? `لا يوجد أثر حقيقي هنا. ومع ذلك يقع الفرق المقدّر بين ${num(lo)} و${num(hi)} نقطة في 95 من كل 100 تكرار تقريبًا، وستُظهر نحو 5 من كل 100 تجربة فرقًا دالًا إحصائيًا بالمصادفة.`
+        : `في 95 من كل 100 تكرار تقريبًا، يقع الفرق المقدّر بين ${num(lo)} و${num(hi)} نقطة. احتمال أن تُظهر تجربة واحدة فرقًا دالًا إحصائيًا: نحو ${power}%. ` +
+          (power < 80 ? 'التجربة صغيرة على أثر بهذا الحجم: قد تفوته كثيرًا، فلا يعني غياب النتيجة غياب الأثر.' : 'التجربة كافية غالبًا لكشف أثر بهذا الحجم.');
+    };
+    [designN, designEffect].forEach(select => select.addEventListener('change', update));
     update();
   }
   const evidence = document.getElementById('evidence-case');

@@ -927,6 +927,114 @@
     "aliases": [
       "التوزيع العشوائي"
     ]
+  },
+  "control-group": {
+    "ar": "المجموعة الضابطة",
+    "en": "Control group",
+    "definition": "مجموعة تمر بكل ما تمر به المجموعة المعالجة، إلا العامل الذي نختبره، لنقارن بها.",
+    "lesson": "lessons/12-experimental-design.html#l12-control",
+    "aliases": [
+      "المجموعة الضابطة",
+      "مجموعة ضابطة"
+    ]
+  },
+  "placebo": {
+    "ar": "الدواء الوهمي",
+    "en": "Placebo",
+    "definition": "علاج لا مادة فعالة فيه، تتلقاه المجموعة الضابطة ليُفصل أثر المادة الفعالة عن أثر تلقي العلاج وتوقع التحسن.",
+    "lesson": "lessons/12-experimental-design.html#l12-control",
+    "aliases": [
+      "الدواء الوهمي",
+      "دواءً وهميًا"
+    ]
+  },
+  "random-sampling": {
+    "ar": "الاختيار العشوائي للعينة",
+    "en": "Random sampling",
+    "definition": "اختيار المشاركين بالقرعة من المجتمع الذي نريد التعميم عليه. يجعل العينة ممثلة، لكنه لا يجيب وحده عن السؤال السببي.",
+    "lesson": "lessons/12-experimental-design.html#l12-random",
+    "aliases": [
+      "الاختيار العشوائي للعينة",
+      "الاختيار العشوائي"
+    ]
+  },
+  "blinding": {
+    "ar": "التعمية",
+    "en": "Blinding",
+    "definition": "إخفاء مجموعة كل مشارك عمن قد تتأثر أحكامه بمعرفتها. في التعمية المزدوجة لا يعرف المشارك ولا الباحث الذي يتعامل معه.",
+    "lesson": "lessons/12-experimental-design.html#l12-blinding",
+    "aliases": [
+      "التعمية المزدوجة",
+      "التعمية"
+    ]
+  },
+  "margin-of-error": {
+    "ar": "هامش الخطأ",
+    "en": "Margin of error",
+    "definition": "المدى الذي تقع فيه معظم التقديرات لو كررنا التجربة. يقل مع الجذر التربيعي لحجم العينة.",
+    "lesson": "lessons/12-experimental-design.html#l12-sample",
+    "aliases": [
+      "هامش الخطأ",
+      "هامش خطئه"
+    ]
+  },
+  "sample-size": {
+    "ar": "حجم العينة",
+    "en": "Sample size",
+    "definition": "عدد المشاركين أو الحالات في الدراسة. كلما زاد، قل تفاوت النتيجة بين التكرارات وزادت القوة الإحصائية.",
+    "lesson": "lessons/12-experimental-design.html#l12-sample",
+    "aliases": [
+      "حجم العينة"
+    ]
+  },
+  "statistical-significance": {
+    "ar": "الدلالة الإحصائية",
+    "en": "Statistical significance",
+    "definition": "أن يكون الفرق أكبر مما تعطيه المصادفة وحدها عادة؛ بالحد المعتاد: لو لم يوجد أثر، لظهر فرق بهذا الحجم في أقل من 5 من كل 100 تجربة. لا تعني أن الأثر كبير أو مهم.",
+    "lesson": "lessons/12-experimental-design.html#l12-sample",
+    "aliases": [
+      "الدلالة الإحصائية",
+      "دال إحصائيًا",
+      "دالًا إحصائيًا",
+      "دالة إحصائيًا"
+    ]
+  },
+  "statistical-power": {
+    "ar": "القوة الإحصائية",
+    "en": "Statistical power",
+    "definition": "احتمال أن تُظهر التجربة فرقًا دالًا إحصائيًا عندما يوجد أثر حقيقي. تزيد مع حجم العينة وحجم الأثر.",
+    "lesson": "lessons/12-experimental-design.html#l12-sample",
+    "aliases": [
+      "القوة الإحصائية",
+      "قوتها الإحصائية"
+    ]
+  },
+  "replication": {
+    "ar": "التكرار",
+    "en": "Replication",
+    "definition": "أن يعيد فريق آخر التجربة ويصل إلى نتيجة مشابهة. يحمي من أخطاء المصادفة والظروف الخاصة بتجربة واحدة.",
+    "lesson": "lessons/12-experimental-design.html#l12-replication",
+    "aliases": [
+      "التكرار"
+    ]
+  },
+  "publication-bias": {
+    "ar": "انحياز النشر",
+    "en": "Publication bias",
+    "definition": "نشر الدراسات ذات النتائج الدالة أكثر من غيرها، فتبدو الآثار في المقالات المنشورة أكبر مما هي.",
+    "lesson": "lessons/12-experimental-design.html#l12-replication",
+    "aliases": [
+      "انحياز النشر"
+    ]
+  },
+  "preregistration": {
+    "ar": "التسجيل المسبق",
+    "en": "Preregistration",
+    "definition": "نشر الفرضية وطريقة القياس والتحليل بتاريخ قبل جمع البيانات، حتى لا يُختار التحليل بعد رؤية النتائج.",
+    "lesson": "lessons/12-experimental-design.html#l12-replication",
+    "aliases": [
+      "التسجيل المسبق"
+    ]
   }
 };
   if(typeof module !== 'undefined' && module.exports) module.exports=terms;

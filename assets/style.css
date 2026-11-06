@@ -531,3 +531,40 @@ button.section-toggle::after { content:"▾"; margin-inline-start:auto; font-siz
 .dag-scroll .dag {
   min-width:500px
 }
+/* Lesson 12: where 95 of 100 estimates fall. The axis runs left to right like a number line; the band and its edges carry the meaning, not colour alone. */
+.range-axis {
+  position:relative;
+  height:46px;
+  margin:18px 0 28px;
+  border-bottom:2px solid var(--muted)
+}
+.range-axis .range-band {
+  position:absolute;
+  bottom:8px;
+  height:20px;
+  background:var(--tint);
+  border:2px solid var(--accent);
+  border-radius:4px
+}
+.range-axis .range-true {
+  position:absolute;
+  bottom:0;
+  width:3px;
+  height:40px;
+  margin-left:-1.5px;
+  background:var(--ink)
+}
+.range-axis .range-zero {
+  position:absolute;
+  bottom:0;
+  height:46px;
+  border-left:2px dashed var(--muted)
+}
+.range-axis .tick {
+  position:absolute;
+  top:100%;
+  transform:translateX(-50%);
+  font-size:.85rem;
+  color:var(--muted);
+  padding-top:2px
+}

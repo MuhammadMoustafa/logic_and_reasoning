@@ -1,5 +1,5 @@
 const {test,expect}=require('@playwright/test');
-const paths=['/index.html','/lessons/01-arguments.html','/lessons/02-conditional-reasoning.html','/lessons/03-necessary-sufficient.html','/lessons/04-types-of-inference.html','/lessons/05-connectives.html','/lessons/06-quantifiers.html','/lessons/07-proofs-fallacies.html','/lessons/08-knowledge-justification.html','/lessons/09-philosophy-of-science.html','/lessons/10-probability-bayes.html','/lessons/11-causal-inference.html'];
+const paths=['/index.html','/lessons/01-arguments.html','/lessons/02-conditional-reasoning.html','/lessons/03-necessary-sufficient.html','/lessons/04-types-of-inference.html','/lessons/05-connectives.html','/lessons/06-quantifiers.html','/lessons/07-proofs-fallacies.html','/lessons/08-knowledge-justification.html','/lessons/09-philosophy-of-science.html','/lessons/10-probability-bayes.html','/lessons/11-causal-inference.html','/lessons/12-experimental-design.html'];
 test('every exercise: blank, wrong, correct, reload feedback and aggregate progress',async({page})=>{
   const errors=[];page.on('pageerror',e=>errors.push(e.message));
   for(const url of paths.slice(1)){
@@ -16,12 +16,12 @@ test('every exercise: blank, wrong, correct, reload feedback and aggregate progr
     await page.reload();
     for(const feedback of await page.locator('.quiz [aria-live]').all()) await expect(feedback).toContainText('إجابة صحيحة');
   }
-  await page.goto('/'); await expect(page.locator('#course-progress')).toContainText('من 74 تمرينًا؛ وأتقنت 74');
+  await page.goto('/'); await expect(page.locator('#course-progress')).toContainText('من 82 تمرينًا؛ وأتقنت 82');
   await page.goto(paths[1]);
   await page.locator('[data-quiz="l1q1"] input[value="yes"]').check();
   await page.locator('[data-check="l1q1"]').click();
   await expect(page.locator('#progress')).toContainText('من 3 تمارين؛ وأتقنت 2');
-  await page.goto('/'); await expect(page.locator('#course-progress')).toContainText('وأتقنت 73');
+  await page.goto('/'); await expect(page.locator('#course-progress')).toContainText('وأتقنت 81');
   expect(errors).toEqual([]);
 });
 test('all logical lab states and keyboard use',async({page})=>{
@@ -223,7 +223,7 @@ test('lesson menu and collapsible sections: keyboard, links reveal sections, pri
   await page.goto('/lessons/03-necessary-sufficient.html');
   const menu=page.locator('header .lesson-menu');
   await menu.locator('summary').click();
-  await expect(menu.locator('li')).toHaveCount(11);
+  await expect(menu.locator('li')).toHaveCount(12);
   await expect(menu.locator('a[aria-current="page"]')).toHaveAttribute('href','03-necessary-sufficient.html');
   await page.keyboard.press('Escape');await expect(menu).not.toHaveAttribute('open','');await expect(menu.locator('summary')).toBeFocused();
   await menu.locator('summary').click();await page.locator('main h1').click();await expect(menu).not.toHaveAttribute('open','');
@@ -336,5 +336,20 @@ test('lesson eleven: adjustment lab, diagram state and independent answer keys',
   await expect(page.locator('svg.dag')).toHaveCount(4);
   expect(await page.locator('svg.dag button').count()).toBe(0);
   for(const svg of await page.locator('svg.dag').all())await expect(svg).toHaveAttribute('role','img');
+  expect(errors).toEqual([]);
+});
+test('lesson twelve: sample-size lab, number line and independent answer keys',async({page})=>{
+  const errors=[];page.on('pageerror',e=>errors.push(e.message));
+  await page.goto('/lessons/12-experimental-design.html');
+  const keys={l12q1:'placebo',l12q2:'sampling',l12q3:'double',l12q4:'power',l12q5:'four',l12q6:'chance',l12q7:'inflated',l12q8:'limits'};
+  for(const [id,answer] of Object.entries(keys))await expect(page.locator(`[data-quiz="${id}"]`)).toHaveAttribute('data-correct',answer);
+  const output=page.locator('#design-output');
+  await expect(output).toHaveAttribute('data-power','35');await expect(output).toContainText('11.2');
+  await page.locator('#d-n').selectOption('100');await expect(output).toHaveAttribute('data-power','94');await expect(output).toContainText('كافية');
+  await page.locator('#d-effect').selectOption('0');await expect(output).toContainText('بالمصادفة');
+  await page.locator('#d-n').focus();await page.keyboard.press('ArrowDown');await expect(page.locator('#d-n')).toHaveValue('200');
+  // The band stays inside the number line.
+  const [axis,band]=await Promise.all([page.locator('#d-range').boundingBox(),page.locator('#d-range .range-band').boundingBox()]);
+  expect(band.x).toBeGreaterThanOrEqual(axis.x-1);expect(band.x+band.width).toBeLessThanOrEqual(axis.x+axis.width+1);
   expect(errors).toEqual([]);
 });
