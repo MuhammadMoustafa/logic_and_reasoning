@@ -1,6 +1,8 @@
 const {test} = require('node:test');
 const assert = require('node:assert/strict');
-const {implies, classify} = require('../assets/logic.js');
+const logic = require('../assets/logic.js');
+const {implies, classify, quantify, compound, checkForm, forms, knowledgeCheck, testOutcome, bayes, causalEstimate, causalModel, normalCdf, designStats} = logic;
+const close = (a, b, tol = 1e-9) => Math.abs(a - b) < tol;
 const rows = [[true,true,true,false,false],[true,false,false,false,true],[false,true,true,true,false],[false,false,true,false,false]];
 test('all four truth assignments and necessary/sufficient counterexamples', () => {
   for (const [p,q,conditional,necessity,sufficiency] of rows) {
@@ -20,12 +22,10 @@ test('MP and MT have no countermodel; AC and DA each have one', () => {
   assert.deepEqual(countermodels,{mp:[],mt:[],ac:[[false,true]],da:[[false,true]]});
 });
 test('basic connectives match independent truth-table columns',()=>{
-  const logic=require('../assets/logic.js');
   const expected={and:[true,false,false,false],or:[true,true,true,false],xor:[false,true,true,false],iff:[true,false,false,true]};
   for(const [name,column] of Object.entries(expected))assert.deepEqual(rows.map(([p,q])=>logic[name](p,q)),column);
 });
 test('quantified statements over every four-tube domain, with witnesses and counterexamples',()=>{
-  const {quantify}=require('../assets/logic.js');
   for(let bits=0;bits<256;bits++){
     const domain=[0,1,2,3].map(i=>({a:Boolean(bits>>(2*i)&1),b:Boolean(bits>>(2*i+1)&1)}));
     const allTrue=domain.every(x=>!x.a||x.b), someTrue=domain.some(x=>x.a&&x.b);
@@ -40,7 +40,6 @@ test('quantified statements over every four-tube domain, with witnesses and coun
   assert.throws(()=>quantify('not-a-mode',[]));
 });
 test('three compound formulas match every independently specified row',()=>{
-  const {compound}=require('../assets/logic.js');
   const expected={
     'grouped-or':[true,false,true,false,true,false,false,false],
     'grouped-and':[true,true,true,true,true,false,false,false],
@@ -53,7 +52,6 @@ test('three compound formulas match every independently specified row',()=>{
   assert.throws(()=>compound('not-a-mode',true,true,true));
 });
 test('argument forms: valid rules have no counterexample; fallacies return a real one',()=>{
-  const {checkForm,forms}=require('../assets/logic.js');
   // Independent expectations, written from the definitions, not from the checker.
   const expected={mp:null,mt:null,hs:null,ds:null,ac:{P:false,Q:true},da:{P:false,Q:true},ad:{P:true,Q:true}};
   assert.deepEqual(Object.keys(forms).sort(),Object.keys(expected).sort());
@@ -70,7 +68,6 @@ test('argument forms: valid rules have no counterexample; fallacies return a rea
   assert.throws(()=>checkForm('not-a-form'));
 });
 test('knowledge check: every combination of the four conditions',()=>{
-  const {knowledgeCheck}=require('../assets/logic.js');
   for(let bits=0;bits<16;bits++){
     const [belief,truth,justified,luck]=[0,1,2,3].map(i=>Boolean(bits>>i&1));
     const r=knowledgeCheck({belief,truth,justified,luck});
@@ -82,7 +79,6 @@ test('knowledge check: every combination of the four conditions',()=>{
   }
 });
 test('failed prediction: suspects are H plus every auxiliary not checked independently',()=>{
-  const {testOutcome}=require('../assets/logic.js');
   for(let bits=0;bits<8;bits++){
     const checks=[0,1,2].map(i=>Boolean(bits>>i&1));
     assert.deepEqual(testOutcome(true,checks),{verdict:'passed',suspects:[]});
@@ -95,25 +91,22 @@ test('failed prediction: suspects are H plus every auxiliary not checked indepen
     if((!(H&&A)||O)&&!O)assert.ok(!H||!A);
 });
 test('Bayes: natural-frequency counts, direct formula and odds form agree',()=>{
-  const {bayes}=require('../assets/logic.js');
   const r=bayes({prior:0.01,sensitivity:0.9,falsePositive:0.09});
   assert.equal(Math.round(r.sick),100);assert.equal(Math.round(r.truePos),90);assert.equal(Math.round(r.falsePos),891);
-  assert.ok(Math.abs(r.posterior-90/981)<1e-12);assert.ok(Math.abs(r.likelihoodRatio-10)<1e-12);
+  assert.ok(close(r.posterior,90/981));assert.ok(close(r.likelihoodRatio,10));
   for(const prior of [0.001,0.01,0.1,0.5])for(const sensitivity of [0.8,0.9,0.99])for(const falsePositive of [0.01,0.05,0.09,0.2]){
     const b=bayes({prior,sensitivity,falsePositive});
     // Counts give the same answer as the formula, and so does posterior odds = prior odds × LR.
-    assert.ok(Math.abs(b.truePos/(b.truePos+b.falsePos)-b.posterior)<1e-12);
+    assert.ok(close(b.truePos/(b.truePos+b.falsePos),b.posterior));
     const odds=prior/(1-prior)*sensitivity/falsePositive;
-    assert.ok(Math.abs(odds/(1+odds)-b.posterior)<1e-12);
-    assert.ok(Math.abs(b.sick+b.healthy-10000)<1e-9);
+    assert.ok(close(odds/(1+odds),b.posterior));
+    assert.ok(close(b.sick+b.healthy,10000));
   }
   // Exercise keys checked by hand: 20 of 69 positives; odds 1:4 × 8 = 2:1.
   assert.equal(Math.round(bayes({prior:0.02,sensitivity:1,falsePositive:0.05},1000).posterior*100),29);
   assert.equal(Math.round(100*(8/4)/(1+8/4)),67);
 });
 test('causal model: only adjusting for the confounder recovers the total effect',()=>{
-  const {causalEstimate,causalModel}=require('../assets/logic.js');
-  const close=(a,b)=>Math.abs(a-b)<1e-9;
   const e=(c,m,s)=>causalEstimate({c,m,s});
   assert.ok(close(e(true,false,false).estimate,causalModel.totalEffect));
   assert.ok(close(e(true,true,false).estimate,causalModel.directEffect));
@@ -126,12 +119,10 @@ test('causal model: only adjusting for the confounder recovers the total effect'
   }
 });
 test('design statistics: normal CDF, margin of error and power',()=>{
-  const {normalCdf,designStats}=require('../assets/logic.js');
-  const close=(a,b,tol=1e-6)=>Math.abs(a-b)<tol;
   // Reference values of the standard normal CDF.
-  assert.ok(close(normalCdf(0),0.5));assert.ok(close(normalCdf(1.96),0.9750021,1e-6));assert.ok(close(normalCdf(-1),0.1586553,1e-6));
+  assert.ok(close(normalCdf(0),0.5,1e-6));assert.ok(close(normalCdf(1.96),0.9750021,1e-6));assert.ok(close(normalCdf(-1),0.1586553,1e-6));
   const r=designStats({n:50,effect:5});
-  assert.ok(close(r.se,2));assert.ok(close(r.margin,3.92));assert.ok(close(r.power,0.7054,1e-4));
+  assert.ok(close(r.se,2,1e-6));assert.ok(close(r.margin,3.92,1e-6));assert.ok(close(r.power,0.7054,1e-4));
   // No effect: power equals the 5% false positive rate. Four times the sample halves the margin.
   assert.ok(close(designStats({n:20,effect:0}).power,0.05,1e-4));
   assert.ok(close(designStats({n:80,effect:5}).margin*2,designStats({n:20,effect:5}).margin));

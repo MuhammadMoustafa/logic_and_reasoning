@@ -95,7 +95,7 @@
   "antecedent": {
     "ar": "المقدّم",
     "en": "Antecedent",
-    "definition": "الجزء الذي يأتي بعد «إذا» في العبارة الشرطية؛ وهو P في P → Q.",
+    "definition": "الجزء الذي يأتي بعد «إذا» في العبارة الشرطية؛ وهو P في ⁦P → Q⁩.",
     "lesson": "lessons/02-conditional-reasoning.html#l2-conditional",
     "aliases": [
       "المقدّم"
@@ -104,7 +104,7 @@
   "consequent": {
     "ar": "التالي",
     "en": "Consequent",
-    "definition": "الجزء الذي يأتي بعد «فإن» في العبارة الشرطية؛ وهو Q في P → Q.",
+    "definition": "الجزء الذي يأتي بعد «فإن» في العبارة الشرطية؛ وهو Q في ⁦P → Q⁩.",
     "lesson": "lessons/02-conditional-reasoning.html#l2-conditional",
     "aliases": []
   },
@@ -160,7 +160,7 @@
   "contrapositive": {
     "ar": "المقابل النقيض",
     "en": "Contrapositive",
-    "definition": "المقابل النقيض لـ P → Q هو ¬Q → ¬P. العبارتان متكافئتان في المنطق الكلاسيكي.",
+    "definition": "المقابل النقيض لـ ⁦P → Q⁩ هو ⁦¬Q → ¬P⁩. العبارتان متكافئتان في المنطق الكلاسيكي.",
     "lesson": "lessons/02-conditional-reasoning.html#l2-converse",
     "aliases": [
       "المقابل النقيض"
@@ -281,7 +281,7 @@
   "converse": {
     "ar": "العكس",
     "en": "Converse",
-    "definition": "عكس P → Q هو Q → P. صدق الشرط الأصلي لا يضمن صدق عكسه؛ فكون العدد زوجيًا لا يعني أنه من مضاعفات 4.",
+    "definition": "عكس ⁦P → Q⁩ هو ⁦Q → P⁩. صدق الشرط الأصلي لا يضمن صدق عكسه؛ فكون العدد زوجيًا لا يعني أنه من مضاعفات 4.",
     "lesson": "lessons/02-conditional-reasoning.html#l2-converse",
     "aliases": [
       "العكس"
@@ -356,7 +356,7 @@
   "conjunction": {
     "ar": "العطف",
     "en": "Conjunction",
-    "definition": "العبارة P ∧ Q تصدق فقط عندما تصدق P وQ معًا.",
+    "definition": "العبارة ⁦P ∧ Q⁩ تصدق فقط عندما تصدق P وQ معًا.",
     "lesson": "lessons/05-connectives.html#l5-and",
     "aliases": [
       "العطف"
@@ -365,7 +365,7 @@
   "disjunction": {
     "ar": "الفصل الشامل",
     "en": "Inclusive disjunction",
-    "definition": "العبارة P ∨ Q تصدق إذا صدق طرف واحد على الأقل، وتسمح بصدق الطرفين معًا.",
+    "definition": "العبارة ⁦P ∨ Q⁩ تصدق إذا صدق طرف واحد على الأقل، وتسمح بصدق الطرفين معًا.",
     "lesson": "lessons/05-connectives.html#l5-or",
     "aliases": [
       "الفصل الشامل"
@@ -374,7 +374,7 @@
   "xor": {
     "ar": "الفصل الحصري",
     "en": "Exclusive disjunction",
-    "definition": "العبارة P ⊕ Q تصدق عندما يصدق أحد الطرفين فقط، وتكذب إذا اتفقت قيمتاهما.",
+    "definition": "العبارة ⁦P ⊕ Q⁩ تصدق عندما يصدق أحد الطرفين فقط، وتكذب إذا اتفقت قيمتاهما.",
     "lesson": "lessons/05-connectives.html#l5-or",
     "aliases": [
       "الفصل الحصري"
@@ -383,7 +383,7 @@
   "biconditional": {
     "ar": "شرط التكافؤ",
     "en": "Biconditional",
-    "definition": "العبارة P ↔ Q تعني «P إذا وفقط إذا Q». تصدق عندما تتفق قيمتا الطرفين، ولا يثبت صدقها في صف واحد التكافؤ المنطقي في جميع الصفوف.",
+    "definition": "العبارة ⁦P ↔ Q⁩ تعني «P إذا وفقط إذا Q». تصدق عندما تتفق قيمتا الطرفين، ولا يثبت صدقها في صف واحد التكافؤ المنطقي في جميع الصفوف.",
     "lesson": "lessons/05-connectives.html#l5-conditional",
     "aliases": [
       "شرط التكافؤ"
@@ -392,7 +392,7 @@
   "scope": {
     "ar": "نطاق الرابط",
     "en": "Scope",
-    "definition": "الجزء الذي يعمل عليه الرابط داخل العبارة. تساعد الأقواس على تحديده؛ فنفي P ∧ Q كلها يختلف عن نفي كل طرف على حدة ثم عطفهما.",
+    "definition": "الجزء الذي يعمل عليه الرابط داخل العبارة. تساعد الأقواس على تحديده؛ فنفي ⁦P ∧ Q⁩ كلها يختلف عن نفي كل طرف على حدة ثم عطفهما.",
     "lesson": "lessons/05-connectives.html#l5-brackets",
     "aliases": [
       "نطاق الرابط"
@@ -401,7 +401,7 @@
   "tautology": {
     "ar": "الصدق المنطقي",
     "en": "Tautology",
-    "definition": "عبارة تصدق في كل إسناد ممكن للقيم، مثل P ∨ ¬P في المنطق الكلاسيكي. ونسمي هذه الخاصية الصدق المنطقي.",
+    "definition": "عبارة تصدق في كل إسناد ممكن للقيم، مثل ⁦P ∨ ¬P⁩ في المنطق الكلاسيكي. ونسمي هذه الخاصية الصدق المنطقي.",
     "lesson": "lessons/05-connectives.html#l5-classification",
     "aliases": [
       "الصدق المنطقي"
@@ -410,7 +410,7 @@
   "contradiction": {
     "ar": "التناقض",
     "en": "Contradiction",
-    "definition": "عبارة تكذب في كل إسناد ممكن للقيم، مثل P ∧ ¬P في المنطق الكلاسيكي.",
+    "definition": "عبارة تكذب في كل إسناد ممكن للقيم، مثل ⁦P ∧ ¬P⁩ في المنطق الكلاسيكي.",
     "lesson": "lessons/05-connectives.html#l5-classification",
     "aliases": [
       "التناقض",
@@ -420,7 +420,7 @@
   "contingency": {
     "ar": "عبارة ممكنة الصدق والكذب",
     "en": "Contingent sentence",
-    "definition": "عبارة تصدق في بعض إسنادات القيم وتكذب في غيرها، مثل P ∧ Q.",
+    "definition": "عبارة تصدق في بعض إسنادات القيم وتكذب في غيرها، مثل ⁦P ∧ Q⁩.",
     "lesson": "lessons/05-connectives.html#l5-classification",
     "aliases": [
       "عبارة ممكنة الصدق والكذب"
@@ -448,7 +448,7 @@
   "predicate": {
     "ar": "المحمول",
     "en": "Predicate",
-    "definition": "صفة قد تنطبق على فرد من المجال وقد لا تنطبق، مثل E(x) بمعنى «x زوجي». لا تصبح قضية حتى نحدد الفرد أو نستخدم مكممًا.",
+    "definition": "صفة قد تنطبق على فرد من المجال وقد لا تنطبق، مثل ⁦E(x)⁩ بمعنى «x زوجي». لا تصبح قضية حتى نحدد الفرد أو نستخدم مكممًا.",
     "lesson": "lessons/06-quantifiers.html#l6-domain",
     "aliases": [
       "المحمول"
@@ -457,7 +457,7 @@
   "universal": {
     "ar": "المكمم الكلي",
     "en": "Universal quantifier",
-    "definition": "∀x تعني «لكل x في المجال». ونترجم «كل A هو B» إلى ∀x (A(x) → B(x)).",
+    "definition": "⁦∀x⁩ تعني «لكل x في المجال». ونترجم «كل A هو B» إلى ⁦∀x (A(x) → B(x))⁩.",
     "lesson": "lessons/06-quantifiers.html#l6-universal",
     "aliases": [
       "المكمم الكلي"
@@ -466,7 +466,7 @@
   "existential": {
     "ar": "المكمم الوجودي",
     "en": "Existential quantifier",
-    "definition": "∃x تعني «يوجد x واحد على الأقل في المجال». ونترجم «بعض A هو B» إلى ∃x (A(x) ∧ B(x)).",
+    "definition": "⁦∃x⁩ تعني «يوجد x واحد على الأقل في المجال». ونترجم «بعض A هو B» إلى ⁦∃x (A(x) ∧ B(x))⁩.",
     "lesson": "lessons/06-quantifiers.html#l6-existential",
     "aliases": [
       "المكمم الوجودي"
@@ -475,7 +475,7 @@
   "vacuous-truth": {
     "ar": "الصدق بلا مضمون",
     "en": "Vacuous truth",
-    "definition": "صدق عبارة كلية مثل ∀x (A(x) → B(x)) لأن لا شيء في المجال يحقق A. لا يوجد مثال مضاد، ولا يوجد شاهد أيضًا؛ فهو ليس دليلًا على B.",
+    "definition": "صدق عبارة كلية مثل ⁦∀x (A(x) → B(x))⁩ لأن لا شيء في المجال يحقق A. لا يوجد مثال مضاد، ولا يوجد شاهد أيضًا؛ فهو ليس دليلًا على B.",
     "lesson": "lessons/06-quantifiers.html#l6-empty",
     "aliases": [
       "صدقًا بلا مضمون",
@@ -504,7 +504,7 @@
   "hypothetical-syllogism": {
     "ar": "تسلسل الشروط",
     "en": "Hypothetical syllogism",
-    "definition": "من P → Q ومن Q → R نستنتج P → R. قاعدة صالحة.",
+    "definition": "من ⁦P → Q⁩ ومن ⁦Q → R⁩ نستنتج ⁦P → R⁩. قاعدة صالحة.",
     "lesson": "lessons/07-proofs-fallacies.html#l7-rules",
     "aliases": [
       "تسلسل الشروط"
@@ -513,7 +513,7 @@
   "disjunctive-syllogism": {
     "ar": "الاستدلال بالحذف",
     "en": "Disjunctive syllogism",
-    "definition": "من P ∨ Q ومن ¬P نستنتج Q. قاعدة صالحة تبدأ بنفي أحد البديلين؛ أما إثبات أحدهما فلا ينفي الآخر.",
+    "definition": "من ⁦P ∨ Q⁩ ومن ⁦¬P⁩ نستنتج Q. قاعدة صالحة تبدأ بنفي أحد البديلين؛ أما إثبات أحدهما فلا ينفي الآخر.",
     "lesson": "lessons/07-proofs-fallacies.html#l7-rules",
     "aliases": [
       "الاستدلال بالحذف"
@@ -532,7 +532,7 @@
   "formal-fallacy": {
     "ar": "المغالطة الشكلية",
     "en": "Formal fallacy",
-    "definition": "استدلال بشكل غير صالح؛ فله مثال مضاد مهما كان المحتوى، مثل إثبات التالي ونفي المقدّم.",
+    "definition": "استدلال على شكل غير صالح؛ أي يوجد لهذا الشكل مثال مضاد بصرف النظر عن موضوع الحجة، مثل إثبات التالي ونفي المقدّم.",
     "lesson": "lessons/07-proofs-fallacies.html#l7-formal",
     "aliases": [
       "المغالطة الشكلية",
@@ -542,7 +542,7 @@
   "informal-fallacy": {
     "ar": "المغالطة غير الشكلية",
     "en": "Informal fallacy",
-    "definition": "خلل في محتوى الحجة لا في شكلها: مقدمة كاذبة، أو كلمة يتغير معناها، أو دليل لا يكفي. قد يكون الشكل صالحًا ومع ذلك تفشل الحجة.",
+    "definition": "خلل لا يكشفه الشكل وحده: كلمة يتغير معناها، أو مقدمة تفترض النتيجة، أو مقدمة كاذبة من نمط متكرر كالثنائية الزائفة، أو دليل لا يكفي. قد يكون الشكل صالحًا ومع ذلك تفشل الحجة.",
     "lesson": "lessons/07-proofs-fallacies.html#l7-informal",
     "aliases": [
       "المغالطة غير الشكلية",
@@ -731,7 +731,7 @@
   "probability": {
     "ar": "الاحتمال",
     "en": "Probability",
-    "definition": "رقم بين 0 (مستحيل) و1 (مؤكد) يعبّر عن تكرار حدث في مجموعة، أو عن درجة الاعتقاد. نكتبه P(A).",
+    "definition": "رقم بين 0 (مستحيل) و1 (مؤكد) يعبّر عن تكرار حدث في مجموعة، أو عن درجة الاعتقاد. نكتبه ⁦P(A)⁩.",
     "lesson": "lessons/10-probability-bayes.html#l10-probability",
     "aliases": [
       "الاحتمال"
@@ -740,7 +740,7 @@
   "conditional-probability": {
     "ar": "الاحتمال الشرطي",
     "en": "Conditional probability",
-    "definition": "P(A | B): احتمال A إذا عرفنا أن B حدث. نحسبه داخل الحالات التي حدث فيها B فقط. يختلف عادة عن P(B | A).",
+    "definition": "⁦P(A | B)⁩: احتمال A إذا عرفنا أن B حدث. نحسبه داخل الحالات التي حدث فيها B فقط. يختلف عادة عن ⁦P(B | A)⁩.",
     "lesson": "lessons/10-probability-bayes.html#l10-conditional",
     "aliases": [
       "الاحتمال الشرطي"
@@ -758,7 +758,7 @@
   "sensitivity": {
     "ar": "الحساسية",
     "en": "Sensitivity",
-    "definition": "نسبة المصابين الذين يعطيهم الاختبار نتيجة إيجابية: P(إيجابية | مصاب).",
+    "definition": "نسبة المصابين الذين يعطيهم الاختبار نتيجة إيجابية: ⁦P(إيجابية | مصاب)⁩.",
     "lesson": "lessons/10-probability-bayes.html#l10-base-rate",
     "aliases": [
       "الحساسية"
@@ -767,7 +767,7 @@
   "false-positive-rate": {
     "ar": "معدل الإيجابية الكاذبة",
     "en": "False positive rate",
-    "definition": "نسبة السليمين الذين يعطيهم الاختبار نتيجة إيجابية: P(إيجابية | سليم). يساوي 1 ناقص النوعية (Specificity).",
+    "definition": "نسبة السليمين الذين يعطيهم الاختبار نتيجة إيجابية: ⁦P(إيجابية | سليم)⁩. يساوي 1 ناقص النوعية (Specificity).",
     "lesson": "lessons/10-probability-bayes.html#l10-base-rate",
     "aliases": [
       "معدل الإيجابية الكاذبة",
@@ -796,7 +796,7 @@
   "bayes-theorem": {
     "ar": "قاعدة بايز",
     "en": "Bayes' theorem",
-    "definition": "قاعدة لتحديث الاحتمال بعد الدليل: P(H | E) = P(E | H) · P(H) / P(E). وبصيغة الحظوظ: الحظوظ بعد الدليل = الحظوظ قبله × نسبة الترجيح.",
+    "definition": "قاعدة لتحديث الاحتمال بعد الدليل: ⁦P(H | E) = P(E | H) · P(H) / P(E)⁩. وبصيغة الحظوظ: الحظوظ بعد الدليل = الحظوظ قبله × نسبة الترجيح.",
     "lesson": "lessons/10-probability-bayes.html#l10-bayes",
     "aliases": [
       "قاعدة بايز"
@@ -805,7 +805,7 @@
   "odds": {
     "ar": "الحظوظ",
     "en": "Odds",
-    "definition": "مقارنة احتمال الشيء باحتمال عكسه. احتمال 1% يقابل حظوظًا 1 إلى 99.",
+    "definition": "مقارنة احتمال الشيء باحتمال عكسه، وتسمى أيضًا الأرجحية. حظوظ a إلى b تقابل احتمالًا قدره ⁦a / (a + b)⁩. احتمال 1% يقابل حظوظًا 1 إلى 99.",
     "lesson": "lessons/10-probability-bayes.html#l10-bayes",
     "aliases": [
       "الحظوظ"
@@ -814,7 +814,7 @@
   "likelihood-ratio": {
     "ar": "نسبة الترجيح",
     "en": "Likelihood ratio",
-    "definition": "P(E | H) ÷ P(E | ¬H): كم مرة يكون الدليل أرجح إذا صدقت الفرضية منه إذا كذبت. تقيس قوة الدليل؛ القيمة 1 لا تغيّر شيئًا.",
+    "definition": "⁦P(E | H) ÷ P(E | ¬H)⁩: كم مرة يكون الدليل أرجح إذا صدقت الفرضية منه إذا كذبت. وتسمى أيضًا نسبة الإمكان. تقيس قوة الدليل؛ القيمة 1 لا تغيّر شيئًا.",
     "lesson": "lessons/10-probability-bayes.html#l10-bayes",
     "aliases": [
       "نسبة الترجيح",
@@ -875,7 +875,7 @@
   "mediator": {
     "ar": "المتغير الوسيط",
     "en": "Mediator",
-    "definition": "متغير يمر عبره جزء من أثر السبب في النتيجة. ضبطه يقطع هذا الجزء، فلا يبقى إلا الأثر المباشر.",
+    "definition": "متغير يمر عبره جزء من أثر السبب في النتيجة. ضبطه يقطع هذا الجزء، فيبقى الأثر الذي لا يمر عبره، إن لم يكن بين الوسيط والنتيجة مربك.",
     "lesson": "lessons/11-causal-inference.html#l11-dag",
     "aliases": [
       "المتغير الوسيط",
@@ -922,7 +922,7 @@
   "randomization": {
     "ar": "التوزيع العشوائي",
     "en": "Randomization",
-    "definition": "تحديد من يتلقى العلاج بالقرعة. لأن القرعة لا تتأثر بأي عامل آخر، لا تبقى أسهم من المربكات إلى العلاج في المتوسط.",
+    "definition": "تحديد من يتلقى العلاج بالقرعة. لأن القرعة لا تتأثر بأي عامل آخر، لا تبقى أسهم من المربكات إلى العلاج، وتتوازن المربكات بين المجموعتين في المتوسط، وقد يختل التوازن بالمصادفة في العينات الصغيرة.",
     "lesson": "lessons/11-causal-inference.html#l11-intervention",
     "aliases": [
       "التوزيع العشوائي"
@@ -971,7 +971,7 @@
   "margin-of-error": {
     "ar": "هامش الخطأ",
     "en": "Margin of error",
-    "definition": "المدى الذي تقع فيه معظم التقديرات لو كررنا التجربة. يقل مع الجذر التربيعي لحجم العينة.",
+    "definition": "عدد نضيفه إلى التقدير ونطرحه منه فنحصل على مجال؛ لو كررنا التجربة كثيرًا، لاحتوت نحو 95% من هذه المجالات الأثر الحقيقي. يتناسب عكسيًا مع الجذر التربيعي لحجم العينة.",
     "lesson": "lessons/12-experimental-design.html#l12-sample",
     "aliases": [
       "هامش الخطأ",
@@ -990,7 +990,7 @@
   "statistical-significance": {
     "ar": "الدلالة الإحصائية",
     "en": "Statistical significance",
-    "definition": "أن يكون الفرق أكبر مما تعطيه المصادفة وحدها عادة؛ بالحد المعتاد: لو لم يوجد أثر، لظهر فرق بهذا الحجم في أقل من 5 من كل 100 تجربة. لا تعني أن الأثر كبير أو مهم.",
+    "definition": "أن يكون الفرق أكبر مما تعطيه المصادفة وحدها عادة؛ بالحد المعتاد: لو لم يوجد أثر، لظهر فرق بهذا الحجم أو أكبر في أقل من 5 من كل 100 تجربة. لا تعني أن الأثر كبير أو مهم.",
     "lesson": "lessons/12-experimental-design.html#l12-sample",
     "aliases": [
       "الدلالة الإحصائية",
@@ -1002,7 +1002,7 @@
   "statistical-power": {
     "ar": "القوة الإحصائية",
     "en": "Statistical power",
-    "definition": "احتمال أن تُظهر التجربة فرقًا دالًا إحصائيًا عندما يوجد أثر حقيقي. تزيد مع حجم العينة وحجم الأثر.",
+    "definition": "احتمال أن تُظهر التجربة فرقًا دالًا إحصائيًا عندما يوجد أثر حقيقي بحجم محدد. تزيد مع حجم العينة وحجم الأثر، والهدف المعتاد 80%.",
     "lesson": "lessons/12-experimental-design.html#l12-sample",
     "aliases": [
       "القوة الإحصائية",
@@ -1034,6 +1034,67 @@
     "lesson": "lessons/12-experimental-design.html#l12-replication",
     "aliases": [
       "التسجيل المسبق"
+    ]
+  },
+  "backdoor-path": {
+    "ar": "المسار الخلفي",
+    "en": "Backdoor path",
+    "definition": "مسار في الرسم السببي يصل بين المعالجة والحصيلة ويبدأ بسهم داخل إلى المعالجة، مثل المسار عبر مربك مشترك. ما دام مفتوحًا يختلط الارتباط بالأثر؛ ويغلقه ضبط متغير مناسب عليه، لا مصادم.",
+    "lesson": "lessons/11-causal-inference.html#l11-confounder",
+    "aliases": [
+      "المسار الخلفي",
+      "مسار خلفي",
+      "مسارًا خلفيًا",
+      "المسارات الخلفية"
+    ]
+  },
+  "total-effect": {
+    "ar": "الأثر الكلي",
+    "en": "Total effect",
+    "definition": "كل أثر السبب في الحصيلة، المباشر منه والمار عبر الوسائط. هو ما تقيسه تجربة تغيّر السبب وحده بالتوزيع العشوائي.",
+    "lesson": "lessons/11-causal-inference.html#l11-mediator",
+    "aliases": [
+      "الأثر الكلي"
+    ]
+  },
+  "direct-effect": {
+    "ar": "الأثر المباشر",
+    "en": "Direct effect",
+    "definition": "الجزء من أثر السبب الذي لا يمر عبر وسيط محدد. معناه نسبي: يتوقف على الوسائط التي نثبتها.",
+    "lesson": "lessons/11-causal-inference.html#l11-mediator",
+    "aliases": [
+      "الأثر المباشر"
+    ]
+  },
+  "positive-control": {
+    "ar": "الضابط الإيجابي",
+    "en": "Positive control",
+    "definition": "حالة نعرف أنها يجب أن تُظهر الأثر، نضيفها لنتأكد أن طريقة القياس قادرة على كشفه. إن لم يظهر فيها، فالخلل في التجربة لا في الفرضية.",
+    "lesson": "lessons/12-experimental-design.html#l12-control",
+    "aliases": [
+      "الضابط الإيجابي",
+      "ضابط إيجابي",
+      "ضابطًا إيجابيًا"
+    ]
+  },
+  "standard-deviation": {
+    "ar": "الانحراف المعياري",
+    "en": "Standard deviation",
+    "definition": "مقياس لمقدار تفاوت القيم حول متوسطها، بوحدة القياس نفسها. كلما كبر احتجنا إلى عينة أكبر لنقدّر الفرق بالدقة نفسها.",
+    "lesson": "lessons/12-experimental-design.html#l12-lab",
+    "aliases": [
+      "الانحراف المعياري",
+      "انحرافها المعياري"
+    ]
+  },
+  "multiple-comparisons": {
+    "ar": "المقارنات المتعددة",
+    "en": "Multiple comparisons",
+    "definition": "اختبار فروق كثيرة في الدراسة نفسها. لو لم يوجد أي أثر، لظهر فرق دال واحد تقريبًا من كل 20 مقارنة بالمصادفة؛ لذلك تُصحَّح العتبة، أو يُحدَّد المقياس الأساسي مسبقًا.",
+    "lesson": "lessons/12-experimental-design.html#l12-replication",
+    "aliases": [
+      "المقارنات المتعددة",
+      "تعدد المقارنات"
     ]
   }
 };

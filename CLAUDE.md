@@ -37,7 +37,9 @@ npx playwright test -g "lesson five"
 **Generated regions — never hand-edit:**
 - `glossary.html` is fully generated from `assets/terms.js`.
 - In each lesson, `tools/update-references.cjs` rewrites term occurrences (matched by `aliases` in `assets/terms.js`, longest first, skipping headings/labels/legends/buttons/links/nav) into `<button class="term-link" data-term popovertarget>` elements. It also adds `<p class="concept-links">` after each `<h2>` that a term's `lesson` anchor points to, and regenerates the native popover `<aside>` frames between `<!-- definitions:start -->` / `<!-- definitions:end -->`. To add or change a definition, edit `assets/terms.js` and re-run `npm run references:sync`.
-- The header `<nav aria-label="التنقل الرئيسي">` in every lesson and in the glossary is rebuilt by the same sync. It holds a `<details class="lesson-menu">` dropdown that lists each lesson by its `<h1>` and marks the current one. A new `lessons/NN-*.html` therefore appears in every menu after one sync; `index.html`'s lesson list is still hand-maintained.
+- The header `<nav aria-label="التنقل الرئيسي">` in every lesson and in the glossary is rebuilt by the same sync. It holds a `<details class="lesson-menu">` dropdown that lists each lesson by its `<h1>` and marks the current one. A new `lessons/NN-*.html` therefore appears in every menu after one sync.
+- Also from the lesson pages: the lesson list in `index.html` (between `<!-- lessons:start/end -->`), the `max` on `#course-mastery`, and `quizIds` in `assets/course.js` (between `/* quiz-ids:start/end */`). The theme button in every page comes from `tools/site.cjs`.
+- `tools/site.cjs` is the single source both tools share: paths, lesson titles and quiz ids read from the pages, the theme button, the lesson menu and `replaceBetween`. Put any new shared page chrome there, not in either tool.
 - `dist/course.html`, produced by `tools/export-single.cjs`. It concatenates every lesson's `<article>` plus the glossary, inlines CSS and the four scripts, sets `window.COURSE_SINGLE_FILE = true`, and rewrites local links to in-page anchors (`#lesson-N`, `#term-x`). An unresolvable local link makes it throw. It also renames `id="progress"` / `id="mastery"` to classes, so `course.js` queries both forms.
 
 **Scripts (no modules; loaded as classic `<script>` tags in this order: `terms.js`, `logic.js`, `course.js`, `reference.js`):**
@@ -46,12 +48,10 @@ npx playwright test -g "lesson five"
 - `assets/reference.js` runs the JS definition dialog (focus trap, Escape, returns focus to the opener) on top of the native popover fallback, plus glossary search with Arabic normalisation (strips diacritics, unifies alef forms).
 - `assets/terms.js` is the single source for definitions (UMD like `logic.js`).
 
-**Quiz contract.** Each exercise is `<section class="quiz" data-quiz="<id>" data-correct="<value>" data-explanation="...">` containing a `<fieldset><legend>`, radio inputs, a `[data-check]` button and an output `#<id>-result`. `tests/content.test.cjs` parses this with a regex in exactly that attribute order. When adding a quiz, update all of these together:
-1. `quizIds` in `assets/course.js`.
-2. The `max` on `#course-mastery` and the text counts in `index.html`.
-3. The `assert.equal(ids.size, N)` total in `tests/content.test.cjs`.
-4. The independent answer keys in `tests/browser/course.spec.cjs`.
-5. The counts in `README.md`, `exercises/README.md` and `docs/`.
+**Quiz contract.** Each exercise is `<section class="quiz" data-quiz="<id>" data-correct="<value>" data-explanation="...">` containing a `<fieldset><legend>`, radio inputs, a `[data-check]` button and an output `#<id>-result`. `tests/content.test.cjs` parses this with a regex in exactly that attribute order. When adding a quiz:
+1. Run `npm run references:sync`. It regenerates `quizIds`, the index total and the lesson list; `tests/content.test.cjs` fails if you forget. The browser tests derive pages and totals from `tools/site.cjs`.
+2. Add its answer to the independent answer keys in `tests/browser/course.spec.cjs`.
+3. Update the prose counts in `README.md`, `exercises/README.md` and `docs/`.
 
 **Progress semantics.** Answers persist as `localStorage['logic-course-v2-<id>'] = {value, correct}`. Mastery depends on the last *checked* answer: changing a radio without checking doesn't change progress, and a wrong check is never stored as a pass. Feedback is restored on reload. Storage access is wrapped so blocked storage falls back to an in-memory `Map` and shows a notice. Never reuse a quiz id with a different meaning or answer without bumping the `v2` key prefix or migrating.
 

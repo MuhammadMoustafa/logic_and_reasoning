@@ -3,7 +3,7 @@ const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const path = require('node:path');
 const root = path.resolve(__dirname,'..');
-const pages = ['index.html',...fs.readdirSync(path.join(root,'lessons')).filter(f=>f.endsWith('.html')).map(f=>'lessons/'+f)];
+const pages = ['index.html','glossary.html',...fs.readdirSync(path.join(root,'lessons')).filter(f=>f.endsWith('.html')).map(f=>'lessons/'+f)];
 test('local links exist; quiz IDs and answer options are consistent',()=>{
   const ids = new Set();
   for(const filename of pages){
@@ -23,7 +23,14 @@ test('local links exist; quiz IDs and answer options are consistent',()=>{
       assert.ok(match[4].includes(`id="${match[1]}-result"`));
     }
   }
-  assert.equal(ids.size,82);
+  // The generated copies must match the lesson pages; a failure here means `npm run references:sync` was not run.
+  const {quizIds,lessons}=require('../tools/site.cjs');
+  assert.deepEqual([...ids],quizIds);
+  const course=fs.readFileSync(path.join(root,'assets/course.js'),'utf8');
+  assert.deepEqual(JSON.parse(course.match(/\/\* quiz-ids:start \*\/([\s\S]*?)\/\* quiz-ids:end \*\//)[1].replace(/'/g,'"')),quizIds);
+  const index=fs.readFileSync(path.join(root,'index.html'),'utf8');
+  assert.match(index,new RegExp(`<progress id="course-mastery" max="${quizIds.length}"`));
+  assert.equal(index.match(/<!-- lessons:start -->([\s\S]*?)<!-- lessons:end -->/)[1].match(/<li>/g).length,lessons.length);
 });
 
 test('every glossary definition has a real lesson destination',()=>{

@@ -1,7 +1,17 @@
-const {test,expect}=require('@playwright/test');
-const paths=['/index.html','/lessons/01-arguments.html','/lessons/02-conditional-reasoning.html','/lessons/03-necessary-sufficient.html','/lessons/04-types-of-inference.html','/lessons/05-connectives.html','/lessons/06-quantifiers.html','/lessons/07-proofs-fallacies.html','/lessons/08-knowledge-justification.html','/lessons/09-philosophy-of-science.html','/lessons/10-probability-bayes.html','/lessons/11-causal-inference.html','/lessons/12-experimental-design.html'];
-test('every exercise: blank, wrong, correct, reload feedback and aggregate progress',async({page})=>{
+const base=require('@playwright/test');
+const {expect}=base;
+const test=base.test.extend({page:async({page},use)=>{
   const errors=[];page.on('pageerror',e=>errors.push(e.message));
+  await use(page);
+  expect(errors).toEqual([]);
+}});
+const path=require('node:path');
+const {pathToFileURL}=require('node:url');
+const {lessons,quizIds}=require('../../tools/site.cjs');
+const paths=['/index.html',...lessons.map(lesson=>'/lessons/'+lesson.file)];
+const total=quizIds.length;
+const expectKeys=async(page,keys)=>{for(const [id,answer] of Object.entries(keys))await expect(page.locator(`[data-quiz="${id}"]`)).toHaveAttribute('data-correct',answer);};
+test('every exercise: blank, wrong, correct, reload feedback and aggregate progress',async({page})=>{
   for(const url of paths.slice(1)){
     await page.goto(url);
     for(const quiz of await page.locator('[data-quiz]').all()){
@@ -16,20 +26,23 @@ test('every exercise: blank, wrong, correct, reload feedback and aggregate progr
     await page.reload();
     for(const feedback of await page.locator('.quiz [aria-live]').all()) await expect(feedback).toContainText('إجابة صحيحة');
   }
-  await page.goto('/'); await expect(page.locator('#course-progress')).toContainText('من 82 تمرينًا؛ وأتقنت 82');
+  await page.goto('/'); await expect(page.locator('#course-progress')).toContainText(`من ${total} تمرينًا؛ وأتقنت ${total}`);
   await page.goto(paths[1]);
   await page.locator('[data-quiz="l1q1"] input[value="yes"]').check();
   await page.locator('[data-check="l1q1"]').click();
   await expect(page.locator('#progress')).toContainText('من 3 تمارين؛ وأتقنت 2');
-  await page.goto('/'); await expect(page.locator('#course-progress')).toContainText('وأتقنت 81');
-  expect(errors).toEqual([]);
+  await page.goto('/'); await expect(page.locator('#course-progress')).toContainText(`وأتقنت ${total-1}`);
+});
+test('lessons one and three: independent answer keys',async({page})=>{
+  await page.goto(paths[1]);await expectKeys(page,{l1q1:'no',l1q2:'yes',l1q3:'valid'});
+  await page.goto(paths[3]);await expectKeys(page,{l3q1:'s',l3q2:'n',l3q3:'s'});
 });
 test('all logical lab states and keyboard use',async({page})=>{
   await page.goto(paths[1]);await page.locator('#ahmad-scientist').focus();await page.keyboard.press('Space');
   await expect(page.locator('#argument-output')).toContainText('مثال مضاد');
   await page.goto(paths[2]);
   const lessonTwoKeys={l2q1:'da',l2q2:'yes',l2q3:'6',l2q4:'true',l2q5:'contrapositive'};
-  for(const [id,answer] of Object.entries(lessonTwoKeys))await expect(page.locator(`[data-quiz="${id}"]`)).toHaveAttribute('data-correct',answer);
+  await expectKeys(page,lessonTwoKeys);
   for(const p of [true,false]) for(const q of [true,false]){
     await page.locator('#truth-p').setChecked(p);await page.locator('#truth-q').setChecked(q);
     await expect(page.locator('#truth-output')).toContainText(`P → Q = ${!p||q?'T':'F'}`);
@@ -43,11 +56,10 @@ test('all logical lab states and keyboard use',async({page})=>{
 });
 test('storage denied: no crash and in-memory progress works',async({page})=>{
   await page.addInitScript(()=>{Object.defineProperty(window,'localStorage',{get(){throw new DOMException('blocked','SecurityError')}})});
-  const errors=[];page.on('pageerror',e=>errors.push(e.message));
   await page.goto(paths[1]);await expect(page.locator('#storage-notice')).toBeVisible();
   await page.locator('[data-quiz="l1q1"] input[value="no"]').check();await page.locator('[data-check="l1q1"]').click();
   await expect(page.locator('#progress')).toContainText('وأتقنت 1');
-  await page.locator('.toolbar').click();await expect(page.locator('body')).toHaveClass(/\bdark\b/);expect(errors).toEqual([]);
+  await page.locator('.toolbar').click();await expect(page.locator('body')).toHaveClass(/\bdark\b/);
 });
 test('mobile/desktop layouts, dark theme persistence and reduced motion',async({page})=>{
   for(const width of [360,1280]){
@@ -72,7 +84,6 @@ test('mobile/desktop layouts, dark theme persistence and reduced motion',async({
   expect(await page.locator('.feedback').first().evaluate(el=>getComputedStyle(el).animationName)).toBe('none');
 });
 test('direct file opening stays offline and interactive',async({page})=>{
-  const {pathToFileURL}=require('node:url');const path=require('node:path');
   const requests=[];page.on('request',r=>{if(/^https?:/.test(r.url()))requests.push(r.url())});
   await page.goto(pathToFileURL(path.resolve('lessons/02-conditional-reasoning.html')).href);
   await page.locator('#truth-q').uncheck();await expect(page.locator('#truth-output')).toContainText('P → Q = F');
@@ -81,10 +92,9 @@ test('direct file opening stays offline and interactive',async({page})=>{
 
 test('lesson four evidence comparisons work with keyboard, offline and without storage',async({page})=>{
   await page.addInitScript(()=>{Object.defineProperty(window,'localStorage',{get(){throw new DOMException('blocked','SecurityError')}})});
-  const {pathToFileURL}=require('node:url'); const path=require('node:path');
   await page.goto(pathToFileURL(path.resolve('lessons/04-types-of-inference.html')).href);
   const expectedAnswers={l4q1:'d',l4q2:'no',l4q3:'ac',l4q4:'power',l4q5:'sample',l4q6:'no'};
-  for(const [id,answer] of Object.entries(expectedAnswers)) await expect(page.locator(`[data-quiz="${id}"]`)).toHaveAttribute('data-correct',answer);
+  await expectKeys(page,expectedAnswers);
   const select=page.locator('#evidence-case');const output=page.locator('#evidence-output');
   for(const [value,text] of [['none','لا تكفي للمفاضلة'],['power','يدعم تفسير البطارية'],['cable','يدعم تفسير الكابل'],['both','تغيير عاملين معًا']]){
     await select.selectOption(value);await expect(output).toContainText(text);
@@ -116,7 +126,6 @@ test('separate lesson pages grade every quiz using touch, file URLs and blocked 
   const page=await context.newPage();const errors=[];
   page.on('pageerror',e=>errors.push(e.message));
   await page.addInitScript(()=>{Object.defineProperty(window,'localStorage',{get(){throw new DOMException('blocked','SecurityError')}})});
-  const {pathToFileURL}=require('node:url');const path=require('node:path');
   for(const url of paths.slice(1)){
     await page.goto(pathToFileURL(path.resolve('.'+url)).href);
     for(const quiz of await page.locator('[data-quiz]').all()){
@@ -156,7 +165,6 @@ test('generated share file grades all quizzes offline and keeps definitions loca
   const page=await context.newPage();const errors=[],remote=[];
   page.on('pageerror',e=>errors.push(e.message));page.on('request',r=>{if(/^https?:/.test(r.url()))remote.push(r.url())});
   await page.addInitScript(()=>{Object.defineProperty(window,'localStorage',{get(){throw new DOMException('blocked','SecurityError')}})});
-  const {pathToFileURL}=require('node:url');const path=require('node:path');
   await page.goto(pathToFileURL(path.resolve('dist/course.html')).href);
   for(const quiz of await page.locator('[data-quiz]').all()){
     const answer=await quiz.getAttribute('data-correct');await quiz.locator(`input[value="${answer}"]`).tap();await quiz.locator('[data-check]').tap();await expect(quiz.locator('.feedback')).toContainText('إجابة صحيحة');
@@ -182,7 +190,7 @@ test('native definition frame works without JavaScript on touch and has separate
 test('lesson five: every compound state and independent exercise answer keys',async({page})=>{
   await page.goto('/lessons/05-connectives.html');
   const keys={l5q1:'f',l5q2:'tf',l5q3:'some',l5q4:'b',l5q5:'eight',l5q6:'no',l5q7:'contradiction',l5q8:'t',l5q9:'or'};
-  for(const [id,answer] of Object.entries(keys))await expect(page.locator(`[data-quiz="${id}"]`)).toHaveAttribute('data-correct',answer);
+  await expectKeys(page,keys);
   const expected={
     'grouped-or':[[true,false,true,false,true,false,false,false],[true,true,true,true,true,true,false,false]],
     'grouped-and':[[true,true,true,true,true,false,false,false],[true,false,false,false,true,false,false,false]],
@@ -201,7 +209,7 @@ test('lesson five: every compound state and independent exercise answer keys',as
 test('lesson six: quantifier lab, empty domain, keyboard and independent answer keys',async({page})=>{
   await page.goto('/lessons/06-quantifiers.html');
   const keys={l6q1:'cond',l6q2:'and',l6q3:'none',l6q4:'2',l6q5:'no',l6q6:'true',l6q7:'exists',l6q8:'notall'};
-  for(const [id,answer] of Object.entries(keys))await expect(page.locator(`[data-quiz="${id}"]`)).toHaveAttribute('data-correct',answer);
+  await expectKeys(page,keys);
   const item=mode=>page.locator(`#quantifier-results [data-statement="${mode}"]`);
   const set=async states=>{for(const [i,[t,c]] of states.entries()){await page.locator(`#tube-${i+1}-t`).setChecked(t);await page.locator(`#tube-${i+1}-c`).setChecked(c);}};
   // Default: tube 3 is treated without a colour change.
@@ -219,11 +227,10 @@ test('lesson six: quantifier lab, empty domain, keyboard and independent answer 
   expect(await item('some').getAttribute('data-value')).not.toBe(await item('none').getAttribute('data-value'));
 });
 test('lesson menu and collapsible sections: keyboard, links reveal sections, print and no JavaScript',async({browser,page})=>{
-  const errors=[];page.on('pageerror',e=>errors.push(e.message));
   await page.goto('/lessons/03-necessary-sufficient.html');
   const menu=page.locator('header .lesson-menu');
   await menu.locator('summary').click();
-  await expect(menu.locator('li')).toHaveCount(12);
+  await expect(menu.locator('li')).toHaveCount(lessons.length);
   await expect(menu.locator('a[aria-current="page"]')).toHaveAttribute('href','03-necessary-sufficient.html');
   await page.keyboard.press('Escape');await expect(menu).not.toHaveAttribute('open','');await expect(menu.locator('summary')).toBeFocused();
   await menu.locator('summary').click();await page.locator('main h1').click();await expect(menu).not.toHaveAttribute('open','');
@@ -252,7 +259,6 @@ test('lesson menu and collapsible sections: keyboard, links reveal sections, pri
   await page.emulateMedia({media:'screen'});
   // A bookmark to a section opens normally after reload.
   await page.goto('/lessons/03-necessary-sufficient.html#l3-cases');await expect(page.locator('#l3-cases-body')).toBeVisible();
-  expect(errors).toEqual([]);
   const context=await browser.newContext({javaScriptEnabled:false});const noJs=await context.newPage();
   await noJs.goto('/lessons/03-necessary-sufficient.html');
   await expect(noJs.locator('.section-toggle')).toHaveCount(0);await expect(noJs.locator('#l3-hcn ~ p').first()).toBeVisible();
@@ -260,10 +266,9 @@ test('lesson menu and collapsible sections: keyboard, links reveal sections, pri
   await context.close();
 });
 test('lesson seven: argument-form checker, keyboard and independent answer keys',async({page})=>{
-  const errors=[];page.on('pageerror',e=>errors.push(e.message));
   await page.goto('/lessons/07-proofs-fallacies.html');
   const keys={l7q1:'ds',l7q2:'hs',l7q3:'both',l7q4:'all',l7q5:'equiv',l7q6:'bq',l7q7:'cond',l7q8:'fd'};
-  for(const [id,answer] of Object.entries(keys))await expect(page.locator(`[data-quiz="${id}"]`)).toHaveAttribute('data-correct',answer);
+  await expectKeys(page,keys);
   const output=page.locator('#form-output'),display=page.locator('#form-display');
   await expect(output).toHaveAttribute('data-valid','true');await expect(output).toContainText('وعددها 4');
   for(const form of ['mt','hs','ds']){await page.locator('#form-choice').selectOption(form);await expect(output).toHaveAttribute('data-valid','true');}
@@ -273,27 +278,23 @@ test('lesson seven: argument-form checker, keyboard and independent answer keys'
   await expect(output).toHaveAttribute('data-valid','false');await expect(output).toContainText('مثال مضاد');await expect(output).toContainText('P صادقة');await expect(output).toContainText('Q صادقة');
   await page.locator('#form-choice').focus();await page.keyboard.press('ArrowUp');
   await expect(page.locator('#form-choice')).toHaveValue('da');await expect(output).toHaveAttribute('data-valid','false');await expect(output).toContainText('P كاذبة');
-  expect(errors).toEqual([]);
 });
 test('lesson eight: knowledge lab presets, manual conditions and independent answer keys',async({page})=>{
-  const errors=[];page.on('pageerror',e=>errors.push(e.message));
   await page.goto('/lessons/08-knowledge-justification.html');
   const keys={l8q1:'false',l8q2:'unjust',l8q3:'gettier',l8q4:'testimony',l8q5:'certainty',l8q6:'other',l8q7:'tentative',l8q8:'relativism'};
-  for(const [id,answer] of Object.entries(keys))await expect(page.locator(`[data-quiz="${id}"]`)).toHaveAttribute('data-correct',answer);
+  await expectKeys(page,keys);
   const output=page.locator('#knowledge-output'),select=page.locator('#knowledge-case');
   await expect(output).toHaveAttribute('data-verdict','gettier');await expect(output).toContainText('غيتييه');
   await select.selectOption('calibrated');await expect(output).toHaveAttribute('data-verdict','knowledge');await expect(page.locator('#k-luck')).not.toBeChecked();
-  await select.selectOption('guess');await expect(output).toHaveAttribute('data-verdict','missing');await expect(output).toContainText('ينقصها التبرير');
+  await select.selectOption('guess');await expect(page.locator('#k-luck')).toBeChecked();await expect(output).toHaveAttribute('data-verdict','missing');await expect(output).toContainText('ينقصها التبرير');
   await select.selectOption('wrong');await expect(output).toContainText('ينقصها الصدق');await expect(output).toContainText('لا نعرف ما ليس صادقًا');
   await page.locator('#k-belief').focus();await page.keyboard.press('Space');
   await expect(select).toHaveValue('custom');await expect(output).toContainText('ينقصها الاعتقاد والصدق');
-  expect(errors).toEqual([]);
 });
 test('lesson nine: failed-prediction lab, keyboard and independent answer keys',async({page})=>{
-  const errors=[];page.on('pageerror',e=>errors.push(e.message));
   await page.goto('/lessons/09-philosophy-of-science.html');
   const keys={l9q1:'support',l9q2:'either',l9q3:'risky',l9q4:'new',l9q5:'adhoc',l9q6:'scope',l9q7:'toward',l9q8:'corroborated'};
-  for(const [id,answer] of Object.entries(keys))await expect(page.locator(`[data-quiz="${id}"]`)).toHaveAttribute('data-correct',answer);
+  await expectKeys(page,keys);
   const output=page.locator('#test-output'),formula=page.locator('#test-formula');
   await expect(output).toHaveAttribute('data-verdict','open');await expect(formula).toHaveText('¬H ∨ ¬A1 ∨ ¬A2 ∨ ¬A3');
   await page.locator('#t-a1').check();await page.locator('#t-a3').check();
@@ -301,55 +302,48 @@ test('lesson nine: failed-prediction lab, keyboard and independent answer keys',
   await page.locator('#t-a2').focus();await page.keyboard.press('Space');
   await expect(output).toHaveAttribute('data-verdict','against-h');await expect(formula).toHaveText('¬H');
   await page.locator('#test-observed').selectOption('yes');
-  await expect(output).toHaveAttribute('data-verdict','passed');await expect(output).toContainText('إثبات للتالي');await expect(formula).toHaveText('O ⊬ H');
-  expect(errors).toEqual([]);
+  await expect(output).toHaveAttribute('data-verdict','passed');await expect(output).toContainText('إثبات للتالي');await expect(formula).toHaveText('H → O, O ∴ H ✗');
 });
 test('lesson ten: natural-frequency lab, base-rate changes and independent answer keys',async({page})=>{
-  const errors=[];page.on('pageerror',e=>errors.push(e.message));
   await page.goto('/lessons/10-probability-bayes.html');
   const keys={l10q1:'inverse',l10q2:'p29',l10q3:'rises',l10q4:'testb',l10q5:'confuse',l10q6:'independent',l10q7:'weak',l10q8:'p67'};
-  for(const [id,answer] of Object.entries(keys))await expect(page.locator(`[data-quiz="${id}"]`)).toHaveAttribute('data-correct',answer);
+  await expectKeys(page,keys);
   const output=page.locator('#bayes-output');
-  await expect(output).toContainText('نحو 981');await expect(output).toContainText('9.2%');await expect(page.locator('#b-healthy-pos')).toHaveText('891');
+  await expect(output).toContainText('نحو 981');await expect(output).toContainText('فقط');await expect(output).toContainText('9.2%');await expect(page.locator('#b-healthy-pos')).toHaveText('891');
   await page.locator('#b-prior').selectOption('0.5');
-  await expect(page.locator('#b-sick')).toHaveText('5000');await expect(output).toContainText('90.9%');
+  await expect(page.locator('#b-sick')).toHaveText('5000');await expect(output).toContainText('90.9%');await expect(output).not.toContainText('فقط');
   await page.locator('#b-prior').selectOption('0.001');await expect(output).toContainText('1%');await expect(page.locator('#b-sick-pos')).toHaveText('9');
   await page.locator('#b-prior').selectOption('0.01');await page.locator('#b-fpr').focus();await page.keyboard.press('ArrowUp');
   await expect(page.locator('#b-fpr')).toHaveValue('0.05');await expect(output).toContainText('نسبة الترجيح 18');
   await expect(page.locator('#bayes-bar')).toHaveAttribute('aria-label',/لمصابين/);
-  expect(errors).toEqual([]);
 });
 test('lesson eleven: adjustment lab, diagram state and independent answer keys',async({page})=>{
-  const errors=[];page.on('pageerror',e=>errors.push(e.message));
   await page.goto('/lessons/11-causal-inference.html');
   const keys={l11q1:'heat',l11q2:'confounder',l11q3:'blocks',l11q4:'collider',l11q5:'random',l11q6:'reverse',l11q7:'c-only',l11q8:'strata'};
-  for(const [id,answer] of Object.entries(keys))await expect(page.locator(`[data-quiz="${id}"]`)).toHaveAttribute('data-correct',answer);
+  await expectKeys(page,keys);
   const output=page.locator('#causal-output'),estimate=page.locator('#causal-estimate');
   await expect(estimate).toHaveText('0.84');await expect(output).toHaveAttribute('data-ok','false');
   await page.locator('#adj-c').check();await expect(estimate).toHaveText('0.50');await expect(output).toHaveAttribute('data-ok','true');
   await expect(page.locator('#dag-c')).toHaveClass(/adjusted/);
   await page.locator('#adj-m').focus();await page.keyboard.press('Space');
-  await expect(estimate).toHaveText('0.20');await expect(output).toContainText('الأثر المباشر');
+  await expect(estimate).toHaveText('0.20');await expect(output).toContainText('0.30');await expect(output).toContainText('الأثر الكلي');
   await page.locator('#adj-m').uncheck();await page.locator('#adj-s').check();
   await expect(estimate).toHaveText('-0.10');await expect(output).toContainText('القبول');
   // Diagrams are labelled images, and no term button is inserted inside them.
   await expect(page.locator('svg.dag')).toHaveCount(4);
   expect(await page.locator('svg.dag button').count()).toBe(0);
   for(const svg of await page.locator('svg.dag').all())await expect(svg).toHaveAttribute('role','img');
-  expect(errors).toEqual([]);
 });
 test('lesson twelve: sample-size lab, number line and independent answer keys',async({page})=>{
-  const errors=[];page.on('pageerror',e=>errors.push(e.message));
   await page.goto('/lessons/12-experimental-design.html');
   const keys={l12q1:'placebo',l12q2:'sampling',l12q3:'double',l12q4:'power',l12q5:'four',l12q6:'chance',l12q7:'inflated',l12q8:'limits'};
-  for(const [id,answer] of Object.entries(keys))await expect(page.locator(`[data-quiz="${id}"]`)).toHaveAttribute('data-correct',answer);
+  await expectKeys(page,keys);
   const output=page.locator('#design-output');
-  await expect(output).toHaveAttribute('data-power','35');await expect(output).toContainText('11.2');
+  await expect(output).toHaveAttribute('data-power','35');await expect(output).toContainText('11.2');await expect(page.locator('#d-range')).toHaveAttribute('aria-label',/\u2212/);
   await page.locator('#d-n').selectOption('100');await expect(output).toHaveAttribute('data-power','94');await expect(output).toContainText('كافية');
   await page.locator('#d-effect').selectOption('0');await expect(output).toContainText('بالمصادفة');
   await page.locator('#d-n').focus();await page.keyboard.press('ArrowDown');await expect(page.locator('#d-n')).toHaveValue('200');
   // The band stays inside the number line.
   const [axis,band]=await Promise.all([page.locator('#d-range').boundingBox(),page.locator('#d-range .range-band').boundingBox()]);
   expect(band.x).toBeGreaterThanOrEqual(axis.x-1);expect(band.x+band.width).toBeLessThanOrEqual(axis.x+axis.width+1);
-  expect(errors).toEqual([]);
 });
