@@ -5,7 +5,7 @@ const storage = {
   set(key, value) { try { localStorage.setItem(key, value); return true; } catch { return false; } }
 };
 const answers = new Map();
-const quizIds = ['l1q1','l1q2','l1q3','l2q1','l2q2','l2q3','l2q4','l2q5','l3q1','l3q2','l3q3','l4q1','l4q2','l4q3','l4q4','l4q5','l4q6','l5q1','l5q2','l5q3','l5q4','l5q5','l5q6','l5q7','l5q8','l5q9'];
+const quizIds = ['l1q1','l1q2','l1q3','l2q1','l2q2','l2q3','l2q4','l2q5','l3q1','l3q2','l3q3','l4q1','l4q2','l4q3','l4q4','l4q5','l4q6','l5q1','l5q2','l5q3','l5q4','l5q5','l5q6','l5q7','l5q8','l5q9','l6q1','l6q2','l6q3','l6q4','l6q5','l6q6','l6q7','l6q8'];
 function readAnswer(id) {
   if (answers.has(id)) return answers.get(id);
   try {
@@ -97,6 +97,37 @@ function setupLabs() {
     [compoundMode,...['compound-p','compound-q','compound-r'].map(id=>document.getElementById(id))].forEach(el=>el.addEventListener('change',update));
     update();
   }
+  const quantifierResults = document.getElementById('quantifier-results');
+  if (quantifierResults) {
+    const tubes = [1,2,3,4].map(n => ({t:document.getElementById(`tube-${n}-t`), c:document.getElementById(`tube-${n}-c`)}));
+    const name = i => `الأنبوب ${i + 1}`;
+    const reasons = {
+      all: (r, anyTreated) => r.value
+        ? (anyTreated ? 'لا يوجد أنبوب عولج ولم يتغير لونه.' : 'صادقة بلا مضمون: لا يوجد أنبوب معالج، فلا يوجد مثال مضاد.')
+        : `مثال مضاد: ${name(r.index)} عولج ولم يتغير لونه.`,
+      some: (r, anyTreated) => r.value
+        ? `شاهد: ${name(r.index)} عولج وتغير لونه.`
+        : (anyTreated ? 'لا يوجد أنبوب عولج وتغير لونه.' : 'لا يوجد أنبوب معالج أصلًا، فلا يوجد شاهد.'),
+      none: (r, anyTreated) => r.value
+        ? (anyTreated ? 'لا يوجد أنبوب عولج وتغير لونه.' : 'صادقة بلا مضمون: لا يوجد أنبوب معالج.')
+        : `مثال مضاد: ${name(r.index)} عولج وتغير لونه.`,
+      notall: (r, anyTreated) => r.value
+        ? `شاهد: ${name(r.index)} عولج ولم يتغير لونه.`
+        : (anyTreated ? 'كل أنبوب معالج تغير لونه.' : 'لا يوجد أنبوب معالج، فلا يوجد أنبوب معالج لم يتغير لونه.')
+    };
+    const update = () => {
+      const domain = tubes.map(x => ({a:x.t.checked, b:x.c.checked}));
+      const anyTreated = domain.some(x => x.a);
+      quantifierResults.querySelectorAll('[data-statement]').forEach(item => {
+        const result = CourseLogic.quantify(item.dataset.statement, domain);
+        item.querySelector('.verdict').textContent = result.value ? 'صادقة' : 'كاذبة';
+        item.querySelector('.reason').textContent = reasons[item.dataset.statement](result, anyTreated);
+        item.dataset.value = String(result.value);
+      });
+    };
+    tubes.forEach(x => [x.t, x.c].forEach(input => input.addEventListener('change', update)));
+    update();
+  }
   const evidence = document.getElementById('evidence-case');
   if (evidence) {
     const descriptions = {
@@ -149,7 +180,8 @@ function initializeCourse() {
   try { localStorage.setItem('logic-storage-probe','1'); localStorage.removeItem('logic-storage-probe'); }
   catch { notice.hidden = false; }
   document.querySelector('.toolbar')?.setAttribute('aria-pressed', String(document.body.classList.contains('dark')));
-  document.querySelectorAll('nav a').forEach(link => {
+  // Only page links in the header mark the current page; in-page section links are not "the current page".
+  document.querySelectorAll('header nav a:not([href^="#"])').forEach(link => {
     if (new URL(link.href).pathname === location.pathname) link.setAttribute('aria-current','page');
   });
   document.querySelectorAll('[data-quiz]').forEach(quiz => {
@@ -166,6 +198,73 @@ function initializeCourse() {
   updateProgress();
   document.body.classList.add('interactions-ready');
   try { setupLabs(); } catch (error) { console.warn('A lesson activity could not initialize:', error); }
+  try { setupLessonMenu(); setupSections(); } catch (error) { console.warn('Navigation enhancements could not initialize:', error); }
+}
+// The header lesson menu is a native <details>; scripts only add outside-click, Escape and close-on-choice.
+function setupLessonMenu() {
+  document.querySelectorAll('.lesson-menu').forEach(menu => {
+    const summary = menu.querySelector('summary');
+    document.addEventListener('click', event => { if (menu.open && !menu.contains(event.target)) menu.open = false; });
+    menu.addEventListener('keydown', event => {
+      if (event.key === 'Escape' && menu.open) { event.preventDefault(); menu.open = false; summary.focus(); }
+    });
+    menu.querySelectorAll('a').forEach(link => link.addEventListener('click', () => { menu.open = false; }));
+  });
+}
+// Collapsible sections are a progressive enhancement: without JavaScript every section stays visible.
+function setSectionOpen(section, open) {
+  const button = section.querySelector(':scope > h2 > .section-toggle');
+  const body = section.querySelector(':scope > .section-body');
+  if (!button || !body) return;
+  button.setAttribute('aria-expanded', String(open));
+  section.classList.toggle('collapsed', !open);
+  if (open) body.hidden = false;
+  else if ('onbeforematch' in document.body) body.setAttribute('hidden', 'until-found'); // find-in-page can still reveal it
+  else body.hidden = true;
+}
+function revealTarget(id) {
+  const target = id && document.getElementById(id);
+  const section = target?.closest('section.lesson-section');
+  if (section?.classList.contains('collapsed')) setSectionOpen(section, true);
+}
+function setupSections() {
+  document.querySelectorAll('section.lesson-section').forEach(section => {
+    const heading = section.querySelector(':scope > h2');
+    if (!heading || heading.querySelector('.section-toggle')) return;
+    const body = document.createElement('div');
+    body.className = 'section-body'; body.id = heading.id + '-body';
+    while (heading.nextSibling) body.appendChild(heading.nextSibling);
+    section.appendChild(body);
+    const button = document.createElement('button');
+    button.type = 'button'; button.className = 'section-toggle';
+    button.setAttribute('aria-controls', body.id); button.setAttribute('aria-expanded', 'true');
+    while (heading.firstChild) button.appendChild(heading.firstChild);
+    heading.appendChild(button);
+    button.addEventListener('click', () => setSectionOpen(section, button.getAttribute('aria-expanded') !== 'true'));
+    body.addEventListener('beforematch', () => setSectionOpen(section, true));
+  });
+  document.querySelectorAll('.lesson-toc').forEach(toc => {
+    const article = toc.closest('article');
+    const controls = document.createElement('p');
+    controls.className = 'section-controls';
+    for (const [label, open] of [['فتح كل الأقسام', true], ['طي كل الأقسام', false]]) {
+      const button = document.createElement('button');
+      button.type = 'button'; button.textContent = label;
+      button.addEventListener('click', () => article.querySelectorAll('section.lesson-section').forEach(section => setSectionOpen(section, open)));
+      controls.appendChild(button);
+    }
+    toc.appendChild(controls);
+  });
+  // Open a collapsed section before following any link to it on this page (TOC, definition frames, bookmarks).
+  document.addEventListener('click', event => {
+    const link = event.target.closest?.('a[href]');
+    if (!link) return;
+    const url = new URL(link.href, location.href);
+    if (url.hash && url.pathname === location.pathname) revealTarget(decodeURIComponent(url.hash.slice(1)));
+  }, true);
+  const fromHash = () => { if (location.hash) revealTarget(decodeURIComponent(location.hash.slice(1))); };
+  window.addEventListener('hashchange', fromHash);
+  fromHash();
 }
 if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', initializeCourse, {once:true});
 else initializeCourse();

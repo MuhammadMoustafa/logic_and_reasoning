@@ -1,5 +1,5 @@
 const {test,expect}=require('@playwright/test');
-const paths=['/index.html','/lessons/01-arguments.html','/lessons/02-conditional-reasoning.html','/lessons/03-necessary-sufficient.html','/lessons/04-types-of-inference.html','/lessons/05-connectives.html'];
+const paths=['/index.html','/lessons/01-arguments.html','/lessons/02-conditional-reasoning.html','/lessons/03-necessary-sufficient.html','/lessons/04-types-of-inference.html','/lessons/05-connectives.html','/lessons/06-quantifiers.html'];
 test('every exercise: blank, wrong, correct, reload feedback and aggregate progress',async({page})=>{
   const errors=[];page.on('pageerror',e=>errors.push(e.message));
   for(const url of paths.slice(1)){
@@ -16,12 +16,12 @@ test('every exercise: blank, wrong, correct, reload feedback and aggregate progr
     await page.reload();
     for(const feedback of await page.locator('.quiz [aria-live]').all()) await expect(feedback).toContainText('إجابة صحيحة');
   }
-  await page.goto('/'); await expect(page.locator('#course-progress')).toContainText('من 26 تمرينًا؛ وأتقنت 26');
+  await page.goto('/'); await expect(page.locator('#course-progress')).toContainText('من 34 تمرينًا؛ وأتقنت 34');
   await page.goto(paths[1]);
   await page.locator('[data-quiz="l1q1"] input[value="yes"]').check();
   await page.locator('[data-check="l1q1"]').click();
   await expect(page.locator('#progress')).toContainText('من 3 تمارين؛ وأتقنت 2');
-  await page.goto('/'); await expect(page.locator('#course-progress')).toContainText('وأتقنت 25');
+  await page.goto('/'); await expect(page.locator('#course-progress')).toContainText('وأتقنت 33');
   expect(errors).toEqual([]);
 });
 test('all logical lab states and keyboard use',async({page})=>{
@@ -123,8 +123,8 @@ test('separate lesson pages grade every quiz using touch, file URLs and blocked 
     const count=await page.locator('[data-quiz]').count();await expect(page.locator('#progress')).toContainText(`وأتقنت ${count}`);
     expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
   }
-  await page.locator('[data-term="deduction"]').first().tap();await expect(page.getByRole('dialog')).toBeVisible();
-  await page.locator('#term-glossary').tap();await expect(page).toHaveURL(/glossary.html#term-deduction$/);
+  await page.locator('[data-term="quantifier"]').first().tap();await expect(page.getByRole('dialog')).toBeVisible();
+  await page.locator('#term-glossary').tap();await expect(page).toHaveURL(/glossary.html#term-quantifier$/);
   expect(errors).toEqual([]);await context.close();
 });
 test('missing scripts are visible and manual answers remain usable',async({page})=>{
@@ -191,4 +191,65 @@ test('lesson five: every compound state and independent exercise answer keys',as
       await expect(row.locator('td').last()).toHaveText(column[index]?'صادقة':'كاذبة');index++;
     }
   }
+});
+test('lesson six: quantifier lab, empty domain, keyboard and independent answer keys',async({page})=>{
+  await page.goto('/lessons/06-quantifiers.html');
+  const keys={l6q1:'cond',l6q2:'and',l6q3:'none',l6q4:'2',l6q5:'no',l6q6:'true',l6q7:'exists',l6q8:'notall'};
+  for(const [id,answer] of Object.entries(keys))await expect(page.locator(`[data-quiz="${id}"]`)).toHaveAttribute('data-correct',answer);
+  const item=mode=>page.locator(`#quantifier-results [data-statement="${mode}"]`);
+  const set=async states=>{for(const [i,[t,c]] of states.entries()){await page.locator(`#tube-${i+1}-t`).setChecked(t);await page.locator(`#tube-${i+1}-c`).setChecked(c);}};
+  // Default: tube 3 is treated without a colour change.
+  await expect(item('all').locator('.verdict')).toHaveText('كاذبة');await expect(item('all').locator('.reason')).toContainText('الأنبوب 3');
+  await expect(item('some').locator('.reason')).toContainText('الأنبوب 1');
+  await set([[true,true],[true,true],[true,true],[false,false]]);
+  for(const [mode,value] of [['all','صادقة'],['some','صادقة'],['none','كاذبة'],['notall','كاذبة']])await expect(item(mode).locator('.verdict')).toHaveText(value);
+  await set([[false,true],[false,false],[false,true],[false,false]]);
+  await expect(item('all').locator('.verdict')).toHaveText('صادقة');await expect(item('all').locator('.reason')).toContainText('بلا مضمون');
+  await expect(item('some').locator('.verdict')).toHaveText('كاذبة');await expect(item('notall').locator('.verdict')).toHaveText('كاذبة');
+  await page.locator('#tube-2-t').focus();await page.keyboard.press('Space');
+  await expect(item('notall').locator('.verdict')).toHaveText('صادقة');await expect(item('notall').locator('.reason')).toContainText('الأنبوب 2');
+  for(const mode of ['all','some','none','notall'])await expect(item(mode)).toHaveAttribute('data-value',/true|false/);
+  expect(await item('all').getAttribute('data-value')).not.toBe(await item('notall').getAttribute('data-value'));
+  expect(await item('some').getAttribute('data-value')).not.toBe(await item('none').getAttribute('data-value'));
+});
+test('lesson menu and collapsible sections: keyboard, links reveal sections, print and no JavaScript',async({browser,page})=>{
+  const errors=[];page.on('pageerror',e=>errors.push(e.message));
+  await page.goto('/lessons/03-necessary-sufficient.html');
+  const menu=page.locator('header .lesson-menu');
+  await menu.locator('summary').click();
+  await expect(menu.locator('li')).toHaveCount(6);
+  await expect(menu.locator('a[aria-current="page"]')).toHaveAttribute('href','03-necessary-sufficient.html');
+  await page.keyboard.press('Escape');await expect(menu).not.toHaveAttribute('open','');await expect(menu.locator('summary')).toBeFocused();
+  await menu.locator('summary').click();await page.locator('main h1').click();await expect(menu).not.toHaveAttribute('open','');
+  expect(await page.locator('.lesson-toc a[aria-current]').count()).toBe(0);
+  // One section, by keyboard.
+  const toggle=page.locator('#l3-hcn > .section-toggle');
+  await toggle.focus();await page.keyboard.press('Enter');
+  await expect(toggle).toHaveAttribute('aria-expanded','false');await expect(page.locator('#l3-hcn-body')).toBeHidden();
+  await page.keyboard.press('Space');await expect(toggle).toHaveAttribute('aria-expanded','true');await expect(page.locator('#l3-hcn-body')).toBeVisible();
+  // Collapse all, then a table-of-contents link reopens its section.
+  await page.getByRole('button',{name:'طي كل الأقسام'}).click();
+  await expect(page.locator('.section-toggle[aria-expanded="true"]')).toHaveCount(0);
+  await page.locator('.lesson-toc a[href="#l3-experiment"]').click();
+  await expect(page.locator('#l3-experiment-body')).toBeVisible();await expect(page.locator('#l3-experiment')).toBeInViewport();
+  // A definition frame's lesson link reopens a collapsed section too.
+  await page.getByRole('button',{name:'طي كل الأقسام'}).click();
+  await page.locator('#l3-experiment > .section-toggle').click();
+  await page.locator('#l3-experiment-body [data-term="hcn"]').first().click();
+  await page.locator('#term-lesson').click();
+  await expect(page.locator('#l3-hcn-body')).toBeVisible();await expect(page).toHaveURL(/#l3-hcn$/);
+  // Collapsed content still prints.
+  await page.getByRole('button',{name:'طي كل الأقسام'}).click();
+  await page.emulateMedia({media:'print'});
+  await expect(page.locator('#l3-hcn-body')).toBeVisible();await expect(page.locator('#l3-hcn > .section-toggle')).toBeVisible();
+  await expect(page.locator('.term-link').first()).toBeVisible();
+  await page.emulateMedia({media:'screen'});
+  // A bookmark to a section opens normally after reload.
+  await page.goto('/lessons/03-necessary-sufficient.html#l3-cases');await expect(page.locator('#l3-cases-body')).toBeVisible();
+  expect(errors).toEqual([]);
+  const context=await browser.newContext({javaScriptEnabled:false});const noJs=await context.newPage();
+  await noJs.goto('/lessons/03-necessary-sufficient.html');
+  await expect(noJs.locator('.section-toggle')).toHaveCount(0);await expect(noJs.locator('#l3-hcn ~ p').first()).toBeVisible();
+  await noJs.locator('header .lesson-menu summary').click();await expect(noJs.locator('header .lesson-menu li').first()).toBeVisible();
+  await context.close();
 });

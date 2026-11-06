@@ -406,4 +406,31 @@ button.term-link:hover { color:var(--accent); background:none; }
 
 .table-scroll { overflow-x:auto; margin:20px 0; }
 .table-scroll table { min-width:560px; margin:0; }
+.table-scroll table.compact { min-width:0; }
 .table-scroll:focus-visible { outline:3px solid #c17e15; outline-offset:3px; }
+/* Header lesson menu: a native details dropdown that stays usable as the course grows. */
+header { position:relative; }
+.lesson-menu { border:0; padding:0; margin:0; border-radius:0; }
+.lesson-menu > summary { cursor:pointer; color:#e0f7f4; font-weight:normal; text-decoration:underline; text-underline-offset:4px; list-style:none; }
+.lesson-menu > summary::-webkit-details-marker { display:none; }
+.lesson-menu > summary::after { content:" ▾"; }
+.lesson-menu[open] > summary::after { content:" ▴"; }
+.lesson-menu > ol { position:absolute; z-index:30; top:calc(100% - 2px); inset-inline:max(18px,calc((100% - 1020px)/2)) auto; width:min(28rem,calc(100% - 36px)); max-height:min(70vh,34rem); overflow:auto; margin:0; padding:12px 38px 12px 16px; background:var(--surface); color:var(--ink); border:1px solid var(--line); border-radius:12px; box-shadow:0 14px 34px #0004; }
+.lesson-menu li { margin:6px 0; }
+.lesson-menu ol a { color:var(--accent); }
+.lesson-menu ol a[aria-current] { font-weight:bold; text-decoration-thickness:3px; }
+/* Collapsible lesson sections (added by course.js). */
+h2:has(> .section-toggle) { margin-bottom:.4rem; }
+button.section-toggle { display:flex; align-items:baseline; gap:.6em; width:100%; font:inherit; line-height:inherit; color:inherit; background:none; border:0; border-radius:6px; padding:0; margin:0; min-height:0; text-align:start; }
+button.section-toggle:hover { background:none; text-decoration:underline; text-underline-offset:6px; }
+button.section-toggle::after { content:"▾"; margin-inline-start:auto; font-size:.8em; color:var(--muted); transition:transform .2s; }
+.lesson-section.collapsed button.section-toggle::after { transform:rotate(90deg); }
+.section-controls { display:flex; flex-wrap:wrap; gap:0 12px; margin:10px 0 0; }
+.section-controls button { font-size:.9rem; background:transparent; color:var(--accent); border-color:var(--line); }
+.section-controls button:hover { background:var(--surface); }
+@media print {
+  button.term-link { display:inline!important; }
+  button.section-toggle { display:block!important; }
+  button.section-toggle::after, .section-controls { display:none!important; }
+  .section-body[hidden] { display:block!important; content-visibility:visible!important; }
+}

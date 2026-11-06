@@ -24,8 +24,14 @@ function linkTerms(html){
     return token.replace(pattern,alias=>`<a class="term-link" data-term="${termByAlias.get(alias)}" href="../glossary.html#term-${termByAlias.get(alias)}">${alias}</a>`);
   }).join('');
 }
+// The header menu lists every lesson by its <h1>, so a new lesson file appears everywhere after one sync.
+const lessonTitles=pages.map(file=>({file,title:read('lessons/'+file).match(/<h1>([\s\S]*?)<\/h1>/)[1].replace(/<[^>]+>/g,'').trim()}));
+const lessonMenu=(base,current)=>`<details class="lesson-menu"><summary>الدروس</summary><ol>${lessonTitles.map(l=>`<li><a href="${base}${l.file}"${l.file===current?' aria-current="page"':''}>${l.title}</a></li>`).join('')}</ol></details>`;
+const headerNav=(root,base,current)=>`<nav aria-label="التنقل الرئيسي"><a href="${root}index.html">الفهرس</a> ${lessonMenu(base,current)} <a href="${root}glossary.html">قاموس المصطلحات</a></nav>`;
 for(const file of pages){
   let html=read('lessons/'+file).replace(/<!-- definitions:start -->[\s\S]*?<!-- definitions:end -->/g,'');
+  if(!/<nav aria-label="التنقل الرئيسي">[\s\S]*?<\/nav>/.test(html))throw new Error('Missing header nav in '+file);
+  html=html.replace(/<nav aria-label="التنقل الرئيسي">[\s\S]*?<\/nav>/,()=>headerNav('../','',file));
   if(!html.includes('class="concept-links"')){
     html=html.replace(/(<h2 id="([^"]+)"[\s\S]*?<\/h2>)/g,(all,heading,id)=>{
       const concepts=Object.entries(terms).filter(([,term])=>term.lesson===`lessons/${file}#${id}`);
@@ -47,5 +53,5 @@ for(const file of pages){
   write('lessons/'+file,html);
 }
 const glossaryContent=`<h1 id="glossary">قاموس المصطلحات</h1><p>تعريف مختصر بالعربية، والاسم الإنجليزي، ورابط يعود بك إلى الشرح في الدرس.</p><label for="glossary-search">ابحث بالعربية أو الإنجليزية</label><input type="search" id="glossary-search" placeholder="مثل: الاستنباط أو Deduction"><p id="glossary-count" role="status">عدد المصطلحات: ${Object.keys(terms).length}</p>`+Object.entries(terms).map(([id,t])=>`<section class="glossary-entry" id="term-${id}" aria-labelledby="title-${id}"><h2 id="title-${id}">${esc(t.ar)} <a class="permalink" href="#term-${id}" aria-label="رابط المصطلح: ${esc(t.ar)}">#</a></h2><p lang="en" dir="ltr">${esc(t.en)}</p><p>${esc(t.definition)}</p><a href="${t.lesson}">الشرح والأمثلة في الدرس</a></section>`).join('\n');
-write('glossary.html',`<!doctype html><html lang="ar" dir="rtl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>قاموس المصطلحات</title><link rel="stylesheet" href="assets/style.css"></head><body><a class="skip-link" href="#main">انتقل إلى المحتوى</a><header><button class="toolbar" type="button" onclick="toggleTheme()">فاتح / داكن</button><p class="brand">قاموس المنطق والاستدلال</p><nav aria-label="التنقل الرئيسي"><a href="index.html">الفهرس</a></nav></header><main id="main"><article>${glossaryContent}</article></main><script src="assets/terms.js"></script><script src="assets/course.js"></script><script src="assets/reference.js"></script></body></html>`);
+write('glossary.html',`<!doctype html><html lang="ar" dir="rtl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>قاموس المصطلحات</title><link rel="stylesheet" href="assets/style.css"></head><body><a class="skip-link" href="#main">انتقل إلى المحتوى</a><header><button class="toolbar" type="button" onclick="toggleTheme()">فاتح / داكن</button><p class="brand">قاموس المنطق والاستدلال</p>${headerNav('','lessons/',null)}</header><main id="main"><article>${glossaryContent}</article></main><script src="assets/terms.js"></script><script src="assets/course.js"></script><script src="assets/reference.js"></script></body></html>`);
 console.log('Updated glossary and term links');

@@ -14,6 +14,18 @@
         default: throw new Error('Unknown compound mode');
       }
     },
+    /* Quantified statements over a finite domain of {a, b} individuals.
+       index points to the witness (true existential) or counterexample (false universal); -1 when none. */
+    quantify: (mode, domain) => {
+      const find = test => domain.findIndex(test);
+      switch(mode) {
+        case 'all': { const i = find(x => x.a && !x.b); return {value:i < 0, index:i}; }
+        case 'some': { const i = find(x => x.a && x.b); return {value:i >= 0, index:i}; }
+        case 'none': { const i = find(x => x.a && x.b); return {value:i < 0, index:i}; }
+        case 'notall': { const i = find(x => x.a && !x.b); return {value:i >= 0, index:i}; }
+        default: throw new Error('Unknown quantifier mode');
+      }
+    },
     implies: (p, q) => !p || q,
     classify: (p, q) => ({ violatesNecessity: q && !p, violatesSufficiency: p && !q })
   };

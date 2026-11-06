@@ -24,6 +24,21 @@ test('basic connectives match independent truth-table columns',()=>{
   const expected={and:[true,false,false,false],or:[true,true,true,false],xor:[false,true,true,false],iff:[true,false,false,true]};
   for(const [name,column] of Object.entries(expected))assert.deepEqual(rows.map(([p,q])=>logic[name](p,q)),column);
 });
+test('quantified statements over every four-tube domain, with witnesses and counterexamples',()=>{
+  const {quantify}=require('../assets/logic.js');
+  for(let bits=0;bits<256;bits++){
+    const domain=[0,1,2,3].map(i=>({a:Boolean(bits>>(2*i)&1),b:Boolean(bits>>(2*i+1)&1)}));
+    const allTrue=domain.every(x=>!x.a||x.b), someTrue=domain.some(x=>x.a&&x.b);
+    const r={all:quantify('all',domain),some:quantify('some',domain),none:quantify('none',domain),notall:quantify('notall',domain)};
+    assert.equal(r.all.value,allTrue); assert.equal(r.some.value,someTrue);
+    assert.equal(r.notall.value,!r.all.value); assert.equal(r.none.value,!r.some.value);
+    const firstCounter=domain.findIndex(x=>x.a&&!x.b), firstBoth=domain.findIndex(x=>x.a&&x.b);
+    assert.equal(r.all.index,firstCounter); assert.equal(r.notall.index,firstCounter);
+    assert.equal(r.some.index,firstBoth); assert.equal(r.none.index,firstBoth);
+    if(!domain.some(x=>x.a)){ assert.equal(r.all.value,true); assert.equal(r.some.value,false); }
+  }
+  assert.throws(()=>quantify('not-a-mode',[]));
+});
 test('three compound formulas match every independently specified row',()=>{
   const {compound}=require('../assets/logic.js');
   const expected={

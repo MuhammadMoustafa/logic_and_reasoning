@@ -425,6 +425,62 @@
     "aliases": [
       "عبارة ممكنة الصدق والكذب"
     ]
+  },
+  "quantifier": {
+    "ar": "المكمم",
+    "en": "Quantifier",
+    "definition": "أداة تحدد عن كم من أفراد المجال نتحدث: عن كلهم (∀)، أم عن واحد على الأقل (∃).",
+    "lesson": "lessons/06-quantifiers.html#l6-why",
+    "aliases": [
+      "المكممات",
+      "المكمم"
+    ]
+  },
+  "domain": {
+    "ar": "مجال الخطاب",
+    "en": "Domain of discourse",
+    "definition": "مجموعة الأفراد التي تتحدث عنها العبارات. تغييره قد يغيّر قيمة العبارة، وهو يحدد ما الذي يُعد مثالًا مضادًا.",
+    "lesson": "lessons/06-quantifiers.html#l6-domain",
+    "aliases": [
+      "مجال الخطاب"
+    ]
+  },
+  "predicate": {
+    "ar": "المحمول",
+    "en": "Predicate",
+    "definition": "صفة قد تنطبق على فرد من المجال وقد لا تنطبق، مثل E(x) بمعنى «x زوجي». لا تصبح قضية حتى نحدد الفرد أو نستخدم مكممًا.",
+    "lesson": "lessons/06-quantifiers.html#l6-domain",
+    "aliases": [
+      "المحمول"
+    ]
+  },
+  "universal": {
+    "ar": "المكمم الكلي",
+    "en": "Universal quantifier",
+    "definition": "∀x تعني «لكل x في المجال». ونترجم «كل A هو B» إلى ∀x (A(x) → B(x)).",
+    "lesson": "lessons/06-quantifiers.html#l6-universal",
+    "aliases": [
+      "المكمم الكلي"
+    ]
+  },
+  "existential": {
+    "ar": "المكمم الوجودي",
+    "en": "Existential quantifier",
+    "definition": "∃x تعني «يوجد x واحد على الأقل في المجال». ونترجم «بعض A هو B» إلى ∃x (A(x) ∧ B(x)).",
+    "lesson": "lessons/06-quantifiers.html#l6-existential",
+    "aliases": [
+      "المكمم الوجودي"
+    ]
+  },
+  "vacuous-truth": {
+    "ar": "الصدق بلا مضمون",
+    "en": "Vacuous truth",
+    "definition": "صدق عبارة كلية مثل ∀x (A(x) → B(x)) لأن لا شيء في المجال يحقق A. لا يوجد مثال مضاد، ولا يوجد شاهد أيضًا؛ فهو ليس دليلًا على B.",
+    "lesson": "lessons/06-quantifiers.html#l6-empty",
+    "aliases": [
+      "صدقًا بلا مضمون",
+      "صدق بلا مضمون"
+    ]
   }
 };
   if(typeof module !== 'undefined' && module.exports) module.exports=terms;

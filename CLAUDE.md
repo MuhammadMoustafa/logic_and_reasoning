@@ -6,7 +6,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## What this is
 
-An offline, Arabic (RTL) introductory course in logic and scientific reasoning, with English terms given on first use. Plain static HTML/CSS/JS: the files in the repo *are* the site, there is no build step and no framework, and learners open `index.html` directly (including over `file://`). Node is only for dev tooling and tests. Before changing content, read `README.md`, `docs/LESSON_GUIDELINES.md`, `docs/CURRICULUM.md` and `docs/REVIEW.md` (all in Arabic). Only lessons 1–5 exist; units 6–12 in `docs/CURRICULUM.md` are planned, not done.
+An offline, Arabic (RTL) introductory course in logic and scientific reasoning, with English terms given on first use. Plain static HTML/CSS/JS: the files in the repo *are* the site, there is no build step and no framework, and learners open `index.html` directly (including over `file://`). Node is only for dev tooling and tests. Before changing content, read `README.md`, `docs/LESSON_GUIDELINES.md`, `docs/CURRICULUM.md` and `docs/REVIEW.md` (all in Arabic). Only lessons 1–6 exist; units 7–12 in `docs/CURRICULUM.md` are planned, not done.
 
 ## Commands
 
@@ -37,11 +37,12 @@ npx playwright test -g "lesson five"
 **Generated regions — never hand-edit:**
 - `glossary.html` is fully generated from `assets/terms.js`.
 - In each lesson, `tools/update-references.cjs` rewrites term occurrences (matched by `aliases` in `assets/terms.js`, longest first, skipping headings/labels/legends/buttons/links/nav) into `<button class="term-link" data-term popovertarget>` elements. It also adds `<p class="concept-links">` after each `<h2>` that a term's `lesson` anchor points to, and regenerates the native popover `<aside>` frames between `<!-- definitions:start -->` / `<!-- definitions:end -->`. To add or change a definition, edit `assets/terms.js` and re-run `npm run references:sync`.
+- The header `<nav aria-label="التنقل الرئيسي">` in every lesson and in the glossary is rebuilt by the same sync. It holds a `<details class="lesson-menu">` dropdown that lists each lesson by its `<h1>` and marks the current one. A new `lessons/NN-*.html` therefore appears in every menu after one sync; `index.html`'s lesson list is still hand-maintained.
 - `dist/course.html`, produced by `tools/export-single.cjs`. It concatenates every lesson's `<article>` plus the glossary, inlines CSS and the four scripts, sets `window.COURSE_SINGLE_FILE = true`, and rewrites local links to in-page anchors (`#lesson-N`, `#term-x`). An unresolvable local link makes it throw. It also renames `id="progress"` / `id="mastery"` to classes, so `course.js` queries both forms.
 
 **Scripts (no modules; loaded as classic `<script>` tags in this order: `terms.js`, `logic.js`, `course.js`, `reference.js`):**
 - `assets/logic.js` holds the pure two-valued logic (`implies`, `classify`, connectives, `compound(mode,p,q,r)`). It is a UMD-style file: `window.CourseLogic` in the browser, `module.exports` for the node tests. Lab outputs and tests both depend on it.
-- `assets/course.js` handles grading, progress, the dark theme, storage fallback and lab wiring. `setupLabs()` finds each lab by element id; a lesson without that id just skips it.
+- `assets/course.js` handles grading, progress, the dark theme, storage fallback and lab wiring. `setupLabs()` finds each lab by element id; a lesson without that id just skips it. `setupSections()` turns each `section.lesson-section > h2` into a disclosure button and moves the rest of the section into `.section-body`. It also adds collapse-all/expand-all buttons to `.lesson-toc` and reopens a collapsed section before any same-page link or hash points into it. Without JS, everything stays visible; print CSS shows collapsed bodies.
 - `assets/reference.js` runs the JS definition dialog (focus trap, Escape, returns focus to the opener) on top of the native popover fallback, plus glossary search with Arabic normalisation (strips diacritics, unifies alef forms).
 - `assets/terms.js` is the single source for definitions (UMD like `logic.js`).
 
