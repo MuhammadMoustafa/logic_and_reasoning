@@ -59,7 +59,11 @@ test('mobile/desktop layouts, dark theme persistence and reduced motion',async({
       await page.screenshot({path:`work/screenshots/${width}-${url.split('/').pop()}.png`,fullPage:true});
     }
   }
-  await page.locator('.toolbar').click();await page.reload();await expect(page.locator('body')).toHaveClass(/\bdark\b/);
+  const toggle=page.locator('.theme-toggle');
+  await expect(toggle).toHaveAccessibleName('الوضع الداكن');await expect(toggle).toHaveAttribute('aria-pressed','false');
+  await expect(toggle.locator('.icon-moon')).toBeVisible();await expect(toggle.locator('.icon-sun')).toBeHidden();
+  await toggle.click();await page.reload();await expect(page.locator('body')).toHaveClass(/\bdark\b/);
+  await expect(toggle).toHaveAttribute('aria-pressed','true');await expect(toggle.locator('.icon-sun')).toBeVisible();await expect(toggle.locator('.icon-moon')).toBeHidden();
   await page.screenshot({path:'work/screenshots/dark.png',fullPage:true});
   await page.screenshot({path:'work/screenshots/lesson4-desktop-top.png'});
   await page.setViewportSize({width:360,height:900});

@@ -150,6 +150,27 @@ label:hover {
   background:#244c5b;
   border-color:#a3c9cd
 }
+/* Icon theme toggle: the moon offers dark mode, the sun offers light mode; aria-pressed carries the state. */
+.theme-toggle {
+  width:44px;
+  height:44px;
+  min-height:44px;
+  padding:0;
+  border-radius:50%;
+  display:inline-grid;
+  place-items:center
+}
+.theme-toggle svg {
+  width:22px;
+  height:22px;
+  display:block
+}
+.theme-toggle .icon-sun,body.dark .theme-toggle .icon-moon {
+  display:none
+}
+body.dark .theme-toggle .icon-sun {
+  display:block
+}
 .quiz {
   border:1px solid var(--line);
   border-radius:12px;
@@ -321,7 +342,7 @@ nav {
   gap:7px 15px
 }
 .toolbar {
-  float:none
+  float:left
 }
 article {
   border-radius:12px
