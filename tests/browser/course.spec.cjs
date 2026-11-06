@@ -1,5 +1,5 @@
 const {test,expect}=require('@playwright/test');
-const paths=['/index.html','/lessons/01-arguments.html','/lessons/02-conditional-reasoning.html','/lessons/03-necessary-sufficient.html','/lessons/04-types-of-inference.html','/lessons/05-connectives.html','/lessons/06-quantifiers.html'];
+const paths=['/index.html','/lessons/01-arguments.html','/lessons/02-conditional-reasoning.html','/lessons/03-necessary-sufficient.html','/lessons/04-types-of-inference.html','/lessons/05-connectives.html','/lessons/06-quantifiers.html','/lessons/07-proofs-fallacies.html'];
 test('every exercise: blank, wrong, correct, reload feedback and aggregate progress',async({page})=>{
   const errors=[];page.on('pageerror',e=>errors.push(e.message));
   for(const url of paths.slice(1)){
@@ -16,12 +16,12 @@ test('every exercise: blank, wrong, correct, reload feedback and aggregate progr
     await page.reload();
     for(const feedback of await page.locator('.quiz [aria-live]').all()) await expect(feedback).toContainText('إجابة صحيحة');
   }
-  await page.goto('/'); await expect(page.locator('#course-progress')).toContainText('من 34 تمرينًا؛ وأتقنت 34');
+  await page.goto('/'); await expect(page.locator('#course-progress')).toContainText('من 42 تمرينًا؛ وأتقنت 42');
   await page.goto(paths[1]);
   await page.locator('[data-quiz="l1q1"] input[value="yes"]').check();
   await page.locator('[data-check="l1q1"]').click();
   await expect(page.locator('#progress')).toContainText('من 3 تمارين؛ وأتقنت 2');
-  await page.goto('/'); await expect(page.locator('#course-progress')).toContainText('وأتقنت 33');
+  await page.goto('/'); await expect(page.locator('#course-progress')).toContainText('وأتقنت 41');
   expect(errors).toEqual([]);
 });
 test('all logical lab states and keyboard use',async({page})=>{
@@ -217,7 +217,7 @@ test('lesson menu and collapsible sections: keyboard, links reveal sections, pri
   await page.goto('/lessons/03-necessary-sufficient.html');
   const menu=page.locator('header .lesson-menu');
   await menu.locator('summary').click();
-  await expect(menu.locator('li')).toHaveCount(6);
+  await expect(menu.locator('li')).toHaveCount(7);
   await expect(menu.locator('a[aria-current="page"]')).toHaveAttribute('href','03-necessary-sufficient.html');
   await page.keyboard.press('Escape');await expect(menu).not.toHaveAttribute('open','');await expect(menu.locator('summary')).toBeFocused();
   await menu.locator('summary').click();await page.locator('main h1').click();await expect(menu).not.toHaveAttribute('open','');
@@ -252,4 +252,20 @@ test('lesson menu and collapsible sections: keyboard, links reveal sections, pri
   await expect(noJs.locator('.section-toggle')).toHaveCount(0);await expect(noJs.locator('#l3-hcn ~ p').first()).toBeVisible();
   await noJs.locator('header .lesson-menu summary').click();await expect(noJs.locator('header .lesson-menu li').first()).toBeVisible();
   await context.close();
+});
+test('lesson seven: argument-form checker, keyboard and independent answer keys',async({page})=>{
+  const errors=[];page.on('pageerror',e=>errors.push(e.message));
+  await page.goto('/lessons/07-proofs-fallacies.html');
+  const keys={l7q1:'ds',l7q2:'hs',l7q3:'both',l7q4:'all',l7q5:'equiv',l7q6:'bq',l7q7:'cond',l7q8:'fd'};
+  for(const [id,answer] of Object.entries(keys))await expect(page.locator(`[data-quiz="${id}"]`)).toHaveAttribute('data-correct',answer);
+  const output=page.locator('#form-output'),display=page.locator('#form-display');
+  await expect(output).toHaveAttribute('data-valid','true');await expect(output).toContainText('وعددها 4');
+  for(const form of ['mt','hs','ds']){await page.locator('#form-choice').selectOption(form);await expect(output).toHaveAttribute('data-valid','true');}
+  await expect(output).toContainText('وعددها 4');
+  await page.locator('#form-choice').selectOption('hs');await expect(output).toContainText('وعددها 8');await expect(display).toHaveText('P → Q, Q → R ∴ P → R');
+  await page.locator('#form-choice').selectOption('ad');
+  await expect(output).toHaveAttribute('data-valid','false');await expect(output).toContainText('مثال مضاد');await expect(output).toContainText('P صادقة');await expect(output).toContainText('Q صادقة');
+  await page.locator('#form-choice').focus();await page.keyboard.press('ArrowUp');
+  await expect(page.locator('#form-choice')).toHaveValue('da');await expect(output).toHaveAttribute('data-valid','false');await expect(output).toContainText('P كاذبة');
+  expect(errors).toEqual([]);
 });

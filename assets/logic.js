@@ -26,6 +26,27 @@
         default: throw new Error('Unknown quantifier mode');
       }
     },
+    /* Argument forms for the lesson 7 checker: search every assignment for true premises and a false conclusion. */
+    forms: {
+      mp: {vars:['P','Q'], premises:[v => !v.P || v.Q, v => v.P], conclusion:v => v.Q},
+      mt: {vars:['P','Q'], premises:[v => !v.P || v.Q, v => !v.Q], conclusion:v => !v.P},
+      hs: {vars:['P','Q','R'], premises:[v => !v.P || v.Q, v => !v.Q || v.R], conclusion:v => !v.P || v.R},
+      ds: {vars:['P','Q'], premises:[v => v.P || v.Q, v => !v.P], conclusion:v => v.Q},
+      ac: {vars:['P','Q'], premises:[v => !v.P || v.Q, v => v.Q], conclusion:v => v.P},
+      da: {vars:['P','Q'], premises:[v => !v.P || v.Q, v => !v.P], conclusion:v => !v.Q},
+      ad: {vars:['P','Q'], premises:[v => v.P || v.Q, v => v.P], conclusion:v => !v.Q}
+    },
+    checkForm(name) {
+      const form = api.forms[name];
+      if (!form) throw new Error('Unknown argument form');
+      const rows = 2 ** form.vars.length;
+      for (let i = 0; i < rows; i++) {
+        // Rows run from all-true to all-false, matching the course's truth tables.
+        const v = Object.fromEntries(form.vars.map((name, k) => [name, !((i >> (form.vars.length - 1 - k)) & 1)]));
+        if (form.premises.every(premise => premise(v)) && !form.conclusion(v)) return {valid:false, rows, counterexample:v};
+      }
+      return {valid:true, rows, counterexample:null};
+    },
     implies: (p, q) => !p || q,
     classify: (p, q) => ({ violatesNecessity: q && !p, violatesSufficiency: p && !q })
   };

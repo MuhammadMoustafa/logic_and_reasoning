@@ -5,7 +5,7 @@ const storage = {
   set(key, value) { try { localStorage.setItem(key, value); return true; } catch { return false; } }
 };
 const answers = new Map();
-const quizIds = ['l1q1','l1q2','l1q3','l2q1','l2q2','l2q3','l2q4','l2q5','l3q1','l3q2','l3q3','l4q1','l4q2','l4q3','l4q4','l4q5','l4q6','l5q1','l5q2','l5q3','l5q4','l5q5','l5q6','l5q7','l5q8','l5q9','l6q1','l6q2','l6q3','l6q4','l6q5','l6q6','l6q7','l6q8'];
+const quizIds = ['l1q1','l1q2','l1q3','l2q1','l2q2','l2q3','l2q4','l2q5','l3q1','l3q2','l3q3','l4q1','l4q2','l4q3','l4q4','l4q5','l4q6','l5q1','l5q2','l5q3','l5q4','l5q5','l5q6','l5q7','l5q8','l5q9','l6q1','l6q2','l6q3','l6q4','l6q5','l6q6','l6q7','l6q8','l7q1','l7q2','l7q3','l7q4','l7q5','l7q6','l7q7','l7q8'];
 function readAnswer(id) {
   if (answers.has(id)) return answers.get(id);
   try {
@@ -126,6 +126,25 @@ function setupLabs() {
       });
     };
     tubes.forEach(x => [x.t, x.c].forEach(input => input.addEventListener('change', update)));
+    update();
+  }
+  const formChoice = document.getElementById('form-choice');
+  if (formChoice) {
+    const display = {
+      mp:'P → Q, P ∴ Q', mt:'P → Q, ¬Q ∴ ¬P', hs:'P → Q, Q → R ∴ P → R', ds:'P ∨ Q, ¬P ∴ Q',
+      ac:'P → Q, Q ∴ P', da:'P → Q, ¬P ∴ ¬Q', ad:'P ∨ Q, P ∴ ¬Q'
+    };
+    const word = value => value ? 'صادقة' : 'كاذبة';
+    const update = () => {
+      const result = CourseLogic.checkForm(formChoice.value);
+      document.getElementById('form-display').textContent = display[formChoice.value];
+      const output = document.getElementById('form-output');
+      output.dataset.valid = String(result.valid);
+      output.textContent = result.valid
+        ? `صالح: فحصنا كل الحالات الممكنة، وعددها ${result.rows}، ولا توجد حالة تصدق فيها المقدمات وتكذب النتيجة.`
+        : `غير صالح: مثال مضاد عندما تكون ${Object.entries(result.counterexample).map(([name, value]) => `${name} ${word(value)}`).join(' و')}؛ عندها تصدق المقدمات كلها وتكذب النتيجة. هذه مغالطة شكلية: الخطأ في الشكل نفسه، أيًّا كان المحتوى.`;
+    };
+    formChoice.addEventListener('change', update);
     update();
   }
   const evidence = document.getElementById('evidence-case');

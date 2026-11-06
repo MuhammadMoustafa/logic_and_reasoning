@@ -52,3 +52,20 @@ test('three compound formulas match every independently specified row',()=>{
   }
   assert.throws(()=>compound('not-a-mode',true,true,true));
 });
+test('argument forms: valid rules have no counterexample; fallacies return a real one',()=>{
+  const {checkForm,forms}=require('../assets/logic.js');
+  // Independent expectations, written from the definitions, not from the checker.
+  const expected={mp:null,mt:null,hs:null,ds:null,ac:{P:false,Q:true},da:{P:false,Q:true},ad:{P:true,Q:true}};
+  assert.deepEqual(Object.keys(forms).sort(),Object.keys(expected).sort());
+  for(const [name,counter] of Object.entries(expected)){
+    const r=checkForm(name),form=forms[name];
+    assert.equal(r.rows,2**form.vars.length);
+    assert.equal(r.valid,counter===null,name);
+    assert.deepEqual(r.counterexample,counter,name);
+    if(counter){assert.ok(form.premises.every(p=>p(counter)));assert.equal(form.conclusion(counter),false);}
+  }
+  // Hypothetical syllogism checked by brute force over all eight rows, independently of checkForm.
+  for(const P of [true,false])for(const Q of [true,false])for(const R of [true,false])
+    if((!P||Q)&&(!Q||R))assert.equal(!P||R,true);
+  assert.throws(()=>checkForm('not-a-form'));
+});

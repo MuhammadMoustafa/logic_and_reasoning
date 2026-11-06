@@ -481,6 +481,110 @@
       "صدقًا بلا مضمون",
       "صدق بلا مضمون"
     ]
+  },
+  "proof": {
+    "ar": "البرهان",
+    "en": "Proof",
+    "definition": "سلسلة أسطر تبدأ من المقدمات، ويُبرَّر كل سطر جديد بقاعدة استدلال صالحة، حتى نصل إلى النتيجة. يثبت البرهان صلاحية الحجة، لا صدق مقدماتها.",
+    "lesson": "lessons/07-proofs-fallacies.html#l7-why",
+    "aliases": [
+      "البرهان"
+    ]
+  },
+  "rule-of-inference": {
+    "ar": "قاعدة الاستدلال",
+    "en": "Rule of inference",
+    "definition": "شكل صالح قصير نستخدمه خطوةً واحدة في البرهان، مثل إثبات المقدّم ونفي التالي.",
+    "lesson": "lessons/07-proofs-fallacies.html#l7-rules",
+    "aliases": [
+      "قاعدة الاستدلال",
+      "قواعد الاستدلال"
+    ]
+  },
+  "hypothetical-syllogism": {
+    "ar": "تسلسل الشروط",
+    "en": "Hypothetical syllogism",
+    "definition": "من P → Q ومن Q → R نستنتج P → R. قاعدة صالحة.",
+    "lesson": "lessons/07-proofs-fallacies.html#l7-rules",
+    "aliases": [
+      "تسلسل الشروط"
+    ]
+  },
+  "disjunctive-syllogism": {
+    "ar": "الاستدلال بالحذف",
+    "en": "Disjunctive syllogism",
+    "definition": "من P ∨ Q ومن ¬P نستنتج Q. قاعدة صالحة تبدأ بنفي أحد البديلين؛ أما إثبات أحدهما فلا ينفي الآخر.",
+    "lesson": "lessons/07-proofs-fallacies.html#l7-rules",
+    "aliases": [
+      "الاستدلال بالحذف"
+    ]
+  },
+  "implicit-premise": {
+    "ar": "المقدمة الضمنية",
+    "en": "Implicit premise",
+    "definition": "مقدمة لا يصرّح بها القائل، لكن الحجة تحتاج إليها لتصبح صالحة. بعد إضافتها نفحص صدقها؛ فهناك يختبئ الضعف غالبًا.",
+    "lesson": "lessons/07-proofs-fallacies.html#l7-implicit",
+    "aliases": [
+      "المقدمة الضمنية",
+      "المقدمات الضمنية"
+    ]
+  },
+  "formal-fallacy": {
+    "ar": "المغالطة الشكلية",
+    "en": "Formal fallacy",
+    "definition": "استدلال بشكل غير صالح؛ فله مثال مضاد مهما كان المحتوى، مثل إثبات التالي ونفي المقدّم.",
+    "lesson": "lessons/07-proofs-fallacies.html#l7-formal",
+    "aliases": [
+      "المغالطة الشكلية",
+      "مغالطة شكلية"
+    ]
+  },
+  "informal-fallacy": {
+    "ar": "المغالطة غير الشكلية",
+    "en": "Informal fallacy",
+    "definition": "خلل في محتوى الحجة لا في شكلها: مقدمة كاذبة، أو كلمة يتغير معناها، أو دليل لا يكفي. قد يكون الشكل صالحًا ومع ذلك تفشل الحجة.",
+    "lesson": "lessons/07-proofs-fallacies.html#l7-informal",
+    "aliases": [
+      "المغالطة غير الشكلية",
+      "المغالطات غير الشكلية",
+      "مغالطات غير شكلية"
+    ]
+  },
+  "equivocation": {
+    "ar": "اشتراك اللفظ",
+    "en": "Equivocation",
+    "definition": "استعمال كلمة واحدة بمعنيين مختلفين في حجة واحدة، فتبدو صالحة. إذا ثبّتنا معنى واحدًا كذبت إحدى المقدمات.",
+    "lesson": "lessons/07-proofs-fallacies.html#l7-informal",
+    "aliases": [
+      "اشتراك اللفظ"
+    ]
+  },
+  "begging-question": {
+    "ar": "المصادرة على المطلوب",
+    "en": "Begging the question",
+    "definition": "حجة تفترض نتيجتها في مقدماتها، فلا تقدم سببًا مستقلًا لقبولها، حتى لو كان شكلها صالحًا.",
+    "lesson": "lessons/07-proofs-fallacies.html#l7-informal",
+    "aliases": [
+      "المصادرة على المطلوب"
+    ]
+  },
+  "hasty-generalization": {
+    "ar": "التعميم المتسرع",
+    "en": "Hasty generalization",
+    "definition": "تعميم على مجال واسع من عينة صغيرة أو غير ممثلة.",
+    "lesson": "lessons/07-proofs-fallacies.html#l7-informal",
+    "aliases": [
+      "التعميم المتسرع"
+    ]
+  },
+  "false-dilemma": {
+    "ar": "الثنائية الزائفة",
+    "en": "False dilemma",
+    "definition": "مقدمة تعرض بديلين فقط كأنهما كل الاحتمالات، مع وجود بدائل أخرى. الاستدلال بالحذف بعدها صالح الشكل، لكن المقدمة كاذبة.",
+    "lesson": "lessons/07-proofs-fallacies.html#l7-informal",
+    "aliases": [
+      "الثنائية الزائفة"
+    ]
   }
 };
   if(typeof module !== 'undefined' && module.exports) module.exports=terms;
