@@ -14,21 +14,38 @@ const setThemeButton = (html, label) => {
 };
 
 // Add ordinary fallback links in the saved HTML, not only after JavaScript starts.
-const aliases = Object.entries(terms).flatMap(([id, t]) => t.aliases.map(alias => ({id, alias}))).sort((a, b) => b.alias.length - a.alias.length);
+// Arabic writes و ف ب ك ل as part of the next word («والشرط»، «بالعطف»), so each Arabic alias also matches with them.
+// ل before ال drops the alef («للشرط»). The prefix stays inside the button: ف ب ك ل join the next letter, and splitting would break the word's shape.
+const prefixes = ['و', 'ف', 'ب', 'ك', 'ل', 'وب', 'فب', 'وك', 'فك', 'ول', 'فل'];
+const withPrefixes = alias => /^\p{Script=Arabic}/u.test(alias)
+  ? [alias, ...prefixes.map(p => p.endsWith('ل') && alias.startsWith('ال') ? p + alias.slice(1) : p + alias)]
+  : [alias];
+// Prefixed forms that are ordinary words, not the term: «بالضرورة» is "necessarily", «بالعكس» is "conversely".
+const notTerms = new Set(['بالضرورة', 'وبالضرورة', 'بالعكس', 'وبالعكس', 'فبالعكس']);
+const aliases = Object.entries(terms).flatMap(([id, t]) => t.aliases.flatMap(withPrefixes).filter(alias => !notTerms.has(alias)).map(alias => ({id, alias}))).sort((a, b) => b.alias.length - a.alias.length);
 const termByAlias = new Map(aliases.map(x => [x.alias, x.id]));
 const pattern = new RegExp('(?<![\\p{L}\\p{N}_])(' + aliases.map(x => x.alias.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')).join('|') + ')(?![\\p{L}\\p{N}_])', 'gu');
+// Only a term's first mention in each lesson section (and in the part before the first section) is linked:
+// every mention would bury the page in dotted underlines, and a reader who lands on a section still finds the link near the top.
 function linkTerms(html) {
   const skip = ['a', 'nav', 'script', 'style', 'button', 'label', 'legend', 'option', 'summary', 'h1', 'h2', 'head', 'svg'];
   const stack = [];
+  let linked = new Set();
   return html.split(/(<[^>]+>)/g).map(token => {
     if (token.startsWith('<')) {
+      if (/^<(article|section class="lesson-section")[\s>]/.test(token)) linked = new Set();
       const end = token.match(/^<\/([a-z0-9]+)/i), start = token.match(/^<([a-z0-9]+)/i);
       if (end) { const index = stack.lastIndexOf(end[1].toLowerCase()); if (index >= 0) stack.splice(index); }
       else if (start && !/\/$/.test(token) && !['input', 'br', 'hr', 'meta', 'link', 'img'].includes(start[1].toLowerCase())) stack.push(start[1].toLowerCase());
       return token;
     }
     if (!stack.includes('article') || stack.some(tag => skip.includes(tag))) return token;
-    return token.replace(pattern, alias => `<a class="term-link" data-term="${termByAlias.get(alias)}" href="../glossary.html#term-${termByAlias.get(alias)}">${alias}</a>`);
+    return token.replace(pattern, alias => {
+      const key = termByAlias.get(alias);
+      if (linked.has(key)) return alias;
+      linked.add(key);
+      return `<a class="term-link" data-term="${key}" href="../glossary.html#term-${key}">${alias}</a>`;
+    });
   }).join('');
 }
 
