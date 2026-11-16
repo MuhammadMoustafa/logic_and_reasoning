@@ -40,7 +40,7 @@ body.dark {
 header {
   background:#153543;
   color:#fff;
-  padding:28px max(5%,calc((100% - 1020px)/2));
+  padding:16px max(5%,calc((100% - 1020px)/2));
   border-bottom:5px solid #c2a15f
 }
 header h1 {
@@ -336,7 +336,7 @@ th,td {
   padding:8px 4px
 }
 header {
-  padding:18px
+  padding:10px 16px
 }
 nav {
   gap:7px 15px
@@ -380,10 +380,10 @@ article {
 
 
 .brand {
-  font-size:clamp(1.3rem,4vw,2rem);
+  font-size:clamp(1.15rem,3.4vw,1.6rem);
   font-weight:bold;
   line-height:1.5;
-  margin:10px 0
+  margin:4px 0
 }
 .source-note {
   font-size:.9rem;
@@ -394,7 +394,8 @@ select { font: inherit; color: var(--ink); background: var(--surface); border: 1
 select:focus-visible { outline: 3px solid #c17e15; outline-offset: 4px; }
 /* References, bookmarks, and phone layouts. */
 [hidden] { display: none !important; }
-.lesson-section, .glossary-entry, h2[id] { scroll-margin-top: 24px; }
+/* A link that jumps upward reveals the header, so leave room for it above the target. */
+.lesson-section, .glossary-entry, h2[id] { scroll-margin-top: calc(var(--header-h, 0px) + 16px); }
 .lesson-toc { display:block; background:var(--tint); border:1px solid var(--line); border-radius:12px; padding:18px 24px; }
 .lesson-toc ol { margin-bottom:0; }
 .lesson-toc a { text-decoration-thickness:1px; }
@@ -404,7 +405,8 @@ select:focus-visible { outline: 3px solid #c17e15; outline-offset: 4px; }
 .term-overlay { position:fixed; inset:0; z-index:100; background:#061622b8; display:flex; align-items:center; justify-content:center; padding:16px; }
 .term-dialog { background:var(--surface); color:var(--ink); border:1px solid var(--line); border-radius:16px; padding:24px; max-width:620px; width:100%; max-height:85vh; overflow:auto; box-shadow:0 15px 65px #0005; }
 .term-dialog h2 { margin-top:12px; clear:both; }
-.term-dialog p[lang=en] { text-align:start; color:var(--muted); overflow-wrap:anywhere; }
+/* An English name under an Arabic term lines up with the Arabic (right), not with the far left edge. */
+.term-dialog p[lang=en], .native-definition p[lang=en], .glossary-entry p[lang=en] { text-align:right; color:var(--muted); overflow-wrap:anywhere; }
 .term-close { float:left; margin:0; }
 .definition-open { overflow:hidden; }
 .glossary-entry { border-top:1px solid var(--line); padding:12px 0 25px; }
@@ -429,7 +431,11 @@ button.term-link:hover { color:var(--accent); background:none; }
 .table-scroll table.compact { min-width:0; }
 .table-scroll:focus-visible { outline:3px solid #c17e15; outline-offset:3px; }
 /* Header lesson menu: a native details dropdown that stays usable as the course grows. */
-header { position:relative; }
+/* The header stays at the top while reading, so the lesson menu and theme button are always one tap away.
+   It slides away while scrolling down and returns on any scroll up (course.js), so it does not eat a phone screen. */
+header { position:sticky; top:0; z-index:40; transition:transform .25s ease; }
+header.header-hidden { transform:translateY(-100%); }
+@media (prefers-reduced-motion:reduce) { header { transition:none; } }
 .lesson-menu { border:0; padding:0; margin:0; border-radius:0; }
 .lesson-menu > summary { cursor:pointer; color:#e0f7f4; font-weight:normal; text-decoration:underline; text-underline-offset:4px; list-style:none; }
 .lesson-menu > summary::-webkit-details-marker { display:none; }
@@ -572,12 +578,12 @@ button.section-toggle::after { content:"▾"; font-size:.8em; color:var(--muted)
 /* How to read a formula: the Arabic reading, then the English reading on its own line. */
 .reading { text-align:center; color:var(--muted); margin-top:-6px; }
 .reading bdi[lang="en"] { display:block; }
-/* English name under an Arabic heading: smaller, on its own line, so long terms do not stretch the heading. */
-.heading-en { display:block; text-align:right; font-size:.62em; font-weight:normal; color:var(--muted); margin-top:4px; }
-/* In the collapsible heading the English sits on its own line under the Arabic, so the Arabic keeps the full width on phones. */
+/* English beside an Arabic heading or contents entry: on the same line when it fits, moving to the next line
+   as one unit when it does not. As an inline-block it is also left out of the link underline. The gap is margin-right
+   because the English box is left-to-right, so its own inline-start is the left side. */
+.heading-en { display:inline-block; margin-right:.6em; text-align:right; font-size:.62em; font-weight:normal; color:var(--muted); }
 button.section-toggle .section-title { flex:1; }
-button.section-toggle .heading-en { order:2; flex-basis:100%; }
-.lesson-toc .toc-en { display:block; text-align:right; font-size:.85em; color:var(--muted); }
+.lesson-toc .toc-en { display:inline-block; margin-right:.6em; text-align:right; font-size:.85em; color:var(--muted); }
 /* A term button and the punctuation after it stay on one line. */
 .term-wrap { white-space:nowrap; }
 /* Inline formulas and variables: a code-like chip, so symbols stand apart from the Arabic around them. */

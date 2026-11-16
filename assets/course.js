@@ -314,9 +314,25 @@ function initializeCourse() {
   updateProgress();
   document.body.classList.add('interactions-ready');
   try { setupLabs(); } catch (error) { console.warn('A lesson activity could not initialize:', error); }
-  try { setupLessonMenu(); setupSections(); } catch (error) { console.warn('Navigation enhancements could not initialize:', error); }
+  try { setupHeader(); setupLessonMenu(); setupSections(); } catch (error) { console.warn('Navigation enhancements could not initialize:', error); }
 }
 // The header lesson menu is a native <details>; scripts only add outside-click, Escape and close-on-choice.
+// Sticky header that hides while scrolling down and returns on scroll up, on focus, or while the lesson menu is open.
+function setupHeader() {
+  const header = document.querySelector('body > header');
+  if (!header) return;
+  const setHeight = () => document.documentElement.style.setProperty('--header-h', header.offsetHeight + 'px');
+  setHeight();
+  addEventListener('resize', setHeight);
+  let lastY = scrollY;
+  addEventListener('scroll', () => {
+    const y = scrollY, keep = header.querySelector('details[open]') || header.contains(document.activeElement);
+    if (y > lastY + 4 && y > header.offsetHeight && !keep) header.classList.add('header-hidden');
+    else if (y < lastY - 4 || y <= header.offsetHeight) header.classList.remove('header-hidden');
+    lastY = y;
+  }, {passive:true});
+  header.addEventListener('focusin', () => header.classList.remove('header-hidden'));
+}
 function setupLessonMenu() {
   document.querySelectorAll('.lesson-menu').forEach(menu => {
     const summary = menu.querySelector('summary');
@@ -356,7 +372,7 @@ function setupSections() {
     button.setAttribute('aria-controls', body.id); button.setAttribute('aria-expanded', 'true');
     const title = document.createElement('span');
     title.className = 'section-title';
-    while (heading.firstChild) (heading.firstChild.classList?.contains('heading-en') ? button : title).appendChild(heading.firstChild);
+    while (heading.firstChild) title.appendChild(heading.firstChild);
     button.prepend(title);
     heading.appendChild(button);
     button.addEventListener('click', () => setSectionOpen(section, button.getAttribute('aria-expanded') !== 'true'));
