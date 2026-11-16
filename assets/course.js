@@ -354,7 +354,10 @@ function setupSections() {
     const button = document.createElement('button');
     button.type = 'button'; button.className = 'section-toggle';
     button.setAttribute('aria-controls', body.id); button.setAttribute('aria-expanded', 'true');
-    while (heading.firstChild) button.appendChild(heading.firstChild);
+    const title = document.createElement('span');
+    title.className = 'section-title';
+    while (heading.firstChild) (heading.firstChild.classList?.contains('heading-en') ? button : title).appendChild(heading.firstChild);
+    button.prepend(title);
     heading.appendChild(button);
     button.addEventListener('click', () => setSectionOpen(section, button.getAttribute('aria-expanded') !== 'true'));
     body.addEventListener('beforematch', () => setSectionOpen(section, true));
