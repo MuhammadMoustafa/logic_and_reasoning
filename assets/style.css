@@ -272,7 +272,7 @@ ul,ol {
   padding:18px 0
 }
 .lesson-list li::before {
-  content:'0' counter(lesson);
+  content:counter(lesson, decimal-leading-zero);
   font-family:Consolas,monospace;
   color:var(--muted);
   margin-inline-end:15px
