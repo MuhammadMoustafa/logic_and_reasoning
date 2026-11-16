@@ -1070,7 +1070,7 @@
     "ar": "الضابط الإيجابي",
     "en": "Positive control",
     "definition": "حالة نعرف أنها يجب أن تُظهر الأثر، نضيفها لنتأكد أن طريقة القياس قادرة على كشفه. إن لم يظهر فيها، فالخلل في التجربة لا في الفرضية.",
-    "lesson": "lessons/12-experimental-design.html#l12-control",
+    "lesson": "lessons/13-controls-lab-reasoning.html#l13-controls",
     "aliases": [
       "الضابط الإيجابي",
       "ضابط إيجابي",
@@ -1095,6 +1095,260 @@
     "aliases": [
       "المقارنات المتعددة",
       "تعدد المقارنات"
+    ]
+  },
+  "independent-variable": {
+    "ar": "المتغير المستقل",
+    "en": "Independent variable",
+    "definition": "ما يغيّره الباحث عمدًا في التجربة، ليرى أثره في متغير آخر.",
+    "lesson": "lessons/13-controls-lab-reasoning.html#l13-variables",
+    "aliases": [
+      "المتغير المستقل",
+      "المتغيرات المستقلة"
+    ]
+  },
+  "dependent-variable": {
+    "ar": "المتغير التابع",
+    "en": "Dependent variable",
+    "definition": "ما نقيسه لنرى أثر تغيير المتغير المستقل.",
+    "lesson": "lessons/13-controls-lab-reasoning.html#l13-variables",
+    "aliases": [
+      "المتغير التابع",
+      "المتغيرات التابعة"
+    ]
+  },
+  "controlled-variable": {
+    "ar": "المتغير المضبوط",
+    "en": "Controlled variable",
+    "definition": "عامل نبقيه ثابتًا في التجربة لأنه قد يغيّر المتغير التابع، مثل الحرارة أو تركيب المحلول.",
+    "lesson": "lessons/13-controls-lab-reasoning.html#l13-variables",
+    "aliases": [
+      "المتغيرات المضبوطة",
+      "المتغير المضبوط",
+      "متغير مضبوط"
+    ]
+  },
+  "operational-definition": {
+    "ar": "التعريف الإجرائي",
+    "en": "Operational definition",
+    "definition": "قاعدة تحوّل مفهومًا إلى قياس محدد، مثل تعريف قوة الرنين بنسبة الممانعة عند القمة إلى الممانعة عند تردد منخفض. نكتبه قبل التجربة.",
+    "lesson": "lessons/13-controls-lab-reasoning.html#l13-variables",
+    "aliases": [
+      "التعريف الإجرائي",
+      "تعريف إجرائي",
+      "تعريفًا إجرائيًا"
+    ]
+  },
+  "measurement-validity": {
+    "ar": "صدق القياس",
+    "en": "Measurement validity",
+    "definition": "أن يقيس القياس المفهوم الذي نقصده فعلًا. يختلف عن صلاحية الحجة رغم أن الكلمة الإنجليزية Validity تُستعمل للمعنيين.",
+    "lesson": "lessons/13-controls-lab-reasoning.html#l13-variables",
+    "aliases": [
+      "صدق القياس"
+    ]
+  },
+  "reliability": {
+    "ar": "ثبات القياس",
+    "en": "Reliability",
+    "definition": "أن يعطي القياس القيمة نفسها تقريبًا إذا كررناه على الحالة نفسها.",
+    "lesson": "lessons/13-controls-lab-reasoning.html#l13-variables",
+    "aliases": [
+      "ثبات القياس"
+    ]
+  },
+  "negative-control": {
+    "ar": "الضابط السلبي",
+    "en": "Negative control",
+    "definition": "حالة تمر بكل خطوات الإجراء ولا نتوقع فيها الأثر. إن ظهر فيها، فالإجراء نفسه يُحدثه. يحمي من الإيجابية الكاذبة.",
+    "lesson": "lessons/13-controls-lab-reasoning.html#l13-controls",
+    "aliases": [
+      "الضابط السلبي",
+      "ضابط سلبي",
+      "ضابطًا سلبيًا"
+    ]
+  },
+  "vehicle-control": {
+    "ar": "ضابط المذيب",
+    "en": "Vehicle control",
+    "definition": "ضابط سلبي يتلقى المادة التي يُذاب فيها الدواء، بالتركيز نفسه، دون الدواء.",
+    "lesson": "lessons/13-controls-lab-reasoning.html#l13-controls",
+    "aliases": [
+      "ضابط المذيب"
+    ]
+  },
+  "sham": {
+    "ar": "الإجراء الصوري",
+    "en": "Sham procedure",
+    "definition": "ضابط سلبي يمر بكل خطوات العملية عدا الخطوة المختبرة، كجراحة لا يُزال فيها النسيج.",
+    "lesson": "lessons/13-controls-lab-reasoning.html#l13-controls",
+    "aliases": [
+      "الإجراء الصوري"
+    ]
+  },
+  "time-matched-control": {
+    "ar": "الضابط الزمني",
+    "en": "Time-matched control",
+    "definition": "حالات تُقاس المدة نفسها دون المعالجة، لنعرف ما يتغير بمرور الزمن وحده.",
+    "lesson": "lessons/13-controls-lab-reasoning.html#l13-controls",
+    "aliases": [
+      "الضابط الزمني"
+    ]
+  },
+  "manipulation-check": {
+    "ar": "التحقق من التدخل",
+    "en": "Manipulation check",
+    "definition": "قياس يبيّن أن التدخل حدث كما أردنا، مثل التأكد من أن الحاجب حجب التيار فعلًا.",
+    "lesson": "lessons/13-controls-lab-reasoning.html#l13-controls",
+    "aliases": [
+      "التحقق من التدخل"
+    ]
+  },
+  "mill-methods": {
+    "ar": "طرق ميل",
+    "en": "Mill's methods",
+    "definition": "طرق وصفها جون ستيوارت ميل عام 1843 لعزل الأسباب بالمقارنة، منها الاتفاق والاختلاف والتغير المصاحب. تفترض معرفة العوامل المرشحة، ونتائجها مؤقتة.",
+    "lesson": "lessons/13-controls-lab-reasoning.html#l13-mill",
+    "aliases": [
+      "طرق ميل"
+    ]
+  },
+  "method-of-agreement": {
+    "ar": "طريقة الاتفاق",
+    "en": "Method of agreement",
+    "definition": "إذا ظهر الأثر في حالات مختلفة لا يجمعها إلا عامل واحد، فهذا العامل مرشح للسبب.",
+    "lesson": "lessons/13-controls-lab-reasoning.html#l13-mill",
+    "aliases": [
+      "طريقة الاتفاق"
+    ]
+  },
+  "method-of-difference": {
+    "ar": "طريقة الاختلاف",
+    "en": "Method of difference",
+    "definition": "إذا تشابهت حالتان في كل شيء إلا عاملًا واحدًا، وظهر الأثر في إحداهما فقط، فالعامل جزء من السبب. هي منطق المجموعة الضابطة.",
+    "lesson": "lessons/13-controls-lab-reasoning.html#l13-mill",
+    "aliases": [
+      "طريقة الاختلاف"
+    ]
+  },
+  "concomitant-variation": {
+    "ar": "طريقة التغير المصاحب",
+    "en": "Method of concomitant variation",
+    "definition": "إذا تغير الأثر بانتظام مع تغير العامل، فبينهما صلة سببية محتملة.",
+    "lesson": "lessons/13-controls-lab-reasoning.html#l13-mill",
+    "aliases": [
+      "طريقة التغير المصاحب",
+      "التغير المصاحب"
+    ]
+  },
+  "dose-response": {
+    "ar": "العلاقة بين الجرعة والاستجابة",
+    "en": "Dose–response relationship",
+    "definition": "تغيّر الأثر بانتظام مع مقدار المعالجة. تقوّي الاستنتاج السببي، لكنها لا تميّز وحدها الأثر المقصود من أثر جانبي يزداد مع الجرعة أيضًا.",
+    "lesson": "lessons/13-controls-lab-reasoning.html#l13-mill",
+    "aliases": [
+      "العلاقة بين الجرعة والاستجابة"
+    ]
+  },
+  "between-subject": {
+    "ar": "تصميم بين المجموعات",
+    "en": "Between-subject design",
+    "definition": "تصميم يتلقى فيه كل فرد حالة واحدة، ونقارن المجموعات.",
+    "lesson": "lessons/13-controls-lab-reasoning.html#l13-designs",
+    "aliases": [
+      "تصميم بين المجموعات"
+    ]
+  },
+  "within-subject": {
+    "ar": "تصميم داخل الأفراد",
+    "en": "Within-subject design",
+    "definition": "تصميم يُقاس فيه الفرد نفسه في كل الحالات. يزيل الفروق الثابتة بين الأفراد، لكن عليه أن يراعي أثر الزمن والترتيب.",
+    "lesson": "lessons/13-controls-lab-reasoning.html#l13-designs",
+    "aliases": [
+      "تصميم داخل الأفراد"
+    ]
+  },
+  "baseline": {
+    "ar": "القياس الأساسي",
+    "en": "Baseline",
+    "definition": "قياس قبل المعالجة نقارن به ما بعدها.",
+    "lesson": "lessons/13-controls-lab-reasoning.html#l13-designs",
+    "aliases": [
+      "القياس الأساسي"
+    ]
+  },
+  "washout": {
+    "ar": "الغسل",
+    "en": "Washout",
+    "definition": "إزالة المعالجة ثم القياس مرة أخرى. عودة القيمة الأولى تضعف تفسير التغير بمرور الزمن.",
+    "lesson": "lessons/13-controls-lab-reasoning.html#l13-designs",
+    "aliases": [
+      "الغسل"
+    ]
+  },
+  "counterbalancing": {
+    "ar": "الموازنة",
+    "en": "Counterbalancing",
+    "definition": "تغيير ترتيب الحالات بين المشاركين، كأن يبدأ نصفهم بالعلاج ونصفهم بالضابط، حتى لا يختلط أثر الترتيب بأثر العلاج.",
+    "lesson": "lessons/13-controls-lab-reasoning.html#l13-designs",
+    "aliases": [
+      "الموازنة"
+    ]
+  },
+  "technical-replicate": {
+    "ar": "التكرار التقني",
+    "en": "Technical replicate",
+    "definition": "قياس العيّنة نفسها مرة أخرى. يخبرنا عن دقة الجهاز والإجراء، لا عن التفاوت بين الأفراد.",
+    "lesson": "lessons/13-controls-lab-reasoning.html#l13-replicates",
+    "aliases": [
+      "التكرار التقني"
+    ]
+  },
+  "biological-replicate": {
+    "ar": "التكرار الحيوي",
+    "en": "Biological replicate",
+    "definition": "فرد مستقل آخر، كحيوان أو مزرعة أو مريض آخر. يخبرنا عن التفاوت الطبيعي الذي نريد التعميم عليه.",
+    "lesson": "lessons/13-controls-lab-reasoning.html#l13-replicates",
+    "aliases": [
+      "التكرار الحيوي"
+    ]
+  },
+  "pseudoreplication": {
+    "ar": "التكرار الزائف",
+    "en": "Pseudoreplication",
+    "definition": "معاملة مشاهدات غير مستقلة كأنها مستقلة، كعدّ 30 خلية من 3 فئران عينةً من 30. يجعل هامش الخطأ أضيق من الحقيقة.",
+    "lesson": "lessons/13-controls-lab-reasoning.html#l13-replicates",
+    "aliases": [
+      "التكرار الزائف"
+    ]
+  },
+  "off-target": {
+    "ar": "الآثار خارج الهدف",
+    "en": "Off-target effects",
+    "definition": "آثار أداة أو دواء في أهداف غير المقصودة، وتزداد غالبًا بالتراكيز العالية.",
+    "lesson": "lessons/13-controls-lab-reasoning.html#l13-converging",
+    "aliases": [
+      "آثارًا خارج الهدف",
+      "آثار خارج الهدف",
+      "الآثار خارج الهدف"
+    ]
+  },
+  "converging-evidence": {
+    "ar": "تقارب الأدلة",
+    "en": "Converging evidence",
+    "definition": "اتفاق أدلة من طرق مستقلة تختلف نقاط ضعفها، فيضعف تفسير النتيجة بخطأ أداة واحدة.",
+    "lesson": "lessons/13-controls-lab-reasoning.html#l13-converging",
+    "aliases": [
+      "تقارب الأدلة"
+    ]
+  },
+  "regression-to-mean": {
+    "ar": "الانحدار نحو المتوسط",
+    "en": "Regression to the mean",
+    "definition": "القياس المتطرف يتبعه غالبًا قياس أقرب إلى المتوسط، لأن جزءًا من التطرف مصادفة. يقوى حين نختار الحالات بسبب قيمتها الأولى.",
+    "lesson": "lessons/13-controls-lab-reasoning.html#l13-regression",
+    "aliases": [
+      "الانحدار نحو المتوسط"
     ]
   }
 };

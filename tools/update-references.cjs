@@ -40,6 +40,7 @@ for (const {file} of lessons) {
   let html = read('lessons/' + file)
     .replace(/<!-- definitions:start -->[\s\S]*?<!-- definitions:end -->/g, '')
     .replace(/<p class="concept-links">[\s\S]*?<\/p>/g, '')
+    .replace(/<span class="term-wrap">([\s\S]*?)<\/span>/g, '$1')
     .replace(/<button type="button" class="term-link"[^>]*>([\s\S]*?)<\/button>/g, '$1');
   if (!headerNavPattern.test(html)) throw new Error('Missing header nav in ' + file);
   html = setThemeButton(html.replace(headerNavPattern, () => headerNav('../', '', file)), file);
@@ -50,9 +51,11 @@ for (const {file} of lessons) {
   });
   html = linkTerms(html);
   const prefix = file.slice(0, 2), used = new Set();
-  html = html.replace(/<(a|button)\b([^>]*data-term="([^"]+)"[^>]*)>([\s\S]*?)<\/\1>/g, (all, tag, attrs, key, label) => {
+  // A button is an atomic inline box, so a line may break between it and adjacent punctuation; .term-wrap prevents that.
+  html = html.replace(/([«(]?)<(a|button)\b([^>]*data-term="([^"]+)"[^>]*)>([\s\S]*?)<\/\2>([،؛:.,!?»)]*)/g, (all, before, tag, attrs, key, label, after) => {
     used.add(key);
-    return `<button type="button" class="term-link" data-term="${key}" popovertarget="definition-${prefix}-${key}" aria-haspopup="dialog">${label}</button>`;
+    const button = `<button type="button" class="term-link" data-term="${key}" popovertarget="definition-${prefix}-${key}" aria-haspopup="dialog">${label}</button>`;
+    return before || after ? `<span class="term-wrap">${before}${button}${after}</span>` : button;
   });
   const frames = [...used].map(key => {
     const t = terms[key], id = `definition-${prefix}-${key}`;

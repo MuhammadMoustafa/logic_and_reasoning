@@ -347,3 +347,15 @@ test('lesson twelve: sample-size lab, number line and independent answer keys',a
   const [axis,band]=await Promise.all([page.locator('#d-range').boundingBox(),page.locator('#d-range .range-band').boundingBox()]);
   expect(band.x).toBeGreaterThanOrEqual(axis.x-1);expect(band.x+band.width).toBeLessThanOrEqual(axis.x+axis.width+1);
 });
+test('lesson thirteen: control-reading lab, keyboard and independent answer keys',async({page})=>{
+  await page.goto('/lessons/13-controls-lab-reasoning.html');
+  await expectKeys(page,{l13q1:'vehicle',l13q2:'nothing',l13q3:'height',l13q4:'concomitant',l13q5:'rundown',l13q6:'4',l13q7:'genetic',l13q8:'regression'});
+  const output=page.locator('#control-output');
+  await expect(output).toHaveAttribute('data-verdict','support');
+  await page.locator('#c-treatment').selectOption('no');await expect(output).toHaveAttribute('data-verdict','against');await expect(output).toContainText('دليل ضدها');
+  await page.locator('#c-positive').selectOption('no');await expect(output).toHaveAttribute('data-verdict','uninterpretable');await expect(output).toContainText('لا يخبرنا شيئًا');
+  await page.locator('#c-treatment').selectOption('yes');await expect(output).toContainText('لا ينقذ');
+  await page.locator('#c-positive').selectOption('yes');
+  await page.locator('#c-negative').focus();await page.keyboard.press('ArrowDown');
+  await expect(page.locator('#c-negative')).toHaveValue('yes');await expect(output).toHaveAttribute('data-verdict','uninterpretable');await expect(output).toContainText('المذيب وحده');
+});

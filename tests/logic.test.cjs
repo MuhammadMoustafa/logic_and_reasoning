@@ -1,7 +1,7 @@
 const {test} = require('node:test');
 const assert = require('node:assert/strict');
 const logic = require('../assets/logic.js');
-const {implies, classify, quantify, compound, checkForm, forms, knowledgeCheck, testOutcome, bayes, causalEstimate, causalModel, normalCdf, designStats} = logic;
+const {implies, classify, quantify, compound, checkForm, forms, knowledgeCheck, testOutcome, bayes, causalEstimate, causalModel, normalCdf, designStats, readControls} = logic;
 const close = (a, b, tol = 1e-9) => Math.abs(a - b) < tol;
 const rows = [[true,true,true,false,false],[true,false,false,false,true],[false,true,true,true,false],[false,false,true,false,false]];
 test('all four truth assignments and necessary/sufficient counterexamples', () => {
@@ -127,4 +127,14 @@ test('design statistics: normal CDF, margin of error and power',()=>{
   assert.ok(close(designStats({n:20,effect:0}).power,0.05,1e-4));
   assert.ok(close(designStats({n:80,effect:5}).margin*2,designStats({n:20,effect:5}).margin));
   for(const n of [10,20,50,100,200])assert.ok(designStats({n,effect:5}).power<designStats({n:n*2,effect:5}).power);
+});
+
+test('reading an experiment through its controls covers all eight outcomes',()=>{
+  for(const negative of [true,false])for(const positive of [true,false])for(const treatment of [true,false]){
+    const r=readControls({negative,positive,treatment});
+    assert.equal(r.problems.includes('negative'),negative);
+    assert.equal(r.problems.includes('positive'),!positive);
+    // The treatment result counts only when both controls behaved as expected.
+    assert.equal(r.verdict,!negative&&positive?(treatment?'support':'against'):'uninterpretable');
+  }
 });

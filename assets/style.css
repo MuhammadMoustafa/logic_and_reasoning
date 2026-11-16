@@ -572,3 +572,7 @@ button.section-toggle::after { content:"▾"; margin-inline-start:auto; font-siz
 /* How to read a formula: the Arabic reading, then the English reading on its own line. */
 .reading { text-align:center; color:var(--muted); margin-top:-6px; }
 .reading bdi[lang="en"] { display:block; }
+/* English name under an Arabic heading: smaller, on its own line, so long terms do not stretch the heading. */
+.heading-en { display:block; font-size:.62em; font-weight:normal; color:var(--muted); margin-top:4px; }
+/* A term button and the punctuation after it stay on one line. */
+.term-wrap { white-space:nowrap; }

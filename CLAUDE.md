@@ -6,7 +6,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## What this is
 
-An offline, Arabic (RTL) introductory course in logic and scientific reasoning, with English terms given on first use. Plain static HTML/CSS/JS: the files in the repo *are* the site, there is no build step and no framework, and learners open `index.html` directly (including over `file://`). Node is only for dev tooling and tests. Before changing content, read `README.md`, `docs/LESSON_GUIDELINES.md`, `docs/CURRICULUM.md` and `docs/REVIEW.md` (all in Arabic). Lessons 1–12 cover every unit in `docs/CURRICULUM.md`; lessons 7–12 are first drafts awaiting the user's review.
+An offline, Arabic (RTL) introductory course in logic and scientific reasoning, with English terms given on first use. Plain static HTML/CSS/JS: the files in the repo *are* the site, there is no build step and no framework, and learners open `index.html` directly (including over `file://`). Node is only for dev tooling and tests. Before changing content, read `README.md`, `docs/LESSON_GUIDELINES.md`, `docs/CURRICULUM.md` and `docs/REVIEW.md` (all in Arabic). Lessons 1–13 cover every unit in `docs/CURRICULUM.md` (13, on controls and lab reasoning, was added at the user's request); lessons 7–13 are first drafts awaiting the user's review.
 
 ## Commands
 

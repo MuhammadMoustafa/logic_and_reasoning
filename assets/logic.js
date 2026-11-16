@@ -105,6 +105,13 @@
       const z = effect / se;
       return {se, margin: 1.96 * se, power: api.normalCdf(z - 1.96) + api.normalCdf(-z - 1.96)};
     },
+    /* Lesson 13: reading an experiment through its controls. Each argument says whether the effect appeared there.
+       A negative control that shows the effect means the procedure alone produces it; a positive control that does not
+       means the method cannot detect it. Either problem makes the treatment result uninterpretable. */
+    readControls: ({negative, positive, treatment}) => {
+      const problems = [negative && 'negative', !positive && 'positive'].filter(Boolean);
+      return {verdict: problems.length ? 'uninterpretable' : treatment ? 'support' : 'against', problems};
+    },
     implies: (p, q) => !p || q,
     classify: (p, q) => ({ violatesNecessity: q && !p, violatesSufficiency: p && !q })
   };
