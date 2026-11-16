@@ -325,13 +325,15 @@ function setupHeader() {
   setHeight();
   addEventListener('resize', setHeight);
   let lastY = scrollY;
+  // The class also goes on the root, so the section navigator can move up into the space the header leaves.
+  const hide = hidden => { header.classList.toggle('header-hidden', hidden); document.documentElement.classList.toggle('header-hidden', hidden); };
   addEventListener('scroll', () => {
     const y = scrollY, keep = header.querySelector('details[open]') || header.contains(document.activeElement);
-    if (y > lastY + 4 && y > header.offsetHeight && !keep) header.classList.add('header-hidden');
-    else if (y < lastY - 4 || y <= header.offsetHeight) header.classList.remove('header-hidden');
+    if (y > lastY + 4 && y > header.offsetHeight && !keep) hide(true);
+    else if (y < lastY - 4 || y <= header.offsetHeight) hide(false);
     lastY = y;
   }, {passive:true});
-  header.addEventListener('focusin', () => header.classList.remove('header-hidden'));
+  header.addEventListener('focusin', () => hide(false));
 }
 function setupLessonMenu() {
   document.querySelectorAll('.lesson-menu').forEach(menu => {
@@ -378,18 +380,7 @@ function setupSections() {
     button.addEventListener('click', () => setSectionOpen(section, button.getAttribute('aria-expanded') !== 'true'));
     body.addEventListener('beforematch', () => setSectionOpen(section, true));
   });
-  document.querySelectorAll('.lesson-toc').forEach(toc => {
-    const article = toc.closest('article');
-    const controls = document.createElement('p');
-    controls.className = 'section-controls';
-    for (const [label, open] of [['فتح كل الأقسام', true], ['طي كل الأقسام', false]]) {
-      const button = document.createElement('button');
-      button.type = 'button'; button.textContent = label;
-      button.addEventListener('click', () => article.querySelectorAll('section.lesson-section').forEach(section => setSectionOpen(section, open)));
-      controls.appendChild(button);
-    }
-    toc.appendChild(controls);
-  });
+  document.querySelectorAll('article').forEach(setupSectionNav);
   // Open a collapsed section before following any link to it on this page (TOC, definition frames, bookmarks).
   document.addEventListener('click', event => {
     const link = event.target.closest?.('a[href]');
@@ -400,6 +391,82 @@ function setupSections() {
   const fromHash = () => { if (location.hash) revealTarget(decodeURIComponent(location.hash.slice(1))); };
   window.addEventListener('hashchange', fromHash);
   fromHash();
+}
+// A section navigator that stays in view: a side column on wide screens, a slim bar that opens the list on narrow ones.
+// It marks the section being read and holds the open-all and collapse-all buttons. Built only with JavaScript;
+// without it the in-page contents list at the top of the lesson remains.
+function setupSectionNav(article) {
+  const toc = article.querySelector('.lesson-toc');
+  const sections = [...article.querySelectorAll('section.lesson-section')].filter(s => s.querySelector(':scope > h2[id]'));
+  if (!toc || !sections.length || article.querySelector('.section-nav')) return;
+  const nav = document.createElement('nav');
+  nav.className = 'section-nav';
+  nav.setAttribute('aria-label', 'أقسام الدرس أثناء القراءة');
+  const panelId = 'section-nav-' + (article.dataset.lesson || 'x');
+  const toggle = document.createElement('button');
+  toggle.type = 'button'; toggle.className = 'section-nav-toggle';
+  toggle.setAttribute('aria-expanded', 'false'); toggle.setAttribute('aria-controls', panelId);
+  toggle.innerHTML = '<span class="section-nav-label">القسم:</span> <span class="section-nav-current">في هذا الدرس</span>';
+  const panel = document.createElement('div');
+  panel.className = 'section-nav-panel'; panel.id = panelId;
+  const heading = document.createElement('p');
+  heading.className = 'section-nav-heading'; heading.textContent = 'في هذا الدرس';
+  const list = document.createElement('ol');
+  const links = sections.map(section => {
+    const h2 = section.querySelector(':scope > h2');
+    const title = (h2.querySelector('.section-title') || h2).cloneNode(true);
+    title.querySelectorAll('.heading-en').forEach(en => en.remove());     // the side column is narrow; the headings keep the English
+    const item = document.createElement('li'), link = document.createElement('a');
+    link.href = '#' + h2.id; link.textContent = title.textContent.trim();
+    item.appendChild(link); list.appendChild(item);
+    return link;
+  });
+  const controls = document.createElement('p');
+  controls.className = 'section-controls';
+  for (const [label, open] of [['فتح كل الأقسام', true], ['طي كل الأقسام', false]]) {
+    const button = document.createElement('button');
+    button.type = 'button'; button.textContent = label;
+    button.addEventListener('click', () => sections.forEach(section => setSectionOpen(section, open)));
+    controls.appendChild(button);
+  }
+  panel.append(heading, list, controls);
+  nav.append(toggle, panel);
+  // Wrap the lesson so the navigator can sit beside it on wide screens.
+  const body = document.createElement('div');
+  body.className = 'article-body';
+  while (article.firstChild) body.appendChild(article.firstChild);
+  article.append(nav, body);
+  article.classList.add('has-section-nav');
+  document.body.classList.add('with-section-nav');
+
+  const setOpen = open => { nav.classList.toggle('open', open); toggle.setAttribute('aria-expanded', String(open)); };
+  toggle.addEventListener('click', () => setOpen(!nav.classList.contains('open')));
+  links.forEach(link => link.addEventListener('click', () => setOpen(false)));
+  nav.addEventListener('keydown', event => { if (event.key === 'Escape' && nav.classList.contains('open')) { setOpen(false); toggle.focus(); } });
+  document.addEventListener('click', event => { if (!nav.contains(event.target)) setOpen(false); });
+
+  // The current section is the last one whose top has passed under the header and the bar.
+  let current = null, frame = 0;
+  const update = () => {
+    frame = 0;
+    const offset = (parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--header-h')) || 0) + toggle.offsetHeight + 40;
+    let index = -1;
+    sections.forEach((section, i) => { if (section.getBoundingClientRect().top <= offset) index = i; });
+    document.documentElement.style.setProperty('--section-nav-h', toggle.offsetHeight ? toggle.offsetHeight + 8 + 'px' : '0px');
+    const link = links[index] || null;
+    if (link === current) return;
+    current?.removeAttribute('aria-current');
+    current = link;
+    toggle.querySelector('.section-nav-current').textContent = link ? link.textContent : 'في هذا الدرس';
+    if (!link) return;
+    link.setAttribute('aria-current', 'location');
+    // Keep the marked entry visible inside a long side column without scrolling the page.
+    if (link.offsetTop < list.scrollTop || link.offsetTop + link.offsetHeight > list.scrollTop + list.clientHeight) list.scrollTop = link.offsetTop - list.clientHeight / 3;
+  };
+  const schedule = () => { if (!frame) frame = requestAnimationFrame(update); };
+  addEventListener('scroll', schedule, {passive:true});
+  addEventListener('resize', schedule);
+  update();
 }
 if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', initializeCourse, {once:true});
 else initializeCourse();

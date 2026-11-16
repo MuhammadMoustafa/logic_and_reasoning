@@ -74,7 +74,7 @@ article {
   padding:clamp(20px,5vw,48px);
   box-shadow:0 8px 30px #10293608
 }
-article>h1 {
+article h1 {
   font-size:clamp(1.6rem,4vw,2.3rem)
 }
 h1,h2,h3,legend {
@@ -395,7 +395,7 @@ select:focus-visible { outline: 3px solid #c17e15; outline-offset: 4px; }
 /* References, bookmarks, and phone layouts. */
 [hidden] { display: none !important; }
 /* A link that jumps upward reveals the header, so leave room for it above the target. */
-.lesson-section, .glossary-entry, h2[id] { scroll-margin-top: calc(var(--header-h, 0px) + 16px); }
+.lesson-section, .glossary-entry, h2[id] { scroll-margin-top: calc(var(--header-h, 0px) + var(--section-nav-h, 0px) + 16px); }
 .lesson-toc { display:block; background:var(--tint); border:1px solid var(--line); border-radius:12px; padding:18px 24px; }
 .lesson-toc ol { margin-bottom:0; }
 .lesson-toc a { text-decoration-thickness:1px; }
@@ -591,3 +591,34 @@ bdi.math { font-family:Consolas,"Cascadia Mono","DejaVu Sans Mono",monospace; fo
 .formula bdi.math { background:none; border:0; padding:0; font-size:inherit; white-space:normal; }
 /* A table whose first column holds formulas: give that column room, since fixed layout splits widths evenly. */
 table.lead-col thead th:first-child { width:46%; }
+/* Section navigator (built by course.js). Narrow screens: a slim bar that stays at the top of the lesson and
+   opens the list. Wide screens: a side column beside the lesson. The section being read is marked by a bar
+   and bold text, not by colour alone. */
+article.has-section-nav > .section-nav { position:sticky; z-index:20; top:calc(var(--header-h, 0px) + 8px); margin-bottom:16px; transition:top .25s ease; }
+html.header-hidden article.has-section-nav > .section-nav { top:8px; }
+@media (prefers-reduced-motion:reduce) { article.has-section-nav > .section-nav { transition:none; } }
+.section-nav-toggle { width:100%; min-height:44px; display:flex; gap:.4em; align-items:baseline; text-align:start; background:var(--surface); color:var(--ink); border:1px solid var(--line); border-radius:10px; padding:8px 14px; box-shadow:0 4px 14px #0002; font-size:.95rem; font-weight:normal; }
+.section-nav-toggle:hover { background:var(--surface); border-color:var(--accent); }
+.section-nav-toggle::after { content:"▾"; margin-inline-start:auto; color:var(--muted); }
+.section-nav.open .section-nav-toggle::after { content:"▴"; }
+.section-nav-label { color:var(--muted); }
+.section-nav-current { font-weight:bold; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; min-width:0; }
+.section-nav-panel { display:none; }
+.section-nav.open .section-nav-panel { display:flex; flex-direction:column; position:absolute; inset-inline:0; top:calc(100% + 6px); background:var(--surface); border:1px solid var(--line); border-radius:12px; padding:12px 14px; box-shadow:0 14px 34px #0004; max-height:min(70vh, 34rem); }
+.section-nav-heading { font-weight:bold; margin:0 0 6px; }
+.section-nav ol { position:relative; overflow:auto; min-height:0; margin:0; padding-inline-start:1.6em; }
+.section-nav li { margin:2px 0; }
+.section-nav a { display:block; padding:4px 8px; color:var(--ink); text-decoration:none; border-inline-start:3px solid transparent; border-radius:4px; line-height:1.6; }
+.section-nav a:hover { text-decoration:underline; }
+.section-nav a[aria-current] { border-inline-start-color:var(--accent); background:var(--tint); color:var(--accent); font-weight:bold; }
+.section-nav .section-controls { margin-top:10px; }
+@media (min-width:1200px) {
+  body.with-section-nav main { max-width:1320px; }
+  article.has-section-nav { display:grid; grid-template-columns:minmax(0,1fr) 16rem; column-gap:40px; align-items:start; }
+  article.has-section-nav > .article-body { grid-column:1; grid-row:1; min-width:0; }
+  article.has-section-nav > .section-nav { grid-column:2; grid-row:1; margin:0; }
+  .section-nav-toggle { display:none; }
+  .section-nav-panel, .section-nav.open .section-nav-panel { display:flex; flex-direction:column; position:static; box-shadow:none; background:var(--tint); border-radius:12px; padding:12px 14px; max-height:calc(100vh - var(--header-h, 0px) - 32px); }
+  html.header-hidden .section-nav-panel { max-height:calc(100vh - 32px); }
+}
+@media print { .section-nav { display:none !important; } article.has-section-nav { display:block; } }

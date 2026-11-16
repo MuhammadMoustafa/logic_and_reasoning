@@ -233,7 +233,7 @@ test('lesson menu and collapsible sections: keyboard, links reveal sections, pri
   await expect(menu.locator('li')).toHaveCount(lessons.length);
   await expect(menu.locator('a[aria-current="page"]')).toHaveAttribute('href','03-necessary-sufficient.html');
   await page.keyboard.press('Escape');await expect(menu).not.toHaveAttribute('open','');await expect(menu.locator('summary')).toBeFocused();
-  await menu.locator('summary').click();await page.locator('main h1').click();await expect(menu).not.toHaveAttribute('open','');
+  await menu.locator('summary').click();await page.mouse.click(8,700);await expect(menu).not.toHaveAttribute('open','');
   expect(await page.locator('.lesson-toc a[aria-current]').count()).toBe(0);
   // One section, by keyboard.
   const toggle=page.locator('#l3-hcn > .section-toggle');
@@ -264,6 +264,27 @@ test('lesson menu and collapsible sections: keyboard, links reveal sections, pri
   await expect(noJs.locator('.section-toggle')).toHaveCount(0);await expect(noJs.locator('#l3-hcn ~ p').first()).toBeVisible();
   await noJs.locator('header .lesson-menu summary').click();await expect(noJs.locator('header .lesson-menu li').first()).toBeVisible();
   await context.close();
+});
+test('section navigator: tracks the current section, phone bar opens and closes, open and collapse all',async({page})=>{
+  await page.setViewportSize({width:1400,height:900});
+  await page.goto('/lessons/02-conditional-reasoning.html');
+  const nav=page.locator('.section-nav'),links=nav.locator('ol a');
+  await expect(links).toHaveCount(await page.locator('section.lesson-section > h2').count());
+  await expect(nav.locator('.section-nav-panel')).toBeVisible();await expect(nav.locator('.section-nav-toggle')).toBeHidden();
+  await nav.locator('a[href="#l2-forms"]').click();
+  await expect(nav.locator('a[aria-current="location"]')).toHaveAttribute('href','#l2-forms');
+  await page.setViewportSize({width:375,height:812});
+  const toggle=nav.locator('.section-nav-toggle');
+  await expect(toggle).toBeVisible();await expect(nav.locator('.section-nav-panel')).toBeHidden();
+  await expect(nav.locator('.section-nav-current')).toHaveText(await nav.locator('a[aria-current="location"]').innerText());
+  await toggle.click();await expect(toggle).toHaveAttribute('aria-expanded','true');await expect(nav.locator('.section-nav-panel')).toBeVisible();
+  await page.keyboard.press('Escape');await expect(toggle).toHaveAttribute('aria-expanded','false');await expect(toggle).toBeFocused();
+  await toggle.click();await nav.getByRole('button',{name:'طي كل الأقسام'}).click();
+  await expect(page.locator('.section-toggle[aria-expanded="true"]')).toHaveCount(0);
+  await links.first().click();await expect(nav.locator('.section-nav-panel')).toBeHidden();
+  const first=await links.first().getAttribute('href');await expect(page.locator(first+'-body')).toBeVisible();
+  await toggle.click();await nav.getByRole('button',{name:'فتح كل الأقسام'}).click();
+  await expect(page.locator('.section-toggle[aria-expanded="false"]')).toHaveCount(0);
 });
 test('lesson seven: argument-form checker, keyboard and independent answer keys',async({page})=>{
   await page.goto('/lessons/07-proofs-fallacies.html');
