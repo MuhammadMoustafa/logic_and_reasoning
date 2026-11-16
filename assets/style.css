@@ -569,3 +569,6 @@ button.section-toggle::after { content:"▾"; margin-inline-start:auto; font-siz
   color:var(--muted);
   padding-top:2px
 }
+/* How to read a formula: the Arabic reading, then the English reading on its own line. */
+.reading { text-align:center; color:var(--muted); margin-top:-6px; }
+.reading bdi[lang="en"] { display:block; }
