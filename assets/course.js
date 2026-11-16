@@ -150,8 +150,8 @@ function setupLabs() {
     const output = document.getElementById('form-output');
     output.dataset.valid = String(result.valid);
     output.textContent = result.valid
-      ? `صالح: فحصنا كل الحالات الممكنة، وعددها ${result.rows}، ولا توجد حالة تصدق فيها المقدمات وتكذب النتيجة.`
-      : `غير صالح: مثال مضاد عندما تكون ${Object.entries(result.counterexample).map(([name, value]) => `${name} ${word(value)}`).join(' و')}؛ عندها تصدق المقدمات كلها وتكذب النتيجة. هذه مغالطة شكلية: الخطأ في الشكل نفسه، أيًّا كان المحتوى.`;
+      ? `صالح: فحصنا كل الحالات الممكنة، وعددها ${result.rows}، ولا توجد حالة تصدُق فيها المقدِّمات وتكذِب النتيجة.`
+      : `غير صالح: مثال مضاد عندما تكون ${Object.entries(result.counterexample).map(([name, value]) => `${name} ${word(value)}`).join(' و')}؛ عندها تصدُق المقدِّمات كلها وتكذِب النتيجة. هذه مغالطة شكلية: الخطأ في الشكل نفسه، أيًّا كان المحتوى.`;
   });
   const knowledgeCase = document.getElementById('knowledge-case');
   if (knowledgeCase) {
@@ -168,7 +168,7 @@ function setupLabs() {
         ? 'معرفة بحسب هذا التحليل: الشروط الثلاثة متحققة، وصدق الاعتقاد ليس مصادفة.'
         : result.gettier
           ? 'ليست معرفة عند أغلب الفلاسفة: الاعتقاد صادق ومبرَّر، لكن صدقه جاء مصادفة. هذه حالة من نوع غيتييه، وتبيّن أن الشروط الثلاثة لا تكفي.'
-          : `ليست معرفة: ينقصها ${result.missing.map(name => label[name]).join(' و')}.${result.missing.includes('truth') ? ' لا نعرف ما ليس صادقًا، مهما كان المبرر قويًا.' : ''}`;
+          : `ليست معرفة: ينقصها ${result.missing.map(name => label[name]).join(' و')}.${result.missing.includes('truth') ? ' لا نعرف ما ليس صادقًا، مهما كان المبرِّر قويًا.' : ''}`;
     };
     knowledgeCase.addEventListener('change', () => {
       const preset = presets[knowledgeCase.value];
@@ -187,9 +187,9 @@ function setupLabs() {
       ? 'H → O, O ∴ H ✗'
       : ['¬H', ...result.suspects.map(i => '¬A' + (i + 1))].join(' ∨ ');
     output.textContent = result.verdict === 'passed'
-      ? 'تحقق التنبؤ. هذا لا يثبت الفرضية؛ فاستنتاجها من التنبؤ إثبات للتالي، وهو الشكل غير الصالح المكتوب أعلاه. لكنها اجتازت اختبارًا كان يمكن أن تفشل فيه، فتزداد الثقة بها.'
+      ? 'تحقق التنبؤ. هذا لا يُثبت الفرضية؛ فاستنتاجها من التنبؤ إثبات للتالي، وهو الشكل غير الصالح المكتوب أعلاه. لكنها اجتازت اختبارًا كان يمكن أن تفشل فيه، فتزداد الثقة بها.'
       : result.verdict === 'against-h'
-        ? 'لم يتحقق التنبؤ، والافتراضات المساعدة الثلاثة فُحصت بطرق مستقلة. يتجه الشك الآن إلى الفرضية نفسها. ويبقى احتمال خطأ في الفحوص المستقلة، فهي قابلة للخطأ أيضًا.'
+        ? 'لم يتحقق التنبؤ، والافتراضات المساعِدة الثلاثة فُحصت بطرق مستقلة. يتجه الشك الآن إلى الفرضية نفسها. ويبقى احتمال خطأ في الفحوص المستقلة، فهي قابلة للخطأ أيضًا.'
         : `لم يتحقق التنبؤ. المنطق يخبرنا فقط أن واحدًا على الأقل كاذب: الفرضية، أو ${result.suspects.map(i => auxiliaries[i]).join('، أو ')}. افحص ما لم تفحصه قبل أن تحكم على الفرضية.`;
   });
   bind(['b-prior', 'b-sens', 'b-fpr'], () => {
@@ -220,7 +220,7 @@ function setupLabs() {
     output.dataset.ok = String(result.problems.length === 0);
     output.textContent = result.problems.length
       ? `التقدير ⁦${estimate}⁩، والأثر الكلي في هذا النموذج ⁦${model.totalEffect.toFixed(2)}⁩. ${result.problems.map(p => causalMessages[p]).join(' ')}`
-      : `التقدير ⁦${estimate}⁩، ويساوي الأثر الكلي في هذا النموذج. ضبطت المربك وحده، فأغلقت المسار الخلفي، وتركت مسار الأثر عبر ساعات المراجعة مفتوحًا.`;
+      : `التقدير ⁦${estimate}⁩، ويساوي الأثر الكلي في هذا النموذج. ضبطت المربِك وحده، فأغلقت المسار الخلفي، وتركت مسار الأثر عبر ساعات المراجعة مفتوحًا.`;
   });
   const [axisMin, axisMax] = [-15, 25];
   const at = value => ((Math.min(Math.max(value, axisMin), axisMax) - axisMin) / (axisMax - axisMin)) * 100;
@@ -231,13 +231,13 @@ function setupLabs() {
     const band = document.querySelector('#d-range .range-band');
     band.style.left = at(lo) + '%'; band.style.width = (at(hi) - at(lo)) + '%';
     document.querySelector('#d-range .range-true').style.left = at(effect) + '%';
-    document.getElementById('d-range').setAttribute('aria-label', `في 95 من كل 100 تكرار، يقع الفرق المقدّر بين ${signed(lo)} و${signed(hi)} نقطة`);
+    document.getElementById('d-range').setAttribute('aria-label', `في 95 من كل 100 تكرار، يقع الفرق المقدَّر بين ${signed(lo)} و${signed(hi)} نقطة`);
     const power = Math.round(r.power * 100);
     const output = document.getElementById('design-output');
     output.dataset.power = String(power);
     output.textContent = effect === 0
-      ? `لا يوجد أثر حقيقي هنا. ومع ذلك يقع الفرق المقدّر بين ${signed(lo)} و${signed(hi)} نقطة في 95 من كل 100 تكرار تقريبًا، وستُظهر نحو 5 من كل 100 تجربة فرقًا دالًا إحصائيًا بالمصادفة.`
-      : `في 95 من كل 100 تكرار تقريبًا، يقع الفرق المقدّر بين ${signed(lo)} و${signed(hi)} نقطة. احتمال أن تُظهر تجربة واحدة فرقًا دالًا إحصائيًا: نحو ${power}%. ` +
+      ? `لا يوجد أثر حقيقي هنا. ومع ذلك يقع الفرق المقدَّر بين ${signed(lo)} و${signed(hi)} نقطة في 95 من كل 100 تكرار تقريبًا، وستُظهر نحو 5 من كل 100 تجربة فرقًا دالًا إحصائيًا بالمصادفة.`
+      : `في 95 من كل 100 تكرار تقريبًا، يقع الفرق المقدَّر بين ${signed(lo)} و${signed(hi)} نقطة. احتمال أن تُظهر تجربة واحدة فرقًا دالًا إحصائيًا: نحو ${power}%. ` +
         (power < 80 ? 'التجربة صغيرة على أثر بهذا الحجم: قد تفوته كثيرًا، فلا يعني غياب الفرق الدال غياب الأثر.' : 'التجربة كافية غالبًا لكشف أثر بهذا الحجم.');
   });
   bind(['c-negative', 'c-positive', 'c-treatment'], () => {
@@ -257,16 +257,16 @@ function setupLabs() {
   });
   const evidenceText = {
     none: 'لا تكفي للمفاضلة: قد تغيب الإشارة بسبب البطارية، أو الكابل، أو عطل آخر.',
-    power: 'يدعم تفسير البطارية: عودة الإشارة بعد استبدالها ترجّح أنها كانت سبب المشكلة، بشرط ثبات العوامل الأخرى. لكنها لا تثبت أن هذا هو السبب الوحيد الممكن.',
-    cable: 'يدعم تفسير الكابل: عودة الإشارة بعد توصيله ترجّح أنه كان سبب المشكلة، بشرط ثبات العوامل الأخرى. لكنها لا تثبت أن هذا هو السبب الوحيد الممكن.',
+    power: 'يدعم تفسير البطارية: عودة الإشارة بعد استبدالها ترجّح أنها كانت سبب المشكلة، بشرط ثبات العوامل الأخرى. لكنها لا تُثبت أن هذا هو السبب الوحيد الممكن.',
+    cable: 'يدعم تفسير الكابل: عودة الإشارة بعد توصيله ترجّح أنه كان سبب المشكلة، بشرط ثبات العوامل الأخرى. لكنها لا تُثبت أن هذا هو السبب الوحيد الممكن.',
     both: 'تغيير عاملين معًا لا يعزل أثر كل منهما؛ نحتاج اختبارًا يغير عاملًا واحدًا مع ضوابط مناسبة.'
   };
   bind(['evidence-case'], () => { document.getElementById('evidence-output').textContent = evidenceText[document.getElementById('evidence-case').value]; });
   bind(['ahmad-scientist'], () => {
     document.getElementById('argument-badge').textContent = on('ahmad-scientist') ? 'النتيجة صادقة' : 'النتيجة كاذبة';
     document.getElementById('argument-output').textContent = on('ahmad-scientist')
-      ? 'هذه الحالة تصدق فيها المقدمات والنتيجة؛ لكنها لا تثبت صلاحية الحجة. ألغِ الاختيار للبحث عن مثال مضاد.'
-      : 'مثال مضاد: أحمد جامعي غير عالم. المقدمتان تظلان صادقتين والنتيجة كاذبة؛ إذن الحجة غير صالحة.';
+      ? 'هذه الحالة تصدُق فيها المقدِّمات والنتيجة؛ لكنها لا تُثبت صلاحية الحجة. ألغِ الاختيار للبحث عن مثال مضاد.'
+      : 'مثال مضاد: أحمد جامعي غير عالم. المقدِّمتان تظلان صادقتين والنتيجة كاذبة؛ إذن الحجة غير صالحة.';
   });
   bind(['truth-p', 'truth-q'], () => {
     const p = on('truth-p'), q = on('truth-q');
@@ -283,7 +283,7 @@ function setupLabs() {
     document.getElementById('condition-output').textContent = state.violatesNecessity
       ? 'تنقض الضرورة: Q متحققة رغم غياب P. لا تنقض الكفاية.'
       : state.violatesSufficiency ? 'تنقض الكفاية: P متحققة دون Q. لا تنقض الضرورة.'
-      : 'هذه الحالة لا تنقض الضرورة ولا الكفاية. توافق الفرضية في حالة واحدة لا يثبتها كليًا.';
+      : 'هذه الحالة لا تنقض الضرورة ولا الكفاية. توافق الفرضية في حالة واحدة لا يُثبتها كليًا.';
   });
 }
 function initializeCourse() {

@@ -22,9 +22,11 @@ const withPrefixes = alias => /^\p{Script=Arabic}/u.test(alias)
   : [alias];
 // Prefixed forms that are ordinary words, not the term: «بالضرورة» is "necessarily", «بالعكس» is "conversely".
 const notTerms = new Set(['بالضرورة', 'وبالضرورة', 'بالعكس', 'وبالعكس', 'فبالعكس']);
-const aliases = Object.entries(terms).flatMap(([id, t]) => t.aliases.flatMap(withPrefixes).filter(alias => !notTerms.has(alias)).map(alias => ({id, alias}))).sort((a, b) => b.alias.length - a.alias.length);
+// Matching ignores Arabic diacritics, so «المقدَّم» in a lesson matches the alias «المقدّم» and vice versa.
+const plain = s => s.replace(/[ً-ْٰ]/g, '');
+const aliases = Object.entries(terms).flatMap(([id, t]) => t.aliases.map(plain).flatMap(withPrefixes).filter(alias => !notTerms.has(alias)).map(alias => ({id, alias}))).sort((a, b) => b.alias.length - a.alias.length);
 const termByAlias = new Map(aliases.map(x => [x.alias, x.id]));
-const pattern = new RegExp('(?<![\\p{L}\\p{N}_])(' + aliases.map(x => x.alias.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')).join('|') + ')(?![\\p{L}\\p{N}_])', 'gu');
+const pattern = new RegExp('(?<![\\p{L}\\p{N}_])(' + aliases.map(x => [...x.alias].map(c => c.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + '[\\u064B-\\u0652\\u0670]*').join('')).join('|') + ')(?![\\p{L}\\p{N}_])', 'gu');
 // Only a term's first mention in each lesson section (and in the part before the first section) is linked:
 // every mention would bury the page in dotted underlines, and a reader who lands on a section still finds the link near the top.
 function linkTerms(html) {
@@ -41,7 +43,7 @@ function linkTerms(html) {
     }
     if (!stack.includes('article') || stack.some(tag => skip.includes(tag))) return token;
     return token.replace(pattern, alias => {
-      const key = termByAlias.get(alias);
+      const key = termByAlias.get(plain(alias));
       if (linked.has(key)) return alias;
       linked.add(key);
       return `<a class="term-link" data-term="${key}" href="../glossary.html#term-${key}">${alias}</a>`;
