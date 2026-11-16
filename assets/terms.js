@@ -89,7 +89,8 @@
     "definition": "عبارة «إذا كانت P فإن Q» في المنطق الكلاسيكي. تكون كاذبة فقط إذا صدقت P وكذبت Q، ولا تعني وحدها وجود علاقة سببية.",
     "lesson": "lessons/02-conditional-reasoning.html#l2-conditional",
     "aliases": [
-      "الشرط المادي"
+      "الشرط المادي",
+      "الشرط"
     ]
   },
   "antecedent": {
