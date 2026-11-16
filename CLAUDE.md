@@ -55,4 +55,4 @@ npx playwright test -g "lesson five"
 
 **Progress semantics.** Answers persist as `localStorage['logic-course-v2-<id>'] = {value, correct}`. Mastery depends on the last *checked* answer: changing a radio without checking doesn't change progress, and a wrong check is never stored as a pass. Feedback is restored on reload. Storage access is wrapped so blocked storage falls back to an in-memory `Map` and shows a notice. Never reuse a quiz id with a different meaning or answer without bumping the `v2` key prefix or migrating.
 
-**Inline symbols.** Formulas inside Arabic text use `<bdi dir="ltr">` (or U+2066/U+2069 isolates in JS-built strings). `→` is the conditional and `↔` is equivalence.
+**Inline symbols.** Formulas and variables inside Arabic text use `<bdi class="math" dir="ltr">`, which renders as a code-like chip (`tests/content.test.cjs` fails on a formula in a plain `<bdi dir="ltr">`); plain `<bdi dir="ltr">` is for English words, names and units. JS-built strings use U+2066/U+2069 isolates. `→` is the conditional and `↔` is equivalence.

@@ -52,3 +52,10 @@ test('lesson five De Morgan table matches the shared logic',()=>{
   assert.deepEqual(rows,expected);
   for(const [p,q] of expected) assert.equal(!or(p,q),and(!p,!q));
 });
+test('inline formulas are marked as math, so they render as chips',()=>{
+  for(const file of fs.readdirSync(path.join(root,'lessons')).filter(f=>f.endsWith('.html'))){
+    const html=fs.readFileSync(path.join(root,'lessons',file),'utf8');
+    const unmarked=[...html.matchAll(/<bdi dir="ltr">((?:(?!<\/bdi>)[\s\S])*)<\/bdi>/g)].map(m=>m[1]).filter(t=>/[→↔¬∧∨⊕∀∃≡∴]/.test(t));
+    assert.deepEqual(unmarked,[],file+': use <bdi class="math" dir="ltr"> for formulas');
+  }
+});
